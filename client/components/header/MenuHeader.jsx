@@ -32,7 +32,7 @@ const MenuHeader = () => {
                     {
                         ICONS.map((list)=>{
                             return(
-                                <ListItem key={list.title} disablePadding sx={{my:1, fontFamily:"MERRIWEATHER"}}>
+                                <ListItem key={list.title} disablePadding sx={{my:1}}>
                                     <ListItemButton sx={{flexDirection:"column"}}>
                                         <ListItemIcon sx={{justifyContent:"center"}} >
                                             {list.icon}

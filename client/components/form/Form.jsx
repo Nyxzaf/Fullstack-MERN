@@ -1,5 +1,5 @@
 import { Button,Grid, Paper , TextField, Typography } from '@mui/material'
-import { MERRIWEATHER } from '../../assets/Fonts/FontFamily';
+import { FONT_FAMILY } from '../../assets/Fonts/FontFamily';
 import { COLOR } from '../../assets/Color/colors';
 import { Form  , Formik } from 'formik'
 import { createPostRequest } from '../../api/Posts';
@@ -22,8 +22,8 @@ const FormPage = () => {
         lg={4}
     >
         <Paper elevation={3} sx={{borderRadius:"30px", p:3}} >
-                <Typography variant='h4'sx={{my:2, textShadow: '2px 2px 4px rgba(1,1,1,0.3)'}} fontFamily={MERRIWEATHER} color={COLOR} textAlign={"center"} > Base de Datos</Typography>
-                <Typography variant="body2" textAlign={"initial"} fontFamily={MERRIWEATHER}>
+                <Typography variant='h4'sx={{my:2, textShadow: '2px 2px 4px rgba(1,1,1,0.3)'}} fontFamily={FONT_FAMILY} color={COLOR} textAlign={"center"} > Base de Datos</Typography>
+                <Typography variant="body2" textAlign={"initial"} fontFamily={FONT_FAMILY}>
                     Rellene los espacios vacios con la información solicitada para enviar , posteriormente ,
                     al cuadro de datos.
                 </Typography>

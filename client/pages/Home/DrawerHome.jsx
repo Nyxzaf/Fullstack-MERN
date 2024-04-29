@@ -1,31 +1,43 @@
-import { Box, Divider, Drawer, List, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
+import { Box ,Divider, Drawer, Grid, List, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
 import { IMG_1 } from "../../assets/img/images";
-import { Home } from '@mui/icons-material'
-import { COLOR } from "../../assets/Color/colors";
+import { ITEM } from "../../data/Items";
+
+
+
+
 const DrawerHome = () => {
     return (
-        <Box display={"flex"}>
+        <Grid item xl={2}>
             <Drawer
                 variant="permanent"
                 anchor="left"
                 >
                 <Toolbar>
                     <a href="/">
-                    <img src={IMG_1} width={190} height={130}/>
+                    <img src={IMG_1} width={190} height={160}/>
                     </a>
                 </Toolbar>
                 <Divider/>
-                <List>
-                    <Typography pl={3} py={0.5} color={COLOR}>
-                    Menú    
-                    </Typography>
-                        <ListItemButton>
-                            <Home/>
-                            <ListItemText  sx={{alignText:"center", pl:4}}>Home</ListItemText>
-                        </ListItemButton>
-                </List>
+                {
+                    ITEM.map((item)=>{
+                        return(
+                            <Box key={item.Title}>
+                                <List>
+                                    <Typography pl={2}  color="#154360" fontWeight={"bold"} >
+                                    {item.Title}    
+                                    </Typography>
+                                        <ListItemButton style={{ color: "#154360" }}> 
+                                            {item.Icon}
+                                            <ListItemText  sx={{alignText:"center", pl:2 }}>{item.SubTitle}</ListItemText>
+                                        </ListItemButton>
+                                </List>
+                                <Divider/>
+                            </Box>
+                        )
+                    })
+                }
             </Drawer>
-        </Box>
+        </Grid>
     );
 }
 

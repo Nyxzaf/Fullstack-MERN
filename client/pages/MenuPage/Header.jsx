@@ -1,5 +1,5 @@
 import { AppBar, Box, Stack, Toolbar, Typography } from '@mui/material'
-import { MERRIWEATHER } from '../../assets/Fonts/FontFamily';
+import { FONT_FAMILY } from '../../assets/Fonts/FontFamily';
 import { COLOR } from '../../assets/Color/colors';
 import MenuHeader from '../../components/header/MenuHeader';
 import Home from '@mui/icons-material/Home';
@@ -29,7 +29,7 @@ export const ICONS = [
 
 const Header = () => {
     return (
-        <AppBar sx={{ background: "white"}} position={"sticky"} >
+        <AppBar sx={{ background: "white"}} position={"static"} >
                 <Toolbar>
                     <Box flexGrow={1}>
                         <a href='/'>
@@ -45,7 +45,7 @@ const Header = () => {
                                     component={"a"}
                                     href='/' 
                                     color={COLOR} 
-                                    fontFamily={MERRIWEATHER} 
+                                    fontFamily={FONT_FAMILY} 
                                     fontSize={20} 
                                     sx={{textShadow: '2px 2px 4px rgba(1,1,10,0.10)', textDecoration:"none"}}>
                                         {icon.title}    

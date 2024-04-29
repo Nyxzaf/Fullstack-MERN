@@ -1,7 +1,7 @@
 
 import { Grid, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import {MERRIWEATHER} from '../../assets/Fonts/FontFamily'
+import {FONT_FAMILY} from '../../assets/Fonts/FontFamily'
 import { getPostsRequest } from '../../api/Posts';
 import { useState , useEffect } from 'react';
   
@@ -30,10 +30,10 @@ export default function DataBox() {
             sx={{
               borderRadius: "20px",
               '& .MuiDataGrid-columnHeaderTitle': {
-                fontFamily: MERRIWEATHER
+                fontFamily: FONT_FAMILY
               },
               '& .MuiDataGrid-cell': {
-                fontFamily: MERRIWEATHER 
+                fontFamily: FONT_FAMILY 
               }
             }}  
             hideFooterPagination 

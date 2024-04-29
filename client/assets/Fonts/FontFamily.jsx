@@ -1,1 +1,1 @@
-export const MERRIWEATHER = "Merriweather"
+export const FONT_FAMILY = "Poppins"
