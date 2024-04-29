@@ -1,5 +1,5 @@
 
-const Drawer = () => {
+const Home = () => {
     return (
         <div>
             
@@ -7,4 +7,4 @@ const Drawer = () => {
     );
 }
 
-export default Drawer;
+export default Home;
