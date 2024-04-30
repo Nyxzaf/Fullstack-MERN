@@ -7,7 +7,7 @@ import { ITEM } from "../../data/Items";
 
 const DrawerHome = () => {
     return (
-        <Grid item xl={2}>
+        <Grid item xl={2} display={{xl:"block",xs:"none"}}>
             <Drawer
                 variant="permanent"
                 anchor="left"
@@ -22,6 +22,7 @@ const DrawerHome = () => {
                     ITEM.map((item)=>{
                         return(
                             <Box key={item.Title}>
+                                <Divider/>
                                 <List>
                                     <Typography pl={2}  color="#154360" fontWeight={"bold"} >
                                     {item.Title}    
@@ -31,7 +32,6 @@ const DrawerHome = () => {
                                             <ListItemText  sx={{alignText:"center", pl:2 }}>{item.SubTitle}</ListItemText>
                                         </ListItemButton>
                                 </List>
-                                <Divider/>
                             </Box>
                         )
                     })

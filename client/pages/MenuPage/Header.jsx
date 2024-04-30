@@ -29,7 +29,7 @@ export const ICONS = [
 
 const Header = () => {
     return (
-        <AppBar sx={{ background: "white"}} position={"static"} >
+        <AppBar sx={{ background: "white", display:{xs:"block",xl:"none"}}} position={"sticky"}  >
                 <Toolbar>
                     <Box flexGrow={1}>
                         <a href='/'>
