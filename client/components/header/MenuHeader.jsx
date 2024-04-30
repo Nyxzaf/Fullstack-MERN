@@ -1,8 +1,8 @@
 import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { ICONS } from "../../pages/MenuPage/Header";
 import { useState } from "react";
 import { IMG_1 } from "../../assets/img/images";
+import { ITEM } from "../../data/Items";
 
 
 
@@ -30,14 +30,14 @@ const MenuHeader = () => {
                 </a>
                 <List>
                     {
-                        ICONS.map((list)=>{
+                        ITEM.map((list)=>{
                             return(
-                                <ListItem key={list.title} disablePadding sx={{my:1}}>
+                                <ListItem key={list.Title} disablePadding sx={{my:1}}>
                                     <ListItemButton sx={{flexDirection:"column"}}>
                                         <ListItemIcon sx={{justifyContent:"center"}} >
-                                            {list.icon}
+                                            {list.Icon}
                                         </ListItemIcon>
-                                            {list.title}
+                                            {list.Title}
                                     </ListItemButton>
                                 </ListItem>
                                 
