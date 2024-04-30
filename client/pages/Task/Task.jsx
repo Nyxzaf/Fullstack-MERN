@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Grid, Card, CardActions, CardContent, CardMedia, Button, Typography } from '@mui/material';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Importa los estilos de Quill
+import 'react-quill/dist/quill.snow.css';
 
 export default function MediaCard() {
   const [showCreateTaskInput, setShowCreateTaskInput] = useState(false);
@@ -55,7 +55,6 @@ export default function MediaCard() {
         </Card>
       </Grid>
 
-      {/* Cuadro de texto para crear tarea */}
       {showCreateTaskInput && (
         <Grid item xs={12} style={{ marginTop: '20px' }}>
           <ReactQuill value={text} onChange={setText} />
