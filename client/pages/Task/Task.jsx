@@ -130,7 +130,7 @@ export default function TaskTable() {
                         <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.title}</Typography></TableCell>
                         <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.workHours}</Typography></TableCell>
                         <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.severity}</Typography></TableCell>
-                        <TableCell style={{ Width: '500px' }}>
+                        <TableCell>
                           <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.description}</Typography>
                         </TableCell>
                         <TableCell align="center">
