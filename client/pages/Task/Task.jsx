@@ -10,29 +10,50 @@ export default function TaskTable() {
   const [page, setPage] = useState(0);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const handleAddTask = () => {
     setShowTaskForm(true);
+    setSelectedTask(null); // Limpiar la tarea seleccionada al agregar una nueva tarea
   };
 
   const handleEditTask = () => {
-
+    setShowTaskForm(true);
   };
 
   const handleDeleteTask = () => {
-
+    const updatedTasks = tasks.filter(task => !selectedTaskIds.includes(task.id));
+    setTasks(updatedTasks);
+    setSelectedTaskIds([]);
   };
 
   const handleSaveTask = (data) => {
-    const newTask = {
-      id: tasks.length + 1,
-      title: data.title,
-      workHours: data.workHours,
-      severity: data.severity,
-      description: data.description,
-    };
-    setTasks([...tasks, newTask]);
+    if (selectedTask) {
+      const updatedTasks = tasks.map(task => {
+        if (task.id === selectedTask.id) {
+          return {
+            ...task,
+            title: data.title,
+            workHours: data.workHours,
+            severity: data.severity,
+            description: data.description,
+          };
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+    } else {
+      const newTask = {
+        id: tasks.length + 1,
+        title: data.title,
+        workHours: data.workHours,
+        severity: data.severity,
+        description: data.description,
+      };
+      setTasks([...tasks, newTask]);
+    }
     setShowTaskForm(false);
+    setSelectedTask(null);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -43,25 +64,29 @@ export default function TaskTable() {
     if (selectedTaskIds.includes(taskId)) {
       setSelectedTaskIds(selectedTaskIds.filter(id => id !== taskId));
     } else {
-      setSelectedTaskIds([...selectedTaskIds, taskId]);
+      setSelectedTaskIds([taskId]);
     }
+    // Buscar la tarea seleccionada para editar y establecerla en el estado
+    const taskToEdit = tasks.find(task => task.id === taskId);
+    setSelectedTask(taskToEdit);
   };
 
   const isSelected = (taskId) => selectedTaskIds.includes(taskId);
 
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
+    setSelectedTask(null); // Limpiar la tarea seleccionada al cerrar el formulario
   };
 
   return (
     <>
       <Grid item xl={10} xs={8}> 
-        <Grid container spacing={3} ml={10}>
-          <Grid item xl={12} xs={10} my={5}>
+        <Grid container spacing={4} ml={10}>
+          <Grid item xl={12} xs={10} my={4}>
             <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Table Task</Typography>
           </Grid>
           <Grid container spacing={2} justifyContent="center" mt={5}>
-            <Grid item xs={12}>
+            <Grid item marginLeft={4} xs={12}>
               <Button onClick={handleAddTask}>Agregar Nueva Tarea</Button>
               <Button onClick={handleEditTask} disabled={selectedTaskIds.length !== 1}>
                 Editar Tarea
@@ -129,7 +154,7 @@ export default function TaskTable() {
         </Grid>
       </Grid>
       <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
-        <TaskForm onSave={handleSaveTask} onClose={handleCloseTaskForm} />
+        <TaskForm onSave={handleSaveTask} onClose={handleCloseTaskForm} taskToEdit={selectedTask} />
       </Dialog>
     </>
   );
