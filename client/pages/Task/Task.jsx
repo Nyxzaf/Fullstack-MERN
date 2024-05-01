@@ -14,7 +14,7 @@ export default function TaskTable() {
 
   const handleAddTask = () => {
     setShowTaskForm(true);
-    setSelectedTask(null); // Limpiar la tarea seleccionada al agregar una nueva tarea
+    setSelectedTask(null); 
   };
 
   const handleEditTask = () => {
@@ -66,7 +66,7 @@ export default function TaskTable() {
     } else {
       setSelectedTaskIds([taskId]);
     }
-    // Buscar la tarea seleccionada para editar y establecerla en el estado
+
     const taskToEdit = tasks.find(task => task.id === taskId);
     setSelectedTask(taskToEdit);
   };
@@ -75,7 +75,7 @@ export default function TaskTable() {
 
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
-    setSelectedTask(null); // Limpiar la tarea seleccionada al cerrar el formulario
+    setSelectedTask(null);
   };
 
   return (

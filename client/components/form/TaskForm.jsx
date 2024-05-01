@@ -54,7 +54,7 @@ function TaskForm({ onSave, onClose }) {
                   <InputLabel sx={{ fontWeight: 'bold' }}>Severidad</InputLabel>
                   <FormControl fullWidth margin="normal" error={touched.severity && !!errors.severity}>
                     <InputLabel>Severidad</InputLabel>
-                    <Field as={Select} name="severity" label="Severidad" style={{ backgroundColor: 'white' }}>
+                    <Field as={Select} name="severity" label="Severidad" xs={{ backgroundColor: 'white' }}>
                       <MenuItem value="low">Baja</MenuItem>
                       <MenuItem value="medium">Media</MenuItem>
                       <MenuItem value="high">Alta</MenuItem>
