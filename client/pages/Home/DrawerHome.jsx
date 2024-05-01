@@ -7,7 +7,7 @@ import { ITEM } from "../../data/Items";
 
 const DrawerHome = () => {
     return (
-        <Grid item xl={2} display={{xl:"block",xs:"none"}} >
+        <Grid item xl={2} xs={1} display={{xl:"block",xs:"none"}} >
             <Drawer
                 variant="permanent"
                 anchor="left"

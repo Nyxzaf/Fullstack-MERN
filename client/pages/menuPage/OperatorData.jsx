@@ -78,9 +78,9 @@ function OperatorData() {
   };
 
   return (
-      <Grid item xl={8.5} xs={8} > 
-        <Grid container spacing={4} ml={10}>
-          <Grid item xl={12} xs={10} mt={4}>
+      <Grid item xl={8.5} xs={12}> 
+        <Grid container spacing={4}>
+          <Grid item xl={12} xs={12} mt={4}>
             <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Operator Data</Typography>
           </Grid>
           <Grid container spacing={2} justifyContent="center" mt={1}>
@@ -130,7 +130,7 @@ function OperatorData() {
                         <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Severity}</Typography></TableCell>
                         <TableCell>
                           <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Description}</Typography>
-                        </TableCell>
+                        </TableCell>                                
                         <TableCell align="center">
                           <Checkbox checked={isSelected(task.id)} />
                         </TableCell>

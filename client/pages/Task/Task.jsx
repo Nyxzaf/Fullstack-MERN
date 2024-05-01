@@ -126,11 +126,11 @@ export default function TaskTable() {
                     ).map((task) => (
                       <TableRow key={task.id} hover onClick={() => handleSelectTask(task.id)}>
                         <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.id}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.title}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.workHours}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.severity}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Title}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.WorkHours}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Severity}</Typography></TableCell>
                         <TableCell>
-                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.description}</Typography>
+                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Description}</Typography>
                         </TableCell>
                         <TableCell align="center">
                           <Checkbox checked={isSelected(task.id)} />
