@@ -1,4 +1,4 @@
-import mongoose, { SchemaTypes } from "mongoose";
+  import mongoose, { SchemaTypes } from "mongoose";
 const EmployeeSchema = new mongoose.Schema(
   {
     DNI: {

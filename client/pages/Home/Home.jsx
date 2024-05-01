@@ -12,7 +12,7 @@ const Home = () => {
                 {
                     ITEM_2.map((item)=>{
                         return(
-                            <Grid item xl={5} xs={5} key={item.Title}>  
+                            <Grid item xl={5} xs={12} sm={6} key={item.Title}>  
                                 <Card>
                                     <CardContent>
                                         <Typography sx={{ fontSize: 14 }} fontFamily={FONT_FAMILY} color={COLOR} display={"flex"} gutterBottom>                                     

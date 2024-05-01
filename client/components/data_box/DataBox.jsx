@@ -2,26 +2,30 @@
 import { Grid, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import {FONT_FAMILY} from '../../assets/Fonts/FontFamily'
-import { getPostsRequest } from '../../api/Posts';
-import { useState , useEffect } from 'react';
-  
-
+import { getEmployeeRequest } from '../../api/Employee';
+import { useEffect, useState } from 'react';
 
 export default function DataBox() {
-  const [Post, setPost] = useState([]);
 
-  const getPosts= async () => {
-    const res = await getPostsRequest()
-    setPost(res.data)
+  const [Employees, setEmployees] = useState([]);
+
+  const getEmployees =async() =>{
+    const res = await getEmployeeRequest()
+    setEmployees(res.data)
+    console.log(res.data);
   }
-
+  
   useEffect(() => {
-    getPosts()
+    getEmployees()
   }, []);
-
-
+  
+  // if(Employees.length === 0) return(
+  //   <div>
+  //     <h1>no hay post</h1>
+  //   </div>
+  // )
   return (
-    <Grid item xs={12} lg={8}>
+    <Grid item xs={12} xl={12} p={1}>
         <Paper sx={{ borderRadius:"20px"}} elevation={4} >
             <DataGrid 
             editMode="row" 
@@ -41,11 +45,11 @@ export default function DataBox() {
             disableColumnMenu/>
         </Paper>
         {
-          Post.map(post =>(
-            <div key={post.DNI}>
-              {post.DNI}  
-              {post.Name}
-              {post.LastName}
+          Employees.map(Employees =>(
+            <div key={Employees._id}>
+              {Employees.DNI}  
+              {Employees.Name}
+              {Employees.LastName}
             </div>
           ))
         }

@@ -11,6 +11,11 @@ const DrawerHome = () => {
             <Drawer
                 variant="permanent"
                 anchor="left"
+                sx={{
+                    '& .MuiPaper-root': { 
+                        bgcolor: '' 
+                    }
+                }}
                 >
                 <Toolbar>
                     <a href="/">
