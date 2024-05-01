@@ -58,7 +58,7 @@ export default function TaskTable() {
       <Grid item xl={10} xs={8}> 
         <Grid container spacing={3} ml={10}>
           <Grid item xl={12} xs={10} my={5}>
-            <Typography variant="h2" style={{ fontFamily: FONT_FAMILY }}>Table Task</Typography>
+            <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Table Task</Typography>
           </Grid>
           <Grid container spacing={2} justifyContent="center" mt={5}>
             <Grid item xs={12}>
@@ -71,27 +71,27 @@ export default function TaskTable() {
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <TableContainer component={Paper} style={{ width: '95%', margin: 'auto' }}>
+              <TableContainer component={Paper} sx={{ width: '95%', margin: 'auto' }}>
                 <Table>
                   <TableHead>
-                    <TableRow style={{ backgroundColor: '#339194' }}>
+                    <TableRow sx={{ backgroundColor: '#339194' }}>
                       <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>ID</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>ID</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Título</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Título</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Horas de Trabajo</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Horas de Trabajo</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Severidad</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Severidad</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Descripción</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Descripción</Typography>
                       </TableCell>
                       <TableCell align="center">
-                        <Typography variant="subtitle1" fontWeight="bold" style={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Seleccionar</Typography>
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Seleccionar</Typography>
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -101,12 +101,12 @@ export default function TaskTable() {
                       : tasks
                     ).map((task) => (
                       <TableRow key={task.id} hover onClick={() => handleSelectTask(task.id)}>
-                        <TableCell><Typography variant="body1" style={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.id}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" style={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.title}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" style={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.workHours}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" style={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.severity}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.id}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.title}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.workHours}</Typography></TableCell>
+                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.severity}</Typography></TableCell>
                         <TableCell style={{ Width: '500px' }}>
-                          <Typography variant="body1" style={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.description}</Typography>
+                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.description}</Typography>
                         </TableCell>
                         <TableCell align="center">
                           <Checkbox checked={isSelected(task.id)} />

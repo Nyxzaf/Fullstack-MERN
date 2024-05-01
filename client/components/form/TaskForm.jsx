@@ -28,7 +28,7 @@ function TaskForm({ onSave, onClose }) {
   return (
     <>
     {isOpen && (
-      <Container maxWidth="sm" style={{ border: '2px solid #339194', padding: '20px', borderRadius: '5px', fontFamily: FONT_FAMILY, backgroundColor: '#eafde6' }}>
+      <Container maxWidth="sm" sx={{ border: '2px solid #339194', padding: '20px', borderRadius: '5px', fontFamily: FONT_FAMILY, backgroundColor: '#eafde6' }}>
         <Formik
           initialValues={{
             title: '',
@@ -43,15 +43,15 @@ function TaskForm({ onSave, onClose }) {
             <Form>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <InputLabel style={{ fontWeight: 'bold' }}>Título</InputLabel>
+                  <InputLabel sx={{ fontWeight: 'bold' }}>Título</InputLabel>
                   <Field as={TextField} label="Título" name="title" fullWidth margin="normal" InputProps={{ style: { backgroundColor: 'white' } }} error={touched.title && !!errors.title} helperText={touched.title && errors.title} />
                 </Grid>
                 <Grid item xs={6} sm={3}>
-                  <InputLabel style={{ fontWeight: 'bold' }}>Horas de Trabajo</InputLabel>
+                  <InputLabel sx={{ fontWeight: 'bold' }}>Horas de Trabajo</InputLabel>
                   <Field as={TextField} label="Horas de Trabajo" name="workHours" type="number" fullWidth margin="normal" InputProps={{ style: { backgroundColor: 'white' } }} error={touched.workHours && !!errors.workHours} helperText={touched.workHours && errors.workHours} />
                 </Grid>
                 <Grid item xs={6} sm={3}>
-                  <InputLabel style={{ fontWeight: 'bold' }}>Severidad</InputLabel>
+                  <InputLabel sx={{ fontWeight: 'bold' }}>Severidad</InputLabel>
                   <FormControl fullWidth margin="normal" error={touched.severity && !!errors.severity}>
                     <InputLabel>Severidad</InputLabel>
                     <Field as={Select} name="severity" label="Severidad" style={{ backgroundColor: 'white' }}>
@@ -60,7 +60,7 @@ function TaskForm({ onSave, onClose }) {
                       <MenuItem value="high">Alta</MenuItem>
                       <MenuItem value="critical">Crítica</MenuItem>
                     </Field>
-                    {touched.severity && errors.severity ? <Typography style={{ color: 'red' }}>{errors.severity}</Typography> : null}
+                    {touched.severity && errors.severity ? <Typography sx={{ color: 'red' }}>{errors.severity}</Typography> : null}
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
@@ -73,7 +73,7 @@ function TaskForm({ onSave, onClose }) {
                   </Button>
                 </Grid>
                 <Grid item xs={6}>
-                  <Button color="primary" onClick={handleClose} style={{ backgroundColor: '#a2a9af' }}>
+                  <Button color="primary" onClick={handleClose} sx={{ backgroundColor: '#a2a9af' }}>
                     Close
                   </Button>
                 </Grid>
