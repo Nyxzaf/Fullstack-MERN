@@ -30,10 +30,6 @@ const EmployeeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    Address: {
-      type: SchemaTypes.String,
-      trim: true,
-    },
     Position: {
       type: SchemaTypes.String,
       required: true,

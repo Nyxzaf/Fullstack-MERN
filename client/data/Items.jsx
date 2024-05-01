@@ -6,33 +6,46 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 export const ITEM = [
     {
-        Title:"Home" ,SubTitle:"Home" ,Icon: <HomeIcon/> 
+        Title:"Home" ,SubTitle:"Home" ,Icon: <HomeIcon/>,Path:"/"
     },
     {
-        Title:"Data" ,SubTitle:"Operator Data" , Icon: <DatasetIcon/> 
+        Title:"Data" ,SubTitle:"Operator Data" , Icon: <DatasetIcon/>,Path:"/Data"
     },
     {
-        Title:"Tasks" ,SubTitle:"Table Task" , Icon: <PlaylistAddCheckIcon/> 
+        Title:"Tasks" ,SubTitle:"Table Task" , Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
     },      
     {
-        Title:"Tables" ,SubTitle:"General Table" , Icon: <TableViewIcon/> 
+        Title:"Tables" ,SubTitle:"General Table" , Icon: <TableViewIcon/>, Path:"/Tables"
     },      
     {
-        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon/> 
+        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon/>, Path:"/Help"
     }
 ]
 
-export const ITEM_2 = [
+export const FORM_ITEM = [
     {
-        Title:"Data" ,SubTitle:"Operator Data" , Icon: <DatasetIcon sx={{p:0.2}} /> 
+        Title:"DNI", Name:"DNI" , grid:4,
     },
     {
-        Title:"Tasks" ,SubTitle:"Table Task" , Icon: <PlaylistAddCheckIcon/> 
-    },      
+        Title:"Name", Name:"Name" , grid:4
+    },
     {
-        Title:"Tables" ,SubTitle:"General Table" , Icon: <TableViewIcon/> 
-    },      
+        Title:"Last Name", Name:"LastName" , grid:4
+    },
     {
-        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon sx={{p:0.2}}/>
-    }
+        Title:"Date of Birth", Name:"DateOfBirth" , grid:4, Type:"Date"
+    },
+    {
+        Title:"Salary", Name:"Salary" , grid:4, Type:"Number"
+    },
+    {
+        Title:"Phone", Name:"Phone" , grid:4
+    },
+    {
+        Title:"Email", Name:"Email" , grid:6
+    },
+    {
+        Title:"Position", Name:"Position" , grid:6
+    },
+
 ]

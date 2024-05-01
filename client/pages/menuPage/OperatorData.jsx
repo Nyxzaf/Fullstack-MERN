@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Grid, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, Paper, Typography, Dialog } from "@mui/material";
-import TaskForm from "../../components/form/TaskForm";
+import DataForm from "../../components/form/DataForm";
 import { FONT_FAMILY } from '../../assets/fonts/FontFamily'; 
 
-const rowsPerPage = 6;
+const rowsPerPage = 5;
 
-export default function TaskTable() {
+function OperatorData() {
   const [tasks, setTasks] = useState([]);
   const [page, setPage] = useState(0);
   const [showTaskForm, setShowTaskForm] = useState(false);
@@ -14,7 +14,7 @@ export default function TaskTable() {
 
   const handleAddTask = () => {
     setShowTaskForm(true);
-    setSelectedTask(null); // Limpiar la tarea seleccionada al agregar una nueva tarea
+    setSelectedTask(null);
   };
 
   const handleEditTask = () => {
@@ -66,7 +66,6 @@ export default function TaskTable() {
     } else {
       setSelectedTaskIds([taskId]);
     }
-    // Buscar la tarea seleccionada para editar y establecerla en el estado
     const taskToEdit = tasks.find(task => task.id === taskId);
     setSelectedTask(taskToEdit);
   };
@@ -75,14 +74,14 @@ export default function TaskTable() {
 
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
-    setSelectedTask(null); // Limpiar la tarea seleccionada al cerrar el formulario
+    setSelectedTask(null); 
   };
 
   return (
-      <Grid item xl={10} xs={8} mx={24}> 
+      <Grid item xl={8.5} xs={8} > 
         <Grid container spacing={4} ml={10}>
-          <Grid item xl={12} xs={10} mt={2}>
-            <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Table Task</Typography>
+          <Grid item xl={12} xs={10} mt={4}>
+            <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Operator Data</Typography>
           </Grid>
           <Grid container spacing={2} justifyContent="center" mt={1}>
             <Grid item marginLeft={4} xs={12}>
@@ -152,8 +151,10 @@ export default function TaskTable() {
           </Grid>
         </Grid>
         <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
-          <TaskForm onSave={handleSaveTask} onClose={handleCloseTaskForm} taskToEdit={selectedTask} />
+          <DataForm onSave={handleSaveTask} onClose={handleCloseTaskForm} taskToEdit={selectedTask} />
         </Dialog>
       </Grid>
   );
 }
+
+export default OperatorData

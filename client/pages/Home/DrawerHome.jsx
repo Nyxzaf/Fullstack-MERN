@@ -7,7 +7,7 @@ import { ITEM } from "../../data/Items";
 
 const DrawerHome = () => {
     return (
-        <Grid item xl={1} display={{xl:"block",xs:"none"}}>
+        <Grid item xl={2} display={{xl:"block",xs:"none"}} >
             <Drawer
                 variant="permanent"
                 anchor="left"
@@ -32,7 +32,7 @@ const DrawerHome = () => {
                                     <Typography pl={2}  color="#154360" fontWeight={"bold"} >
                                     {item.Title}    
                                     </Typography>
-                                        <ListItemButton style={{ color: "#154360" }}> 
+                                        <ListItemButton style={{ color: "#154360" }} href={item.Path}> 
                                             {item.Icon}
                                             <ListItemText  sx={{alignText:"center", pl:2 }}>{item.SubTitle}</ListItemText>
                                         </ListItemButton>

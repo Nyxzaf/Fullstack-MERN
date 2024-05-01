@@ -33,7 +33,7 @@ const MenuHeader = () => {
                         ITEM.map((list)=>{
                             return(
                                 <ListItem key={list.Title} disablePadding sx={{my:1}}>
-                                    <ListItemButton sx={{flexDirection:"column"}}>
+                                    <ListItemButton sx={{flexDirection:"column"}} href={list.Path}>
                                         <ListItemIcon sx={{justifyContent:"center"}} >
                                             {list.Icon}
                                         </ListItemIcon>

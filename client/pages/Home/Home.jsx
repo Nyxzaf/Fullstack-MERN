@@ -1,7 +1,7 @@
 import {  Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
-import { ITEM_2 } from "../../data/Items";
-import { COLOR } from '../../assets/Color/colors'
-import { FONT_FAMILY } from '../../assets/Fonts/FontFamily'
+import { ITEM } from "../../data/Items";
+import { COLOR } from '../../assets/color/colors'
+import { FONT_FAMILY } from '../../assets/fonts/FontFamily'
 const Home = () => {
     return (
         <Grid item xl={10} xs={8}>  
@@ -10,7 +10,7 @@ const Home = () => {
                     <Typography variant="h2" fontFamily={FONT_FAMILY}>Home</Typography>
                 </Grid>
                 {
-                    ITEM_2.map((item)=>{
+                    ITEM.slice(1).map((item)=>{
                         return(
                             <Grid item xl={5} xs={12} sm={6} key={item.Title}>  
                                 <Card>

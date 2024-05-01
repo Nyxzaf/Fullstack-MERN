@@ -1,17 +1,16 @@
 import { Grid } from '@mui/material'
-import Header from '../pages/MenuPage/Header'
-import Main from '../pages/MenuPage/Main'
-import DrawerHome from '../pages/Home/DrawerHome'
-import Home from '../pages/Home/Home'
+import DrawerHome from '../pages/home/DrawerHome'
+import Home from '../pages/home/Home'
 import { Route, Routes } from "react-router-dom";
-import Task from '../pages/Task/Task'
-
+import Task from '../pages/task/Task'
+import OperatorData from '../pages/menuPage/OperatorData'
+import Header from '../components/header/Header'
 
 function App() {
 
 
   return (
-    <Grid container>
+    <Grid container >
       <DrawerHome/>
       <Header/> 
       <Routes>
@@ -20,8 +19,8 @@ function App() {
         element={<Home/>}
         />
         <Route
-        path='/Main'
-        element={<Main/>}
+        path='/Data'
+        element={<OperatorData/>}
         />
         <Route
         path='/task'
