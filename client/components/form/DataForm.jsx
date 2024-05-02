@@ -35,10 +35,18 @@ function DataForm({ onSave, onClose }) {
     const [isOpen, setIsOpen] = useState(true);
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        await onSave(values);
-        setSubmitting(false);
-        setIsOpen(false);
+        console.log("Submitting form with values:", values);
+        try {
+            await onSave(values);
+            console.log("Form saved successfully");
+            setSubmitting(false);
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Error saving form:", error);
+            setSubmitting(false);
+        }
     };
+    
 
     const handleClose = () => {
         setIsOpen(false);

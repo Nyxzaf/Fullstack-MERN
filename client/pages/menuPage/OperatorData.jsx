@@ -2,95 +2,107 @@ import { useState } from "react";
 import { Grid, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, Paper, Typography, Dialog } from "@mui/material";
 import DataForm from "../../components/form/DataForm";
 import { FONT_FAMILY } from '../../assets/fonts/FontFamily'; 
+import { FORM_ITEM } from "../../data/Items";
 
 const rowsPerPage = 5;
 
 function OperatorData() {
-  const [tasks, setTasks] = useState([]);
+  const [Data, setData] = useState([]);
   const [page, setPage] = useState(0);
-  const [showTaskForm, setShowTaskForm] = useState(false);
-  const [selectedTaskIds, setSelectedTaskIds] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [showDataForm, setShowDataForm] = useState(false);
+  const [selectedDataIds, setSelectedTaskIds] = useState([]);
+  const [selectedData, setSelectedData] = useState(null);
 
-  const handleAddTask = () => {
-    setShowTaskForm(true);
-    setSelectedTask(null);
+  const handleAddData = () => {
+    setShowDataForm(true);
+    setSelectedData(null);
   };
 
-  const handleEditTask = () => {
-    setShowTaskForm(true);
+  const handleEditData = () => {
+    setShowDataForm(true);
   };
 
-  const handleDeleteTask = () => {
-    const updatedTasks = tasks.filter(task => !selectedTaskIds.includes(task.id));
-    setTasks(updatedTasks);
+  const handleDeleteData = () => {
+    const updatedTasks = Data.filter(data => !selectedDataIds.includes(data.id));
+    setData(updatedTasks);
     setSelectedTaskIds([]);
   };
 
-  const handleSaveTask = (data) => {
-    if (selectedTask) {
-      const updatedTasks = tasks.map(task => {
-        if (task.id === selectedTask.id) {
+  const handleSaveData = (data) => {
+    if (selectedData) {
+      const updatedTasks = Data.map(data => {
+        if (data.id === selectedData.id) {
           return {
-            ...task,
-            Title: data.Title,
-            WorkHours: data.WorkHours,
-            Severity: data.Severity,
+            ...data,
+            DNI: data.DNI,
+            Name: data.Name,
+            LastName: data.LastName,
+            Email: data.Email,
+            DateOfBirth: data.DateOfBirth,
+            Phone: data.Phone,
+            Salary: data.Salary,
+            Position: data.Position,
             Description: data.Description,
           };
         }
-        return task;
+        return data;
       });
-      setTasks(updatedTasks);
+      setData(updatedTasks);
     } else {
-      const newTask = {
-        id: tasks.length + 1,
-        Title: data.Title,
-        WorkHours: data.WorkHours,
-        Severity: data.Severity,
+      const newData = {
+        id: Data.length + 1,
+        DNI: data.DNI,
+        Name: data.Name,
+        LastName: data.LastName,
+        Email: data.Email,
+        DateOfBirth: data.DateOfBirth,
+        Phone: data.Phone,
+        Salary: data.Salary,
+        Position: data.Position,
         Description: data.Description,
       };
-      setTasks([...tasks, newTask]);
+      setData([...Data, newData]);
     }
-    setShowTaskForm(false);
-    setSelectedTask(null);
+    setShowDataForm(false);
+    setSelectedData(null);
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleSelectTask = (taskId) => {
-    if (selectedTaskIds.includes(taskId)) {
-      setSelectedTaskIds(selectedTaskIds.filter(id => id !== taskId));
+  const handleSelectData = (DataId) => {
+    if (selectedDataIds.includes(DataId)) {
+      setSelectedTaskIds(selectedDataIds.filter(id => id !== DataId));
     } else {
-      setSelectedTaskIds([taskId]);
+      setSelectedTaskIds([DataId]);
     }
-    const taskToEdit = tasks.find(task => task.id === taskId);
-    setSelectedTask(taskToEdit);
+    const DataToEdit = Data.find(data => data.id === DataId);
+    setSelectedData(DataToEdit);
   };
 
-  const isSelected = (taskId) => selectedTaskIds.includes(taskId);
+  const isSelected = (DataId) => selectedDataIds.includes(DataId);
 
-  const handleCloseTaskForm = () => {
-    setShowTaskForm(false);
-    setSelectedTask(null); 
+  const handleCloseDataForm = () => {
+    setShowDataForm(false);
+    setSelectedData(null); 
   };
+
 
   return (
-      <Grid item xl={8.5} xs={12}> 
+      <Grid item xl={9} xs={12} ml={{xl:8,xs:0}} > 
         <Grid container spacing={4}>
           <Grid item xl={12} xs={12} mt={4}>
             <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>Operator Data</Typography>
           </Grid>
           <Grid container spacing={2} justifyContent="center" mt={1}>
             <Grid item marginLeft={4} xs={12}>
-              <Button onClick={handleAddTask}>Add New Task</Button>
-              <Button onClick={handleEditTask} disabled={selectedTaskIds.length !== 1}>
-                Edit Task
+              <Button onClick={handleAddData}>Add New data</Button>
+              <Button onClick={handleEditData} disabled={selectedDataIds.length !== 1}>
+                Edit data
               </Button>
-              <Button onClick={handleDeleteTask} disabled={selectedTaskIds.length === 0} color="error">
-                Delete Task
+              <Button onClick={handleDeleteData} disabled={selectedDataIds.length === 0} color="error">
+                Delete data
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -98,41 +110,38 @@ function OperatorData() {
                 <Table>
                   <TableHead>
                     <TableRow sx={{ backgroundColor: '#339194' }}>
-                      <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>ID</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Title</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Work Hours</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Severity</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Description</Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>Select</Typography>
-                      </TableCell>
+                    {
+                      FORM_ITEM.map(item =>{
+                        return (
+                            <TableCell key={item.Title}>
+                              <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: '#FFFFFF' }}>
+                                {item.Title}
+                              </Typography>
+                            </TableCell>
+                        )
+                      })
+                    }
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0
-                      ? tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : tasks
-                    ).map((task) => (
-                      <TableRow key={task.id} hover onClick={() => handleSelectTask(task.id)}>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.id}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Ttile}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.WorkHours}</Typography></TableCell>
-                        <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Severity}</Typography></TableCell>
-                        <TableCell>
-                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{task.Description}</Typography>
-                        </TableCell>                                
+                  {(rowsPerPage > 0
+                    ? Data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : Data
+                  ).map((data) => (
+                    <TableRow key={data.id} hover onClick={() => handleSelectData(data.id)}>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.id}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.DNI}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.Name}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.LastName}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.DateOfBirth}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.Salary}</Typography></TableCell>
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.Phone}</Typography></TableCell>
+                      <TableCell>
+                        <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.Email}</Typography>
+                      </TableCell>                                   
+                      <TableCell><Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: 'bold' }}>{data.pOSI}</Typography></TableCell>
                         <TableCell align="center">
-                          <Checkbox checked={isSelected(task.id)} />
+                          <Checkbox checked={isSelected(data.id)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -142,7 +151,7 @@ function OperatorData() {
               <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
-                count={tasks.length}
+                count={Data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -150,8 +159,8 @@ function OperatorData() {
             </Grid>
           </Grid>
         </Grid>
-        <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
-          <DataForm onSave={handleSaveTask} onClose={handleCloseTaskForm} taskToEdit={selectedTask} />
+        <Dialog open={showDataForm} onClose={handleCloseDataForm}>
+          <DataForm onSave={handleSaveData} onClose={handleCloseDataForm} DataToEdit={selectedData} />
         </Dialog>
       </Grid>
   );
