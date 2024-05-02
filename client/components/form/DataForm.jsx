@@ -43,8 +43,8 @@ function DataForm({ onSave, onClose }) {
   return (
     <>
       {isOpen && (
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} md={8}>
+        <Grid container spacing={2} justifyContent="center" p={4}>
+          <Grid item xs={12} xl={12}>
             <Formik
               initialValues={{
                 DNI: "",
@@ -62,7 +62,7 @@ function DataForm({ onSave, onClose }) {
               {({ errors, touched }) => (
                 <Form>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} xl={4}>
                       <InputLabel sx={{ fontWeight: "bold" }}>DNI</InputLabel>
                       <Field
                         as={TextField}
@@ -75,7 +75,7 @@ function DataForm({ onSave, onClose }) {
                         helperText={touched.DNI && errors.DNI}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} xl={4}>
                       <InputLabel sx={{ fontWeight: "bold" }}>Name</InputLabel>
                       <Field
                         as={TextField}
@@ -168,10 +168,12 @@ function DataForm({ onSave, onClose }) {
                         helperText={touched.Position && errors.Position}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} xl={10}>
                       <Button variant="contained" color="primary" type="submit">
                         Save and Submit
                       </Button>
+                    </Grid>
+                    <Grid item xl={2}>
                       <Button variant="contained" color="primary" onClick={handleClose}>
                         Close
                       </Button>

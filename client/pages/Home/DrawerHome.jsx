@@ -1,25 +1,29 @@
-import { Box ,Divider, Drawer, Grid, List, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
+import { Box ,Divider, Drawer, List, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
 import { IMG_1 } from "../../assets/img/images";
 import { ITEM } from "../../data/Items";
 
+// display={{xl:"block",xs:"none"}}   
 
 
 
 const DrawerHome = () => {
     return (
-        <Grid item xl={2} xs={1} display={{xl:"block",xs:"none"}} >
+          <Box
+          display={{xl:"block",xs:"none"}}  
+          >  
             <Drawer
                 variant="permanent"
                 anchor="left"
                 sx={{
                     '& .MuiPaper-root': { 
-                        bgcolor: '' 
+                        bgcolor: '', 
+                        width: '200px'
                     }
                 }}
                 >
                 <Toolbar>
                     <a href="/">
-                    <img src={IMG_1} width={190} height={160}/>
+                    <img src={IMG_1} width={"100%"} />
                     </a>
                 </Toolbar>
                 <Divider/>
@@ -30,7 +34,7 @@ const DrawerHome = () => {
                                 <Divider/>
                                 <List>
                                     <Typography pl={2}  color="#154360" fontWeight={"bold"} >
-                                    {item.Title}    
+                                    {item.Title}
                                     </Typography>
                                         <ListItemButton style={{ color: "#154360" }} href={item.Path}> 
                                             {item.Icon}
@@ -42,7 +46,7 @@ const DrawerHome = () => {
                     })
                 }
             </Drawer>
-        </Grid>
+          </Box>   
     );
 }
 

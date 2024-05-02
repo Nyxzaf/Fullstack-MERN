@@ -13,6 +13,7 @@ import {
   Typography,
   Dialog,
   Checkbox,
+  Box,
 } from "@mui/material";
 import DataForm from "../../components/form/DataForm";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
@@ -83,7 +84,7 @@ function OperatorData() {
   };
 
   return (
-    <Grid item xl={9} xs={12} ml={{ xl: 8, xs: 0 }}>
+    <Box sx={{ width: 'calc(100% - 40px)' }}  pl={34}>
       <Grid container spacing={4}>
         <Grid item xl={12} xs={12} mt={4}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
@@ -100,7 +101,7 @@ function OperatorData() {
               Delete data
             </Button>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} xl={12 }>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -154,7 +155,7 @@ function OperatorData() {
       <Dialog open={showDataForm} onClose={handleCloseDataForm}>
         <DataForm onSave={handleSaveData} onClose={handleCloseDataForm} />
       </Dialog>
-    </Grid>
+    </Box>
   );
 }
 

@@ -6,7 +6,7 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 export const ITEM = [
     {
-        Title:"Home" ,SubTitle:"Home" ,Icon: <HomeIcon/>,Path:"/"
+        Title:"Home" ,SubTitle:"Home" ,Icon: <HomeIcon sx={{p:0.3}}/>,Path:"/"
     },
     {
         Title:"Data" ,SubTitle:"Operator Data" , Icon: <DatasetIcon/>,Path:"/Data"
@@ -18,7 +18,7 @@ export const ITEM = [
         Title:"Tables" ,SubTitle:"General Table" , Icon: <TableViewIcon/>, Path:"/Tables"
     },      
     {
-        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon/>, Path:"/Help"
+        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon sx={{p:0.3}}/>, Path:"/Help"
     }
 ]
 
