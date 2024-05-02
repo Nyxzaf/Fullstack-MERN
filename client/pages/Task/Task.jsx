@@ -13,20 +13,33 @@ import {
   Paper,
   Typography,
   Dialog,
+  Chip,
 } from "@mui/material";
 import TaskForm from "../../components/form/TaskForm";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import Alert from "../../components/alerts/Alert";
+
 
 const rowsPerPage = 6;
+
+// Mapear el valor de la severidad a su respectivo color
+const severityColors = {
+  low: "green",
+  medium: "blue",
+  high: "orange",
+  critical: "red",
+};
 
 export default function TaskTable() {
   const [tasks, setTasks] = useState([]);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [tableState, setTableState] = useState({
     page: 0,
     selectedTaskIds: [],
     selectedTask: null,
   });
+
   const handleAddTask = () => {
     setShowTaskForm(true);
     setTableState((prev) => ({
@@ -40,6 +53,10 @@ export default function TaskTable() {
   };
 
   const handleDeleteTask = () => {
+    setShowAlert(true);
+  };
+
+  const handleConfirmDelete = () => {
     const updatedTasks = tasks.filter(
       (task) => !tableState.selectedTaskIds.includes(task.id)
     );
@@ -47,6 +64,44 @@ export default function TaskTable() {
     setTableState((prev) => ({
       ...prev,
       selectedTaskIds: [],
+    }));
+    setShowAlert(false);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setTableState((prev) => ({
+      ...prev,
+      page: newPage,
+    }));
+  };
+
+  const handleSelectTask = (taskId) => {
+    if (tableState.selectedTaskIds.includes(taskId)) {
+      setTableState((prev) => ({
+        ...prev,
+        selectedTaskIds: tableState.selectedTaskIds.filter((id) => id !== taskId),
+      }));
+    } else {
+      setTableState((prev) => ({
+        ...prev,
+        selectedTaskIds: [taskId]
+      }));
+    }
+
+    const taskToEdit = tasks.find((task) => task.id === taskId);
+    setTableState((prev) => ({
+      ...prev,
+      selectedTask: taskToEdit
+    }));
+  };
+
+  const isSelected = (taskId) => tableState.selectedTaskIds.includes(taskId);
+
+  const handleCloseTaskForm = () => {
+    setShowTaskForm(false);
+    setTableState((prev) => ({
+      ...prev,
+      selectedTask: null
     }));
   };
 
@@ -79,45 +134,8 @@ export default function TaskTable() {
     setTableState((prev) => ({
       ...prev,
       selectedTask: null,
+      selectedTaskIds: [], // Limpiar los IDs de las tareas seleccionadas
     }));
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setTableState((prev) => ({
-      ...prev,
-      page: newPage,
-    }));
-  };
-
-  const handleSelectTask = (taskId) => {
-    if (tableState.selectedTaskIds.includes(taskId)) {
-      setTableState((prev) => ({
-        ...prev,
-        selectedTaskIds: tableState.selectedTaskIds.filter((id) => id !== taskId),
-      }));
-    } else {
-      setTableState((prev)=>({
-        ...prev,
-        selectedTaskIds: [taskId]
-      }))
-
-    }
-
-    const taskToEdit = tasks.find((task) => task.id === taskId);
-    setTableState((prev)=>({
-      ...prev,
-      selectedTask: taskToEdit
-    }))
-    };
-
-  const isSelected = (taskId) => tableState.selectedTaskIds.includes(taskId);
-
-  const handleCloseTaskForm = () => {
-    setShowTaskForm(false);
-    setTableState((prev)=>({
-      ...prev,
-      selectedTask: null
-    }))
   };
 
   return (
@@ -150,7 +168,7 @@ export default function TaskTable() {
               <Table>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#339194" }}>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         variant="subtitle1"
                         fontWeight="bold"
@@ -159,7 +177,7 @@ export default function TaskTable() {
                         ID
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         variant="subtitle1"
                         fontWeight="bold"
@@ -168,7 +186,7 @@ export default function TaskTable() {
                         Title
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         variant="subtitle1"
                         fontWeight="bold"
@@ -177,7 +195,7 @@ export default function TaskTable() {
                         Work Hours
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         variant="subtitle1"
                         fontWeight="bold"
@@ -186,7 +204,7 @@ export default function TaskTable() {
                         Severity
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         variant="subtitle1"
                         fontWeight="bold"
@@ -219,7 +237,7 @@ export default function TaskTable() {
                       hover
                       onClick={() => handleSelectTask(task.id)}
                     >
-                      <TableCell>
+                      <TableCell align="center">
                         <Typography
                           variant="body1"
                           sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
@@ -227,7 +245,7 @@ export default function TaskTable() {
                           {task.id}
                         </Typography>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Typography
                           variant="body1"
                           sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
@@ -235,7 +253,7 @@ export default function TaskTable() {
                           {task.Title}
                         </Typography>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Typography
                           variant="body1"
                           sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
@@ -243,15 +261,18 @@ export default function TaskTable() {
                           {task.WorkHours}
                         </Typography>
                       </TableCell>
-                      <TableCell>
-                        <Typography
-                          variant="body1"
-                          sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
-                        >
-                          {task.Severity}
-                        </Typography>
+                      <TableCell align="center">
+                        <Chip
+                          label={task.Severity}
+                          style={{
+                            backgroundColor: severityColors[task.Severity],
+                            color: "white",
+                            fontFamily: FONT_FAMILY,
+                            fontWeight: "bold",
+                          }}
+                        />
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Typography
                           variant="body1"
                           sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
@@ -285,6 +306,11 @@ export default function TaskTable() {
           taskToEdit={tableState.selectedTask}
         />
       </Dialog>
+      <Alert
+        open={showAlert}
+        onClose={() => setShowAlert(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </Grid>
   );
 }
