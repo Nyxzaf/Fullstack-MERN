@@ -6,19 +6,20 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 export const ITEM = [
     {
-        Title:"Home" ,SubTitle:"Home" ,Icon: <HomeIcon sx={{p:0.3}}/>,Path:"/"
+        Title:"Home" ,SubTitle:"Home" , content:"Add the operator's information here", Icon: <HomeIcon sx={{p:0.3}}/>, Path:"/"
     },
     {
-        Title:"Data" ,SubTitle:"Operator Data" , Icon: <DatasetIcon/>,Path:"/Data"
+        Title:"Data" ,SubTitle:"Operator Data" , content:"Add the operator's information here", Icon: <DatasetIcon/>, Path:"/Data"
     },
     {
-        Title:"Tasks" ,SubTitle:"Table Task" , Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
+        Title:"Tasks" ,SubTitle:"Table Task" , content:"Add the tasks to the operator here.", Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
     },      
     {
-        Title:"Tables" ,SubTitle:"General Table" , Icon: <TableViewIcon/>, Path:"/Tables"
+        Title:"Tables" ,SubTitle:"General Table" , content:"Here in the general table, all the qualities of the operators are observed."
+        , Icon: <TableViewIcon/>, Path:"/Tables"
     },      
     {
-        Title:"Help" ,SubTitle:"Contact Us" , Icon: <ContactPhoneIcon sx={{p:0.3}}/>, Path:"/Help"
+        Title:"Help" ,SubTitle:"Contact Us" , content:"Here assistance will be provided with problems and system failures", Icon: <ContactPhoneIcon sx={{p:0.3}}/>, Path:"/Help"
     }
 ]
 
@@ -46,7 +47,7 @@ export const FORM_ITEM = [
     },
     {
         Title:"Position", Name:"Position" , grid:6
-    },
+    }
 ]
 
 

@@ -27,10 +27,8 @@ const Home = () => {
                                         <Typography variant="h5" fontWeight={"bold"} component="div"  color={COLOR} >
                                         {item.SubTitle}
                                         </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
+                                        <Typography variant="body2" pb={2}>
+                                        {item.content}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>

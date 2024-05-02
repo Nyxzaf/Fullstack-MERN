@@ -1,23 +1,10 @@
 import { useState } from "react";
-import {
-  Grid,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination,
-  Paper,
-  Typography,
-  Dialog,
-  Checkbox,
-  Box,
-} from "@mui/material";
+import {  Grid,  Button,  Table,  TableBody,  TableCell,  TableContainer,  TableHead,  TableRow,  TablePagination,  Paper,  Typography,  Dialog,  Checkbox,  Box,} from "@mui/material";
 import DataForm from "../../components/form/DataForm";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import { FORM_ITEM } from "../../data/Items";
+
+
 
 const rowsPerPage = 5;
 
@@ -84,9 +71,9 @@ function OperatorData() {
   };
 
   return (
-    <Box sx={{ width: 'calc(100% - 40px)' }}  pl={34}>
+    <Box sx={{ width: 'calc( 100% - 40px )' }}  pl={32}>
       <Grid container spacing={4}>
-        <Grid item xl={12} xs={12} mt={4}>
+        <Grid item xl={12} xs={12} mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
             Operator Data
           </Typography>
@@ -107,13 +94,18 @@ function OperatorData() {
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#339194" }}>
                     {FORM_ITEM.map((item) => (
-                      <TableCell key={item.Title}>
+                      <TableCell key={item.Title} sx={{textAlign:"center"}}>
                         <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
                           {item.Title}
                         </Typography>
                       </TableCell>
                     ))}
                     <TableCell align="center">
+                      <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
+                          Active
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">  
                       <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
                         Select
                       </Typography>
@@ -125,14 +117,17 @@ function OperatorData() {
                     ? Data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     : Data
                   ).map((data) => (
-                    <TableRow key={data.id} hover onClick={() => handleSelectData(data.id)}>
+                    <TableRow key={data.id} hover onClick={() => handleSelectData(data.id)} >
                       {FORM_ITEM.map((item) => (
-                        <TableCell key={`${data.id}-${item.Title}`}>
-                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}>
+                        <TableCell key={`${data.id}-${item.Title}`} sx={{textAlign:"center"}}>
+                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold",  }} >
                             {data[item.Name]}
                           </Typography>
                         </TableCell>
                       ))}
+                      <TableCell align="center" sx={{textAlign:"-webkit-center"}} >
+                          <Box sx={{ width: 15, height: 15, borderRadius: "50%", backgroundColor: data.Active ? "green" : "red" }} />
+                      </TableCell>
                       <TableCell align="center">
                         <Checkbox checked={isSelected(data.id)} />
                       </TableCell>

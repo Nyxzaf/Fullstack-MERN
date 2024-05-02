@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Grid, Button, TextField, InputLabel } from "@mui/material";
+import { Grid, Button, TextField, InputLabel, FormControlLabel} from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
+import { FORM_ITEM } from "../../data/Items";
+import Switch from '@mui/material/Switch';
+
 
 const validationSchema = Yup.object({
   DNI: Yup.string()
@@ -50,11 +53,12 @@ function DataForm({ onSave, onClose }) {
                 DNI: "",
                 Name: "",
                 LastName: "",
-                DateOfBirth: new Date(),
+                DateOfBirth: "",
                 Phone: "",
                 Email: "",
                 Salary: "",
                 Position: "",
+                Active: false,
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
@@ -62,110 +66,32 @@ function DataForm({ onSave, onClose }) {
               {({ errors, touched }) => (
                 <Form>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} xl={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>DNI</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="DNI"
-                        name="DNI"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.DNI && !!errors.DNI}
-                        helperText={touched.DNI && errors.DNI}
-                      />
-                    </Grid>
-                    <Grid item xs={12} xl={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Name</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Name"
-                        name="Name"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.Name && !!errors.Name}
-                        helperText={touched.Name && errors.Name}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Last Name</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Last Name"
-                        name="LastName"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.LastName && !!errors.LastName}
-                        helperText={touched.LastName && errors.LastName}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Date of Birth</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Date of Birth"
-                        name="DateOfBirth"
-                        type="date"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.DateOfBirth && !!errors.DateOfBirth}
-                        helperText={touched.DateOfBirth && errors.DateOfBirth}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Salary</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Salary"
-                        name="Salary"
-                        type="number"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.Salary && !!errors.Salary}
-                        helperText={touched.Salary && errors.Salary}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Phone</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Phone"
-                        name="Phone"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.Phone && !!errors.Phone}
-                        helperText={touched.Phone && errors.Phone}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Email</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Email"
-                        name="Email"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.Email && !!errors.Email}
-                        helperText={touched.Email && errors.Email}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <InputLabel sx={{ fontWeight: "bold" }}>Position</InputLabel>
-                      <Field
-                        as={TextField}
-                        label="Position"
-                        name="Position"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ shrink: true }}
-                        error={touched.Position && !!errors.Position}
-                        helperText={touched.Position && errors.Position}
+                    {
+                        FORM_ITEM.map((item)=>{
+                            return(
+                                <Grid item xs={12} xl={item.grid} key={item.Title}>
+                                    <InputLabel sx={{ fontWeight: "bold"}}>{item.Title}</InputLabel>
+                                    <Field
+                                    as={TextField}
+                                    label={item.Title}
+                                    name={item.Name}
+                                    fullWidth
+                                    InputLabelProps={{ shrink: true }}
+                                    type={item.Type}
+                                    margin="normal"
+                                    InputProps={{ style: { backgroundColor: "white" } }}
+                                    error={touched[item.Name] && !!errors[item.Name]}
+                                    helperText={touched[item.Name] && errors[item.Name]}
+                                    />
+                                </Grid>
+                            )
+                        })
+                    }
+                    <Grid item xs={12} >
+                      <FormControlLabel
+                        control={<Switch name="Active" color="primary" />}
+                        label="active"
+                        labelPlacement="end" 
                       />
                     </Grid>
                     <Grid item xs={12} xl={10}>
