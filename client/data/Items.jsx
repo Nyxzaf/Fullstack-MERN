@@ -6,16 +6,16 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 
 export const ITEM = [
     {
-        Title:"Home" ,SubTitle:"Home" , content:"Add the operator's information here", Icon: <HomeIcon sx={{p:0.3}}/>, Path:"/"
+        Title:"Home" ,SubTitle:"Home" , content:"Here the employee's information is added", Icon: <HomeIcon sx={{p:0.3}}/>, Path:"/"
     },
     {
-        Title:"Data" ,SubTitle:"Operator Data" , content:"Add the operator's information here", Icon: <DatasetIcon/>, Path:"/Data"
+        Title:"Data" ,SubTitle:"Employee Data" , content:"Add the employee's information here", Icon: <DatasetIcon/>, Path:"/Data"
     },
     {
-        Title:"Tasks" ,SubTitle:"Table Task" , content:"Add the tasks to the operator here.", Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
+        Title:"Tasks" ,SubTitle:"Table Task" , content:"Add the tasks to the employee here.", Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
     },      
     {
-        Title:"Tables" ,SubTitle:"General Table" , content:"Here in the general table, all the qualities of the operators are observed."
+        Title:"Tables" ,SubTitle:"General Table" , content:"Here in the general table, all the qualities of the employees are observed."
         , Icon: <TableViewIcon/>, Path:"/Tables"
     },      
     {
@@ -43,10 +43,10 @@ export const FORM_ITEM = [
         Title:"Phone", Name:"Phone" , grid:4
     },
     {
-        Title:"Email", Name:"Email" , grid:6
+        Title:"Email", Name:"Email" , grid:7
     },
     {
-        Title:"Position", Name:"Position" , grid:6
+        Title:"Position", Name:"Position" , grid:5
     }
 ]
 

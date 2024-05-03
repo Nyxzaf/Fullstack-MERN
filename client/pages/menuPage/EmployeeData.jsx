@@ -3,17 +3,19 @@ import {  Grid,  Button,  Table,  TableBody,  TableCell,  TableContainer,  Table
 import DataForm from "../../components/form/DataForm";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import { FORM_ITEM } from "../../data/Items";
-
+import { UseEmployee } from "../../context/EmployeeContext";
 
 
 const rowsPerPage = 5;
 
-function OperatorData() {
+function EmployeeData() {
   const [Data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [showDataForm, setShowDataForm] = useState(false);
-  const [selectedDataIds, setSelectedDataIds] = useState([]);
+  const [ selectedDataIds, setSelectedDataIds] = useState([]);
 
+  const { Employees } = UseEmployee()
+    
   const handleAddData = () => {
     setShowDataForm(true);
   };
@@ -75,12 +77,21 @@ function OperatorData() {
       <Grid container spacing={4}>
         <Grid item xl={12} xs={12} mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
-            Operator Data
+            Employees Data
+            {
+              Employees.map((employee)=> {
+                return (
+                  <div key={employee._id}>
+                    {employee.Name}
+                  </div>
+                )
+              })
+            }
           </Typography>
         </Grid>
         <Grid container spacing={2} justifyContent="center" mt={1}>
           <Grid item marginLeft={4} xs={12}>
-            <Button onClick={handleAddData}>Add New data</Button>
+            <Button onClick={handleAddData}>Add New Emmployee</Button>
             <Button onClick={handleEditData} disabled={selectedDataIds.length !== 1}>
               Edit data
             </Button>
@@ -117,7 +128,7 @@ function OperatorData() {
                     ? Data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     : Data
                   ).map((data) => (
-                    <TableRow key={data.id} hover onClick={() => handleSelectData(data.id)} >
+                    <TableRow key={data._id} hover onClick={() => handleSelectData(data.id)} >
                       {FORM_ITEM.map((item) => (
                         <TableCell key={`${data.id}-${item.Title}`} sx={{textAlign:"center"}}>
                           <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold",  }} >
@@ -154,4 +165,4 @@ function OperatorData() {
   );
 }
 
-export default OperatorData;
+export default EmployeeData;

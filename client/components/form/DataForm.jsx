@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { FORM_ITEM } from "../../data/Items";
 import Switch from '@mui/material/Switch';
-
+import { UseEmployee } from "../../context/EmployeeContext";
 
 const validationSchema = Yup.object({
   DNI: Yup.string()
@@ -25,16 +25,20 @@ const validationSchema = Yup.object({
 });
 
 function DataForm({ onSave, onClose }) {
+  const { createEmployee } = UseEmployee()
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+
+
+  const handleSubmit = async (values, actions) => {
     try {
       await onSave(values);
-      setSubmitting(false);
+      actions.setSubmitting(false);
       setIsOpen(false);
+      await createEmployee(values);
     } catch (error) {
       console.error("Error saving form:", error);
-      setSubmitting(false);
+      actions.setSubmitting(false);
     }
   };
 
@@ -63,7 +67,7 @@ function DataForm({ onSave, onClose }) {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched }) => (
+              {({ errors, touched, setFieldValue }) => (
                 <Form>
                   <Grid container spacing={2}>
                     {
@@ -85,13 +89,14 @@ function DataForm({ onSave, onClose }) {
                                     />
                                 </Grid>
                             )
-                        })
+                        })  
                     }
                     <Grid item xs={12} >
                       <FormControlLabel
                         control={<Switch name="Active" color="primary" />}
                         label="active"
                         labelPlacement="end" 
+                        onChange={(event) => setFieldValue("Active", event.target.checked)}
                       />
                     </Grid>
                     <Grid item xs={12} xl={10}>
@@ -121,3 +126,6 @@ DataForm.propTypes = {
 };
 
 export default DataForm;
+
+
+

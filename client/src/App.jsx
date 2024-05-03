@@ -2,9 +2,9 @@ import DrawerHome from '../pages/home/DrawerHome'
 import Home from '../pages/home/Home'
 import { Route, Routes } from "react-router-dom";
 import Task from '../pages/task/Task'
-import OperatorData from '../pages/menuPage/OperatorData'
 import Header from '../components/header/Header'
-
+import EmployeeData from '../pages/menuPage/EmployeeData';
+import { EmployeeContext } from '../context/EmployeeContext'
 
 function App() {
 
@@ -12,20 +12,22 @@ function App() {
     <>
         <DrawerHome/>
         <Header/> 
-        <Routes>
-          <Route
-          path='/'
-          element={<Home/>}
-          />
-          <Route
-          path='/Data'
-          element={<OperatorData/>}
-          />
-          <Route
-          path='/task'
-          element={<Task/>}
-          />
-        </Routes>
+        <EmployeeContext>
+          <Routes>
+            <Route
+            path='/'
+            element={<Home/>}
+            />
+            <Route
+            path='/Data'
+            element={<EmployeeData/>}
+            />
+            <Route
+            path='/task'
+            element={<Task/>}
+            />
+          </Routes>
+        </EmployeeContext>
     </>
   )
 }
