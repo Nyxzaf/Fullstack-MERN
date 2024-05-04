@@ -1,6 +1,6 @@
 import { createContext , useContext, useState ,useEffect } from "react";
 import PropTypes from 'prop-types'
-import { createEmployeeRequest, getEmployeeRequest } from "../api/Employee";
+import { createEmployeeRequest, deleteEmployeeRequest, getEmployeeRequest } from "../api/Employee";
 const Context = createContext()
 
 export const UseEmployee = ()=> {
@@ -26,12 +26,17 @@ export const EmployeeContext = ( { children }) => {
         setEmployees([...Employees,res.data]);
         }
 
+    const deleteEmployee = async (id) => {
+        await deleteEmployeeRequest(id);
+    setEmployees(Employees.filter(employee => employee._id !== id));
+    }
+
     useEffect(() => {
         getEmployees()
     }, []);
     
     return (
-        <Context.Provider value={{ Employees, setEmployees , getEmployees , createEmployee }}>
+        <Context.Provider value={{ Employees, setEmployees , getEmployees , createEmployee ,deleteEmployee }}>
             {children}
         </Context.Provider>
     )

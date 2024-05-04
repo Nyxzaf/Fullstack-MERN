@@ -9,13 +9,14 @@ import { UseEmployee } from "../../context/EmployeeContext";
 const rowsPerPage = 5;
 
 function EmployeeData() {
-  const [Data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [showDataForm, setShowDataForm] = useState(false);
   const [ selectedDataIds, setSelectedDataIds] = useState([]);
 
-  const { Employees } = UseEmployee()
-    
+  const { Employees ,setEmployees , deleteEmployee } = UseEmployee()
+
+
+
   const handleAddData = () => {
     setShowDataForm(true);
   };
@@ -24,30 +25,31 @@ function EmployeeData() {
     setShowDataForm(true);
   };
 
-  const handleDeleteData = () => {
-    const updatedData = Data.filter((data) => !selectedDataIds.includes(data.id));
-    setData(updatedData);
+  const handleDeleteData = async() => {
+    await Promise.all(selectedDataIds.map(async (id) => {
+      await deleteEmployee(id);
+    }));
     setSelectedDataIds([]);
-  };
+    };
 
-  const handleSaveData = (data) => {
+  const handleSaveData = (employee) => {
     if (selectedDataIds.length === 1) {
-      const updatedData = Data.map((item) => {
+      const updatedData = Employees.map((item) => {
         if (item.id === selectedDataIds[0]) {
           return {
             ...item,
-            ...data,
+            ...employee,
           };
         }
         return item;
       });
-      setData(updatedData);
+      setEmployees(updatedData);
     } else {
       const newData = {
-        id: Data.length + 1,
-        ...data,
+        id: Employees.length + 1,
+        ...employee,
       };
-      setData([...Data, newData]);
+      setEmployees([...Employees, newData]);
     }
     setShowDataForm(false);
     setSelectedDataIds([]);
@@ -57,27 +59,28 @@ function EmployeeData() {
     setPage(newPage);
   };
 
-  const handleSelectData = (DataId) => {
-    if (selectedDataIds.includes(DataId)) {
-      setSelectedDataIds(selectedDataIds.filter((id) => id !== DataId));
+  const handleSelectData = (EmployeeId) => {
+    if (selectedDataIds.includes(EmployeeId)) {
+      setSelectedDataIds(selectedDataIds.filter((id) => id !== EmployeeId));
     } else {
-      setSelectedDataIds([...selectedDataIds, DataId]);
+      setSelectedDataIds([...selectedDataIds, EmployeeId]);
     }
   };
 
-  const isSelected = (DataId) => selectedDataIds.includes(DataId);
+  const isSelected = (EmployeeId) => selectedDataIds.includes(EmployeeId);
 
   const handleCloseDataForm = () => {
     setShowDataForm(false);
     setSelectedDataIds([]);
   };
 
+
   return (
     <Box sx={{ width: 'calc( 100% - 40px )' }}  pl={32}>
       <Grid container spacing={4}>
         <Grid item xl={12} xs={12} mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
-            Employees Data
+            Employee Data
             {
               Employees.map((employee)=> {
                 return (
@@ -93,10 +96,10 @@ function EmployeeData() {
           <Grid item marginLeft={4} xs={12}>
             <Button onClick={handleAddData}>Add New Emmployee</Button>
             <Button onClick={handleEditData} disabled={selectedDataIds.length !== 1}>
-              Edit data
+              Edit Data
             </Button>
             <Button onClick={handleDeleteData} disabled={selectedDataIds.length === 0} color="error">
-              Delete data
+              Delete Data
             </Button>
           </Grid>
           <Grid item xs={12} xl={12 }>
@@ -125,22 +128,22 @@ function EmployeeData() {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                    ? Data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : Data
-                  ).map((data) => (
-                    <TableRow key={data._id} hover onClick={() => handleSelectData(data.id)} >
+                    ? Employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : Employees
+                  ).map((employee) => (
+                    <TableRow key={employee._id} hover onClick={() => handleSelectData(employee._id)} >
                       {FORM_ITEM.map((item) => (
-                        <TableCell key={`${data.id}-${item.Title}`} sx={{textAlign:"center"}}>
+                        <TableCell key={`${employee._id}-${item.Title}`} sx={{textAlign:"center"}}>
                           <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold",  }} >
-                            {data[item.Name]}
+                            {employee[item.Name]}
                           </Typography>
                         </TableCell>
                       ))}
                       <TableCell align="center" sx={{textAlign:"-webkit-center"}} >
-                          <Box sx={{ width: 15, height: 15, borderRadius: "50%", backgroundColor: data.Active ? "green" : "red" }} />
+                          <Box sx={{ width: 15, height: 15, borderRadius: "50%", backgroundColor: employee.Active ? "green" : "red" }} />
                       </TableCell>
                       <TableCell align="center">
-                        <Checkbox checked={isSelected(data.id)} />
+                        <Checkbox checked={isSelected(employee._id)} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -150,7 +153,7 @@ function EmployeeData() {
             <TablePagination
               rowsPerPageOptions={[]}
               component="div"
-              count={Data.length}
+              count={Employees.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
