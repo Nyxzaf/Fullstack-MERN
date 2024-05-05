@@ -25,28 +25,28 @@ export const ITEM = [
 
 export const FORM_ITEM = [
     {
-        Title:"DNI", Name:"DNI" , grid:4,
+        id:1, Title:"DNI", Name:"DNI" , grid:4,
     },
     {
-        Title:"Name", Name:"Name" , grid:4
+        id:2,Title:"Name", Name:"Name" , grid:4
     },
     {
-        Title:"Last Name", Name:"LastName" , grid:4
+        id:3,Title:"Last Name", Name:"LastName" , grid:4
     },
     {
-        Title:"Date of Birth", Name:"DateOfBirth" , grid:4, Type:"Date"
+        id:4,Title:"Date of Birth", Name:"DateOfBirth" , grid:4, Type:"Date"
     },
     {
-        Title:"Salary", Name:"Salary" , grid:4, Type:"Number"
+        id:5,Title:"Salary", Name:"Salary" , grid:4, Type:"Number"
     },
     {
-        Title:"Phone", Name:"Phone" , grid:4
+        id:6,Title:"Phone", Name:"Phone" , grid:4
     },
     {
-        Title:"Email", Name:"Email" , grid:7
+        id:7,Title:"Email", Name:"Email" , grid:7
     },
     {
-        Title:"Position", Name:"Position" , grid:5
+        id:8,Title:"Position", Name:"Position" , grid:5
     }
 ]
 

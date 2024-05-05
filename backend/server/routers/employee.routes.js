@@ -11,6 +11,7 @@ import { EMPLOYEE_ROUTE } from "./router.map.js";
 const router = Router();
 
 router.get(EMPLOYEE_ROUTE, GetEmployees);
+
 router.get(EMPLOYEE_ROUTE + "/birthday", GetBirthdayEmployees);
 
 router.post(EMPLOYEE_ROUTE, CreateEmployee);

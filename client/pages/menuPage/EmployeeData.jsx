@@ -1,41 +1,44 @@
 import { useState } from "react";
 import {  Grid,  Button,  Table,  TableBody,  TableCell,  TableContainer,  TableHead,  TableRow,  TablePagination,  Paper,  Typography,  Dialog,  Checkbox,  Box,} from "@mui/material";
 import DataForm from "../../components/form/DataForm";
+import DataFormEdit from "../../components/form/DatFormEdit";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import { FORM_ITEM } from "../../data/Items";
 import { UseEmployee } from "../../context/EmployeeContext";
 
 
+
 const rowsPerPage = 5;
 
 function EmployeeData() {
-  const [page, setPage] = useState(0);
-  const [showDataForm, setShowDataForm] = useState(false);
-  const [ selectedDataIds, setSelectedDataIds] = useState([]);
-
-  const { Employees ,setEmployees , deleteEmployee } = UseEmployee()
+  const [ page, setPage] = useState(0);
+  const [ showDataForm, setShowDataForm] = useState(false);
+  const [ showDataFormEdit , setShowDataFormEdit] = useState(false);
+  const [ selectedEmployeeId, setSelectedEmployeeId] = useState([]);
+  const [ currentEmployee, setCurrentEmployee] = useState();
+  const { Employees ,setEmployees , deleteEmployee , getEmployee } = UseEmployee()
 
 
 
   const handleAddData = () => {
     setShowDataForm(true);
-  };
+  }
 
-  const handleEditData = () => {
-    setShowDataForm(true);
+  const handleEditData = async() => {
+      setShowDataFormEdit(true)
+      setCurrentEmployee(await getEmployee(selectedEmployeeId[0]))
   };
+  
 
   const handleDeleteData = async() => {
-    await Promise.all(selectedDataIds.map(async (id) => {
-      await deleteEmployee(id);
-    }));
-    setSelectedDataIds([]);
-    };
+    await Promise.allSettled(selectedEmployeeId.map(deleteEmployee));
+    setSelectedEmployeeId([]);
+  };
 
   const handleSaveData = (employee) => {
-    if (selectedDataIds.length === 1) {
+    if (selectedEmployeeId.length === 1) {
       const updatedData = Employees.map((item) => {
-        if (item.id === selectedDataIds[0]) {
+        if (item.id === selectedEmployeeId[0]) {
           return {
             ...item,
             ...employee,
@@ -44,15 +47,15 @@ function EmployeeData() {
         return item;
       });
       setEmployees(updatedData);
+      setShowDataFormEdit(false);
     } else {
       const newData = {
-        id: Employees.length + 1,
         ...employee,
       };
       setEmployees([...Employees, newData]);
     }
     setShowDataForm(false);
-    setSelectedDataIds([]);
+    setSelectedEmployeeId([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -60,18 +63,23 @@ function EmployeeData() {
   };
 
   const handleSelectData = (EmployeeId) => {
-    if (selectedDataIds.includes(EmployeeId)) {
-      setSelectedDataIds(selectedDataIds.filter((id) => id !== EmployeeId));
+    if (selectedEmployeeId.includes(EmployeeId)) {
+      setSelectedEmployeeId(selectedEmployeeId.filter((id) => id !== EmployeeId));
     } else {
-      setSelectedDataIds([...selectedDataIds, EmployeeId]);
+      setSelectedEmployeeId([...selectedEmployeeId, EmployeeId]);
     }
   };
 
-  const isSelected = (EmployeeId) => selectedDataIds.includes(EmployeeId);
+  const isSelected = (EmployeeId) => selectedEmployeeId.includes(EmployeeId);
 
   const handleCloseDataForm = () => {
     setShowDataForm(false);
-    setSelectedDataIds([]);
+    setSelectedEmployeeId([]);
+  };
+
+  const handleCloseDataFormEdit = () => {
+    setShowDataFormEdit(false);
+    setSelectedEmployeeId([]);
   };
 
 
@@ -81,24 +89,15 @@ function EmployeeData() {
         <Grid item xl={12} xs={12} mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
             Employee Data
-            {
-              Employees.map((employee)=> {
-                return (
-                  <div key={employee._id}>
-                    {employee.Name}
-                  </div>
-                )
-              })
-            }
           </Typography>
         </Grid>
         <Grid container spacing={2} justifyContent="center" mt={1}>
           <Grid item marginLeft={4} xs={12}>
             <Button onClick={handleAddData}>Add New Emmployee</Button>
-            <Button onClick={handleEditData} disabled={selectedDataIds.length !== 1}>
+            <Button onClick={handleEditData} disabled={selectedEmployeeId.length !== 1}>
               Edit Data
             </Button>
-            <Button onClick={handleDeleteData} disabled={selectedDataIds.length === 0} color="error">
+            <Button onClick={handleDeleteData} disabled={selectedEmployeeId.length === 0} color="error">
               Delete Data
             </Button>
           </Grid>
@@ -108,7 +107,7 @@ function EmployeeData() {
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#339194" }}>
                     {FORM_ITEM.map((item) => (
-                      <TableCell key={item.Title} sx={{textAlign:"center"}}>
+                      <TableCell key={item.id} sx={{textAlign:"center"}}>
                         <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
                           {item.Title}
                         </Typography>
@@ -128,12 +127,12 @@ function EmployeeData() {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                    ? Employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    ? Employees.slice(page * rowsPerPage,   page * rowsPerPage + rowsPerPage)
                     : Employees
                   ).map((employee) => (
-                    <TableRow key={employee._id} hover onClick={() => handleSelectData(employee._id)} >
+                    <TableRow key={employee.DNI} hover onClick={() => handleSelectData(employee._id)} >
                       {FORM_ITEM.map((item) => (
-                        <TableCell key={`${employee._id}-${item.Title}`} sx={{textAlign:"center"}}>
+                        <TableCell key={item.id} sx={{textAlign:"center"}}>
                           <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold",  }} >
                             {employee[item.Name]}
                           </Typography>
@@ -162,7 +161,10 @@ function EmployeeData() {
         </Grid>
       </Grid>
       <Dialog open={showDataForm} onClose={handleCloseDataForm}>
-        <DataForm onSave={handleSaveData} onClose={handleCloseDataForm} />
+        <DataForm onSave={handleSaveData} onClose={handleCloseDataForm}/>
+      </Dialog>
+      <Dialog open={showDataFormEdit} onClose={handleCloseDataFormEdit}>
+        <DataFormEdit onSave={handleSaveData} onClose={handleCloseDataForm} employee={currentEmployee} />
       </Dialog>
     </Box>
   );
