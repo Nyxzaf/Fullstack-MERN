@@ -138,16 +138,17 @@ export default function TaskTable() {
   };
 
   return (
-    <Box sx={{ width: "100%", p: 2 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+    <Box sx={{ width: 'calc( 100% )' }}  pl={{xl:32,lg:32, md:5, xs:5}} pr={2}>
+      <Grid container spacing={4}>
+        <Grid item xl={12}  mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
             Table Task
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item marginLeft={0} xs={12}>
           <Button onClick={handleAddTask}>Add New Task</Button>
         </Grid>
+        <Grid container spacing={2} justifyContent="center" mt={1}>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table>
@@ -282,6 +283,7 @@ export default function TaskTable() {
             page={tableState.page}
             onPageChange={handleChangePage}
           />
+        </Grid>
         </Grid>
       </Grid>
       <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
