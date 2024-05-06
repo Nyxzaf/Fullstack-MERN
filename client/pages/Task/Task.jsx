@@ -22,7 +22,7 @@ import Alert from "../../components/alerts/Alert";
 
 const rowsPerPage = 6;
 
-// Mapear el valor de la severidad a su respectivo color
+
 const severityColors = {
   low: "green",
   medium: "blue",
@@ -101,7 +101,8 @@ export default function TaskTable() {
     setShowTaskForm(false);
     setTableState((prev) => ({
       ...prev,
-      selectedTask: null
+      selectedTask: null,
+      selectedTaskIds: [],
     }));
   };
 
@@ -120,6 +121,7 @@ export default function TaskTable() {
         return task;
       });
       setTasks(updatedTasks);
+      setShowTaskForm(false);
     } else {
       const newTask = {
         id: tasks.length + 1,
@@ -129,13 +131,14 @@ export default function TaskTable() {
         Description: data.Description,
       };
       setTasks([...tasks, newTask]);
+      setTableState((prev) => ({
+        ...prev,
+        selectedTask: null,
+        selectedTaskIds: [], // Limpiar los IDs de las tareas seleccionadas
+      }));
+      setShowTaskForm(false);
     }
-    setShowTaskForm(false);
-    setTableState((prev) => ({
-      ...prev,
-      selectedTask: null,
-      selectedTaskIds: [], // Limpiar los IDs de las tareas seleccionadas
-    }));
+
   };
 
   return (

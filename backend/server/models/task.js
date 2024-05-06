@@ -21,12 +21,6 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    Status: {
-      type: SchemaTypes.String, //active, in progress, done, canceled
-      required: true,
-      trim: true,
-      default: "active",
-    },
     WorkHours: {
       type: SchemaTypes.Number,
       required: true,

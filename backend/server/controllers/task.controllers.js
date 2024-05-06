@@ -1,5 +1,14 @@
 import Task from "../models/task.js";
 
+export const GetAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    return res.json(tasks);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Error fetching tasks");
+  }
+};
 
   export const CreateTask = async (req, res) => {
     try {
