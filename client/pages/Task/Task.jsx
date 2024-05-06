@@ -205,7 +205,7 @@ export default function TaskTable() {
                       fontWeight="bold"
                       sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
                     >
-                      Actions
+
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -263,7 +263,7 @@ export default function TaskTable() {
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton onClick={() => handleEditTask(task.id)}>
+                      <IconButton onClick={() => handleEditTask(task.id)} sx={{marginRight:3}}>
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => handleDeleteTask(task.id)}>
