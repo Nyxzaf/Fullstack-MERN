@@ -8,7 +8,7 @@ export const GetEmployees = async (req, res) => {
     console.log(error);
     return res.status(500).send("error!!");
   }
-};
+}
 
 export const CreateEmployee = async (req, res) => {
   try {

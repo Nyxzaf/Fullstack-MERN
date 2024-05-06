@@ -41,7 +41,6 @@ const EmployeeSchema = new mongoose.Schema(
       trim: true,
     },
     Active: {
-      //Para saber si esta actualmente trabajando o no
       type: SchemaTypes.Boolean,
       default: true,
     },

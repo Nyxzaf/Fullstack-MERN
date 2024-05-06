@@ -1,2 +1,2 @@
 export const EMPLOYEE_ROUTE = "/employees";
-export const TASKS_ROUTE = "/tasks";
+export const TASK_ROUTE = "/tasks";
