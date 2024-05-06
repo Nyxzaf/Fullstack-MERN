@@ -263,12 +263,14 @@ export default function TaskTable() {
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                       <IconButton onClick={() => handleEditTask(task.id)} sx={{marginRight:3}}>
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => handleDeleteTask(task.id)}>
                         <DeleteIcon />
                       </IconButton>
+                    </Box>
                     </TableCell>
                   </TableRow>
                 ))}
