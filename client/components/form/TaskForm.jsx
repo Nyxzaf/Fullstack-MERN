@@ -33,8 +33,15 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
   });
 
   useEffect(() => {
+    console.log(taskToEdit)
     if (taskToEdit) {
-      setInitialValues(taskToEdit);
+      setInitialValues({
+        Title: taskToEdit.Title,
+        WorkHours: taskToEdit.WorkHours,
+        Severity: taskToEdit.Severity,
+        Description: taskToEdit.Description,
+      });
+
     } else {
       setInitialValues({
         Title: "",
@@ -68,6 +75,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
     >
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
