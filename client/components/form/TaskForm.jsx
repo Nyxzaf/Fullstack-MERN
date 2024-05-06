@@ -136,7 +136,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <InputLabel style={{ fontWeight: "bold" }}>Description</InputLabel>
+                <InputLabel sx={{ fontWeight: "bold" }}>Description</InputLabel>
                 <Field
                   as={TextField}
                   label="Description"

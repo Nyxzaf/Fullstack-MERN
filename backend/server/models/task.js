@@ -31,3 +31,5 @@ const TaskSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("Task", TaskSchema);
+
+module.exports = Task;
