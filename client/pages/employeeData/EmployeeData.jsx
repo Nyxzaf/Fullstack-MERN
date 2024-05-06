@@ -84,9 +84,9 @@ function EmployeeData() {
 
 
   return (
-    <Box sx={{ width: 'calc( 100% - 40px )' }}  pl={32}>
+    <Box sx={{ width: 'calc( 100% )' }}  pl={{xl:32,lg:32, md:5, xs:5}} pr={2}>
       <Grid container spacing={4}>
-        <Grid item xl={12} xs={12} mt={2}>
+        <Grid item xl={12}  mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
             Employee Data
           </Typography>
@@ -164,7 +164,7 @@ function EmployeeData() {
         <DataForm onSave={handleSaveData} onClose={handleCloseDataForm}/>
       </Dialog>
       <Dialog open={showDataFormEdit} onClose={handleCloseDataFormEdit}>
-        <DataFormEdit onSave={handleSaveData} onClose={handleCloseDataForm} employee={currentEmployee} />
+        <DataFormEdit onSave={handleSaveData} onClose={handleCloseDataFormEdit} employee={currentEmployee} />
       </Dialog>
     </Box>
   );

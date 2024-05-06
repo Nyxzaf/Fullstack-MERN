@@ -85,7 +85,7 @@
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
                 >
-                {({ errors, touched, setFieldValue }) => (
+                {({ errors, touched, setFieldValue , values }) => (
                     <Form>
                     <Grid container spacing={2}>
                         {FORM_ITEM.map((item) => {
@@ -111,7 +111,11 @@
                         })}
                         <Grid item xs={12}>
                         <FormControlLabel
-                            control={<Switch name="Active" color="primary" />}
+                            control={
+                            <Switch 
+                            name="Active" color="primary"          
+                            checked={values.Active}
+                            />}
                             label="active"
                             labelPlacement="end"
                             onChange={(event) =>

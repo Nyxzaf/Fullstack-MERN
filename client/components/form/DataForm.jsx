@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Grid,
-  Button,
+  Button, 
   TextField,
   InputLabel,
   FormControlLabel,
@@ -74,12 +74,12 @@ function DataForm({ onSave, onClose }) {
                 Email: "",
                 Salary: "",
                 Position: "",
-                Active: false,
+                Active: true,
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched, setFieldValue }) => (
+              {({ errors, touched, setFieldValue , values }) => (
                 <Form>
                   <Grid container spacing={2}>
                     {FORM_ITEM.map((item) => {
@@ -106,7 +106,7 @@ function DataForm({ onSave, onClose }) {
                     <Grid item xs={12}>
                       <FormControlLabel
                         control={
-                          <Switch name="Active" color="primary" />
+                          <Switch name="Active" color="primary" checked={values.Active} />
                         }
                         label="active"
                         labelPlacement="end"

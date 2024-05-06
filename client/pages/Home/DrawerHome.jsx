@@ -2,15 +2,12 @@ import { Box ,Divider, Drawer, List, ListItemButton, ListItemText, Toolbar, Typo
 import { IMG_1 } from "../../assets/img/images";
 import { ITEM } from "../../data/Items";
 
-// display={{xl:"block",xs:"none"}}   
-
-
 
 const DrawerHome = () => {
     return (
-          <Box
-          display={{xl:"block",xs:"none"}}  
-          >  
+        <Box
+        display={{xl:"block",lg:"block",xs:"none"}}  
+        >  
             <Drawer
                 variant="permanent"
                 anchor="left"
@@ -46,7 +43,7 @@ const DrawerHome = () => {
                     })
                 }
             </Drawer>
-          </Box>   
+        </Box>   
     );
 }
 

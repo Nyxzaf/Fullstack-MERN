@@ -8,7 +8,7 @@ import { ITEM } from '../../data/Items';
 
 const Header = () => {
     return (
-        <AppBar sx={{ background: "white", display:{xs:"block",xl:"none"}}} position={"sticky"}  >
+        <AppBar sx={{ background: "white", display:{xs:"block",lg:"none",xl:"none"}}} position={"sticky"}  >
                 <Toolbar>
                     <Box flexGrow={1}>
                         <a href='/'>

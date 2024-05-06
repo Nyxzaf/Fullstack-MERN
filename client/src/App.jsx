@@ -3,7 +3,7 @@ import Home from '../pages/home/Home'
 import { Route, Routes } from "react-router-dom";
 import Task from '../pages/task/Task'
 import Header from '../components/header/Header'
-import EmployeeData from '../pages/menuPage/EmployeeData';
+import EmployeeData from '../pages/employeeData/EmployeeData';
 import { EmployeeContext } from '../context/EmployeeContext'
 
 function App() {
