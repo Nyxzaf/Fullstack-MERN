@@ -22,6 +22,12 @@ import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import Alert from "../../components/alerts/Alert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SendIcon from "@mui/icons-material/Send";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import TaskIcon from "@mui/icons-material/Task";
+import DescriptionModal from "../../components/modal/DescriptionModal";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 const rowsPerPage = 6;
 
@@ -41,6 +47,8 @@ export default function TaskTable() {
     selectedTaskIds: [],
     selectedTask: null,
   });
+  const [selectedDescription, setSelectedDescription] = useState("");
+  const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
   useEffect(() => {
     getTasks();
@@ -137,157 +145,213 @@ export default function TaskTable() {
     }
   };
 
+  const handleViewDescription = (description) => {
+    setSelectedDescription(description);
+    setShowDescriptionModal(true);
+  };
+
+  const handleCloseDescriptionModal = () => {
+    setShowDescriptionModal(false);
+    setSelectedDescription("");
+  };
+
   return (
-    <Box sx={{ width: 'calc( 100% )' }}  pl={{xl:32,lg:32, md:5, xs:5}} pr={2}>
-      <Grid container spacing={4}>
-        <Grid item xl={12}  mt={2}>
-          <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
+    <Grid sx={{ width: "calc( 100% )" }} pl={{ xl: 32, lg: 32, md: 5, xs: 2 }}>
+      <Grid container spacing={7} bgcolor={"#339194"}>
+        <Grid item xl={12} mt={1}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: FONT_FAMILY,
+              color: "#FFFFFF",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <PlaylistAddCheckIcon sx={{ fontSize: "inherit" }} />
             Table Task
           </Typography>
         </Grid>
-        <Grid item marginLeft={0} xs={12}>
-          <Button onClick={handleAddTask}>Add New Task</Button>
-        </Grid>
-        <Grid container spacing={2} justifyContent="center" mt={1}>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#339194" }}>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-                      ID
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-                      Title
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-                      Work Hours
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-                      Severity
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-                      Description
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight="bold"
-                      sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
-                    >
-
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? tasks.slice(
-                      tableState.page * rowsPerPage,
-                      tableState.page * rowsPerPage + rowsPerPage
-                    )
-                  : tasks
-                ).map((task) => (
-                  <TableRow key={task.id} hover>
-                    <TableCell align="center">
-                      <Typography
-                        variant="body1"
-                        sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
-                      >
-                        {task.id}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography
-                        variant="body1"
-                        sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
-                      >
-                        {task.Title}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography
-                        variant="body1"
-                        sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
-                      >
-                        {task.WorkHours}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Chip
-                        label={task.Severity}
-                        style={{
-                          backgroundColor: severityColors[task.Severity],
-                          color: "white",
-                          fontFamily: FONT_FAMILY,
-                          fontWeight: "bold",
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography
-                        variant="body1"
-                        sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
-                      >
-                        {task.Description}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                      <IconButton onClick={() => handleEditTask(task.id)} sx={{marginRight:3}}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton onClick={() => handleDeleteTask(task.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[]}
-            component="div"
-            count={tasks.length}
-            rowsPerPage={rowsPerPage}
-            page={tableState.page}
-            onPageChange={handleChangePage}
-          />
-        </Grid>
-        </Grid>
       </Grid>
+      <Box>
+        <Grid spacing={2}>
+          <Grid item xs={12}>
+            <Grid
+              container
+              spacing={{ xs: 2 }}
+              columns={{ xs: 7, sm: 5, md: 12 }}
+            >
+              <Grid item xs={5} mt={15}>
+                <Box
+                  sx={{
+                    textAlign: "left",
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      pr: 2,
+                      justifyContent: "center",
+                      fontWeight: "bold",
+                      color: "#FFFFFF",
+                      fontFamily: FONT_FAMILY,
+                      bgcolor: "#339194",
+                      border: 1.5,
+                      width: "200",
+                      borderRadius: 2,
+                      borderColor: "#FFFFFF",
+                    }}
+                  >
+                    <TaskIcon sx={{ paddingTop: 0.9 }} /> Create Task
+                  </Typography>
+                </Box>
+                <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY }} mt={2}>
+                  Welcome to the Task Table! Here you can view, edit, and delete tasks.
+                </Typography>
+                <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY }}>
+                  Click on "Add New Task" to create a new task.
+                </Typography>
+                <Grid item xs={12} mt={1}>
+                  <Button
+                    variant="outlined"
+                    endIcon={<SendIcon />}
+                    onClick={handleAddTask}
+                  >
+                    Add New Task
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid item mt={15} xs={7} pr={2}>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow sx={{ backgroundColor: "#339194" }}>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
+                            Title
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
+                            Work Hours
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
+                            Severity
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
+                            Description
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
+                            Actions
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(rowsPerPage > 0
+                        ? tasks.slice(
+                            tableState.page * rowsPerPage,
+                            tableState.page * rowsPerPage + rowsPerPage
+                          )
+                        : tasks
+                      ).map((task) => (
+                        <TableRow key={task.id} hover>
+                          <TableCell align="center">
+                            <Typography
+                              variant="body1"
+                              sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
+                            >
+                              {task.Title}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Typography
+                              variant="body1"
+                              sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
+                            >
+                              {task.WorkHours}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Chip
+                              label={task.Severity}
+                              style={{
+                                backgroundColor: severityColors[task.Severity],
+                                color: "white",
+                                fontFamily: FONT_FAMILY,
+                                fontWeight: "bold",
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell align="center">
+                          <Button
+                            variant="text"
+                            color="primary"
+                            startIcon={<VisibilityIcon />}
+                            onClick={() => handleViewDescription(task.Description)}
+                          >
+                            Show Description
+                          </Button>
+
+                          </TableCell>
+                          <TableCell align="center">
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                              <IconButton onClick={() => handleEditTask(task.id)} sx={{ marginRight: 3 }}>
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton onClick={() => handleDeleteTask(task.id)}>
+                                <DeleteIcon />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+            </Grid>
+            <TablePagination
+              rowsPerPageOptions={[]}
+              component="div"
+              count={tasks.length}
+              rowsPerPage={rowsPerPage}
+              page={tableState.page}
+              onPageChange={handleChangePage}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
       <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
         <TaskForm
           onSave={handleSaveTask}
@@ -300,6 +364,11 @@ export default function TaskTable() {
         onClose={() => setShowAlert(false)}
         onConfirm={handleConfirmDelete}
       />
-    </Box>
+      <DescriptionModal
+        open={showDescriptionModal}
+        description={selectedDescription}
+        onClose={handleCloseDescriptionModal}
+      />
+    </Grid>
   );
 }

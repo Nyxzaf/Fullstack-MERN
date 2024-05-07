@@ -1,6 +1,4 @@
-
-const express = require("express")
-const router = express.Router();
+import { Router } from "express";
 import {
   getTasks,
   getTaskById,
@@ -9,6 +7,8 @@ import {
   deleteTask,
 } from "../controllers/task.controllers.js";
 import { TASK_ROUTE } from "./router.map.js";
+
+const router = Router();
 
 router.get(TASK_ROUTE, getTasks);
 router.get(TASK_ROUTE + "/:id", getTaskById);

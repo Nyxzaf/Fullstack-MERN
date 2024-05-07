@@ -14,7 +14,11 @@ export default function Alert({ open, onClose, onConfirm }) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
-        <Typography fontFamily={FONT_FAMILY} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography
+          variant="h6"
+          fontFamily={FONT_FAMILY}
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <WarningIcon sx={{ mr: 1 }} /> Confirmation
         </Typography>
       </DialogTitle>
@@ -23,9 +27,11 @@ export default function Alert({ open, onClose, onConfirm }) {
           Are you sure you want to eliminate this task?
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onConfirm} color="error">
+      <DialogActions sx={{ pr: 2, pb: 2 }}>
+        <Button onClick={onClose} color="primary" variant="outlined">
+          Cancel
+        </Button>
+        <Button onClick={onConfirm} color="error" variant="outlined">
           Yes, I am sure
         </Button>
       </DialogActions>

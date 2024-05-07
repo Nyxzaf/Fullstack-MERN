@@ -1,4 +1,3 @@
-//this file only configures
 import cors from "cors";
 import express from "express";
 import EmployeeRoutes from "./server/routers/employee.routes.js";

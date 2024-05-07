@@ -11,8 +11,8 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    Description: {
-      type: SchemaTypes.String,
+    WorkHours: {
+      type: SchemaTypes.Number,
       required: true,
       trim: true,
     },
@@ -21,8 +21,8 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    WorkHours: {
-      type: SchemaTypes.Number,
+    Description: {
+      type: SchemaTypes.String,
       required: true,
       trim: true,
     },
@@ -31,5 +31,3 @@ const TaskSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("Task", TaskSchema);
-
-module.exports = Task;
