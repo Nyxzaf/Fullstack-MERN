@@ -2,24 +2,41 @@ import HomeIcon from '@mui/icons-material/Home';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import TableViewIcon from '@mui/icons-material/TableView';
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export const ITEM = [
     {
-        Title:"Home" ,SubTitle:"Home" , content:"Here the employee's information is added", Icon: <HomeIcon sx={{p:0.3}}/>, Path:"/"
+        Title:"Home",
+        SubTitle:"Home" ,
+        content:"Here the employee's information is added",
+        Icon: <HomeIcon/>,
+        Path:"/"
     },
     {
-        Title:"Data" ,SubTitle:"Employee Data" , content:"Add the employee's information here", Icon: <DatasetIcon/>, Path:"/Data"
+        Title:"Data",
+        SubTitle:"Employee Data",
+        content:"Add the employee's information here",
+        Icon: <DatasetIcon/>,
+        Path:"/data"
     },
     {
-        Title:"Tasks" ,SubTitle:"Table Task" , content:"Add the tasks to the employee here.", Icon: <PlaylistAddCheckIcon/>, Path:"/Task"
+        Title:"Tasks" ,
+        SubTitle:"Table Task" ,
+        content:"Add the tasks to the employee here.",
+        Icon: <PlaylistAddCheckIcon/>,
+        Path:"/task"
     },      
     {
-        Title:"Tables" ,SubTitle:"General Table" , content:"Here in the general table, all the qualities of the employees are observed."
-        , Icon: <TableViewIcon/>, Path:"/Tables"
+        Title:"Tables",
+        SubTitle:"General Table" ,
+        content:"Here in the general table, all the qualities of the employees are observed.",
+        Icon: <TableViewIcon/>, Path:"/tables"
     },      
     {
-        Title:"Help" ,SubTitle:"Contact Us" , content:"Here assistance will be provided with problems and system failures", Icon: <ContactPhoneIcon sx={{p:0.3}}/>, Path:"/Help"
+        Title:"Calendar",
+        SubTitle:" Calendar" , 
+        content:"Here you will find the employees' birthdays and tasks.",
+        Icon: <CalendarMonthIcon />,
+        Path:"/calendar"
     }
 ]
 

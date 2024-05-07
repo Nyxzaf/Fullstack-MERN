@@ -69,9 +69,11 @@ function EmployeeData() {
       setSelectedEmployeeId([...selectedEmployeeId, EmployeeId]);
     }
   };
-
+ 
   const isSelected = (EmployeeId) => selectedEmployeeId.includes(EmployeeId);
 
+  //revisar esta parte en task.jsx
+  
   const handleCloseDataForm = () => {
     setShowDataForm(false);
     setSelectedEmployeeId([]);
@@ -80,12 +82,13 @@ function EmployeeData() {
   const handleCloseDataFormEdit = () => {
     setShowDataFormEdit(false);
     setSelectedEmployeeId([]);
+    
   };
 
 
   return (
-    <Box sx={{ width: 'calc( 100% )' }}  pl={{xl:32,lg:32, md:5, xs:5}} pr={2}>
-      <Grid container spacing={4}>
+    <Box sx={{ width: 'calc( 100% )' }}   pr={2}>
+      <Grid container spacing={4}pl={{xl:32,lg:32, md:5, xs:5}}>
         <Grid item xl={12}  mt={2}>
           <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
             Employee Data

@@ -9,7 +9,7 @@ import { FONT_FAMILY } from '../../assets/fonts/FontFamily'
 
 const Home = () => {
     return (
-            <Grid container spacing={3}pl={{xl:32,lg:32, md:5, xs:5}} pr={5} width={'calc(100% )'} >
+            <Grid container spacing={3} pl={{xl:32,lg:32, md:5, xs:5}} pr={5} width={'calc(100% )'} >
                 <Grid item xl={12} xs={12} my={2}>
                     <Typography variant="h2" fontFamily={FONT_FAMILY}>Home</Typography>
                 </Grid> 

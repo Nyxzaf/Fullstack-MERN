@@ -1,0 +1,12 @@
+.rbc-toolbar button:active { 
+    background-color:#154360 !important;
+    color: white !important;
+    padding-left: 10px;
+} 
+.rbc-toolbar{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.rbc-event{
+    background-color:#154360 !important;
+}

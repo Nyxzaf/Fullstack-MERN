@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Task from '../pages/task/Task'
 import Header from '../components/header/Header'
 import EmployeeData from '../pages/employeeData/EmployeeData';
+import Calendar from '../pages/calendar/calendar'
 import { EmployeeContext } from '../context/EmployeeContext'
 
 function App() {
@@ -19,12 +20,16 @@ function App() {
             element={<Home/>}
             />
             <Route
-            path='/Data'
+            path='/data'
             element={<EmployeeData/>}
             />
             <Route
             path='/task'
             element={<Task/>}
+            />
+            <Route
+            path='/calendar'
+            element={<Calendar/>}
             />
           </Routes>
         </EmployeeContext>
