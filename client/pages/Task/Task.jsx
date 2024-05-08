@@ -156,7 +156,7 @@ export default function TaskTable() {
   };
 
   return (
-    <Grid sx={{ width: "calc( 100% )" }} pl={{ xl: 32, lg: 32, md: 5, xs: 2 }}>
+    <Box sx={{ width: "calc( 100% )" }} pl={{ xl: 32, lg: 32, md: 5, xs: 2 }}>
       <Grid container spacing={7} bgcolor={"#339194"}>
         <Grid item xl={12} mt={1}>
           <Typography
@@ -212,7 +212,7 @@ export default function TaskTable() {
                   Welcome to the Task Table! Here you can view, edit, and delete tasks.
                 </Typography>
                 <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY }}>
-                  Click on "Add New Task" to create a new task.
+                  Click on Add New Task  to create a new task.
                 </Typography>
                 <Grid item xs={12} mt={1}>
                   <Button
@@ -321,7 +321,6 @@ export default function TaskTable() {
                           >
                             Show Description
                           </Button>
-
                           </TableCell>
                           <TableCell align="center">
                             <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -351,7 +350,6 @@ export default function TaskTable() {
           </Grid>
         </Grid>
       </Box>
-
       <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
         <TaskForm
           onSave={handleSaveTask}
@@ -369,6 +367,6 @@ export default function TaskTable() {
         description={selectedDescription}
         onClose={handleCloseDescriptionModal}
       />
-    </Grid>
+    </Box>
   );
 }

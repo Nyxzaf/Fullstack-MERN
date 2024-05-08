@@ -114,7 +114,7 @@
                             control={
                             <Switch 
                             name="Active" color="primary"          
-                            checked={values.Active}
+                                checked={values.Active}
                             />}
                             label="active"
                             labelPlacement="end"

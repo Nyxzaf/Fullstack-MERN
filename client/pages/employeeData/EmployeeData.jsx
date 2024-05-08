@@ -1,38 +1,58 @@
 import { useState } from "react";
-import {  Grid,  Button,  Table,  TableBody,  TableCell,  TableContainer,  TableHead,  TableRow,  TablePagination,  Paper,  Typography,  Dialog,  Checkbox,  Box,} from "@mui/material";
+import {
+  Grid,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Paper,
+  Typography,
+  Dialog,
+  Box,
+  IconButton,
+} from "@mui/material";
+import DatasetIcon from '@mui/icons-material/Dataset';
 import DataForm from "../../components/form/DataForm";
 import DataFormEdit from "../../components/form/DatFormEdit";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import { FORM_ITEM } from "../../data/Items";
 import { UseEmployee } from "../../context/EmployeeContext";
-
-
-
+import Alert from "../../components/alerts/Alert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 const rowsPerPage = 5;
 
 function EmployeeData() {
-  const [ page, setPage] = useState(0);
-  const [ showDataForm, setShowDataForm] = useState(false);
-  const [ showDataFormEdit , setShowDataFormEdit] = useState(false);
-  const [ selectedEmployeeId, setSelectedEmployeeId] = useState([]);
-  const [ currentEmployee, setCurrentEmployee] = useState();
-  const { Employees ,setEmployees , deleteEmployee , getEmployee } = UseEmployee()
-
-
+  const [page, setPage] = useState(0);
+  const [showDataForm, setShowDataForm] = useState(false);
+  const [showDataFormEdit, setShowDataFormEdit] = useState(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [currentEmployee, setCurrentEmployee] = useState();
+  const { Employees, setEmployees, deleteEmployee, getEmployee } = UseEmployee();
 
   const handleAddData = () => {
     setShowDataForm(true);
-  }
+  };
 
-  const handleEditData = async() => {
-      setShowDataFormEdit(true)
-      setCurrentEmployee(await getEmployee(selectedEmployeeId[0]))
+  const handleEditData = async(employeeId) => {
+    setShowDataFormEdit(true);
+    setCurrentEmployee(await getEmployee(employeeId));
   };
   
+  const handleDeleteData = (employeeId) => {
+    setSelectedEmployeeId([employeeId]); 
+    setShowAlert(true);
+  };
 
-  const handleDeleteData = async() => {
+  const handleConfirmDelete = async () => {
     await Promise.allSettled(selectedEmployeeId.map(deleteEmployee));
     setSelectedEmployeeId([]);
+    setShowAlert(false);
   };
 
   const handleSaveData = (employee) => {
@@ -69,11 +89,7 @@ function EmployeeData() {
       setSelectedEmployeeId([...selectedEmployeeId, EmployeeId]);
     }
   };
- 
-  const isSelected = (EmployeeId) => selectedEmployeeId.includes(EmployeeId);
 
-  //revisar esta parte en task.jsx
-  
   const handleCloseDataForm = () => {
     setShowDataForm(false);
     setSelectedEmployeeId([]);
@@ -82,35 +98,37 @@ function EmployeeData() {
   const handleCloseDataFormEdit = () => {
     setShowDataFormEdit(false);
     setSelectedEmployeeId([]);
-    
   };
 
-
   return (
-    <Box sx={{ width: 'calc( 100% )' }}   pr={2}>
-      <Grid container spacing={4}pl={{xl:32,lg:32, md:5, xs:5}}>
-        <Grid item xl={12}  mt={2}>
-          <Typography variant="h2" sx={{ fontFamily: FONT_FAMILY }}>
-            Employee Data
+    <Box sx={{ width: 'calc( 100% )' }} pl={{ xl: 29, lg: 29, md: 5, xs: 5 }}>
+      <Grid container spacing={4} >
+        <Grid item xl={12} mt={2} bgcolor={"#339194"}>
+        <Typography
+            variant="h2"
+            sx={{
+              fontFamily: FONT_FAMILY,
+              color: "#FFFFFF",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <DatasetIcon sx={{ fontSize: "inherit" }} />
+            Table Task
           </Typography>
         </Grid>
         <Grid container spacing={2} justifyContent="center" mt={1}>
           <Grid item marginLeft={4} xs={12}>
-            <Button onClick={handleAddData}>Add New Emmployee</Button>
-            <Button onClick={handleEditData} disabled={selectedEmployeeId.length !== 1}>
-              Edit Data
-            </Button>
-            <Button onClick={handleDeleteData} disabled={selectedEmployeeId.length === 0} color="error">
-              Delete Data
-            </Button>
+            <Button onClick={handleAddData}>Add New Employee</Button>
           </Grid>
-          <Grid item xs={12} xl={12 }>
+          <Grid item xs={12} xl={12}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#339194" }}>
                     {FORM_ITEM.map((item) => (
-                      <TableCell key={item.id} sx={{textAlign:"center"}}>
+                      <TableCell key={item.id} sx={{ textAlign: "center" }}>
                         <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
                           {item.Title}
                         </Typography>
@@ -118,34 +136,41 @@ function EmployeeData() {
                     ))}
                     <TableCell align="center">
                       <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
-                          Active
+                        Active
                       </Typography>
                     </TableCell>
-                    <TableCell align="center">  
+                    <TableCell align="center">
                       <Typography variant="subtitle1" fontWeight="bold" sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}>
-                        Select
+                        Actions
                       </Typography>
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                    ? Employees.slice(page * rowsPerPage,   page * rowsPerPage + rowsPerPage)
+                    ? Employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     : Employees
                   ).map((employee) => (
-                    <TableRow key={employee.DNI} hover onClick={() => handleSelectData(employee._id)} >
+                    <TableRow key={employee.DNI} hover onClick={() => handleSelectData(employee._id)}>
                       {FORM_ITEM.map((item) => (
-                        <TableCell key={item.id} sx={{textAlign:"center"}}>
-                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold",  }} >
+                        <TableCell key={item.id} sx={{ textAlign: "center" }}>
+                          <Typography variant="body1" sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }} >
                             {employee[item.Name]}
                           </Typography>
                         </TableCell>
                       ))}
-                      <TableCell align="center" sx={{textAlign:"-webkit-center"}} >
-                          <Box sx={{ width: 15, height: 15, borderRadius: "50%", backgroundColor: employee.Active ? "green" : "red" }} />
+                      <TableCell align="center" sx={{ textAlign: "-webkit-center" }} >
+                        <Box sx={{ width: 15, height: 15, borderRadius: "50%", backgroundColor: employee.Active ? "green" : "red" }} />
                       </TableCell>
                       <TableCell align="center">
-                        <Checkbox checked={isSelected(employee._id)} />
+                        <Box sx={{ display:"flex", justifyContent: "center" }} >
+                          <IconButton onClick={() => handleEditData(employee._id)}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton onClick={() => handleDeleteData(employee._id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -164,11 +189,16 @@ function EmployeeData() {
         </Grid>
       </Grid>
       <Dialog open={showDataForm} onClose={handleCloseDataForm}>
-        <DataForm onSave={handleSaveData} onClose={handleCloseDataForm}/>
+        <DataForm onSave={handleSaveData} onClose={handleCloseDataForm} />
       </Dialog>
       <Dialog open={showDataFormEdit} onClose={handleCloseDataFormEdit}>
         <DataFormEdit onSave={handleSaveData} onClose={handleCloseDataFormEdit} employee={currentEmployee} />
       </Dialog>
+      <Alert
+        open={showAlert}
+        onClose={() => setShowAlert(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </Box>
   );
 }

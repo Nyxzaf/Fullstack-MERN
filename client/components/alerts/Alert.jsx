@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import WarningIcon from "@mui/icons-material/Warning";
+import PropTypes from 'prop-types'
 
 export default function Alert({ open, onClose, onConfirm }) {
   return (
@@ -38,3 +39,13 @@ export default function Alert({ open, onClose, onConfirm }) {
     </Dialog>
   );
 }
+Alert.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired
+};
+
+
+
+
+
