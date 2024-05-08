@@ -26,6 +26,11 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    TaskScheduled: {
+      type: SchemaTypes.Date,
+      required: true,
+      trim: true,
+    },
   },
   { timestamps: true }
 );
