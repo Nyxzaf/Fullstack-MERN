@@ -14,6 +14,8 @@ import { Formik, Form, Field } from "formik";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 
 const validationSchema = Yup.object({
   Title: Yup.string().required("Title is required"),
@@ -22,6 +24,7 @@ const validationSchema = Yup.object({
     .min(0, "Work hours must be a positive number"),
   Severity: Yup.string().required("Severity is required"),
   Description: Yup.string().required("Description is required"),
+  Date: Yup.date().required("Date is required"),
 });
 
 function TaskForm({ onSave, onClose, taskToEdit }) {
@@ -30,25 +33,23 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
     WorkHours: "",
     Severity: "",
     Description: "",
+    Date: new Date(),
   });
 
   useEffect(() => {
-    console.log(taskToEdit)
     if (taskToEdit) {
       setInitialValues({
         Title: taskToEdit.Title,
         WorkHours: taskToEdit.WorkHours,
         Severity: taskToEdit.Severity,
         Description: taskToEdit.Description,
+        Date: taskToEdit.Date,
       });
-
     } else {
-      setInitialValues({
-        Title: "",
-        WorkHours: "",
-        Severity: "",
-        Description: "",
-      });
+      setInitialValues((prevValues) => ({
+        ...prevValues,
+        Date: new Date(),
+      }));
     }
   }, [taskToEdit]);
 
@@ -75,14 +76,14 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
     >
       <Formik
         initialValues={initialValues}
-        enableReinitialize={true}
         validationSchema={validationSchema}
+        enableReinitialize={true}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, setFieldValue }) => (
           <Form>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Title</InputLabel>
                 <Field
                   as={TextField}
@@ -149,6 +150,29 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   error={touched.Description && !!errors.Description}
                   helperText={touched.Description && errors.Description}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel sx={{ fontWeight: "bold" }}>Date</InputLabel>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  name="Date"
+                  value={initialValues.Date}
+                  onChange={(date) => {
+                    setFieldValue("Date", date);
+                  }}
+                  renderInput={({ inputProps, ...other }) => (
+                    <TextField
+                      {...other}
+                      {...inputProps}
+                      fullWidth
+                      margin="normal"
+                      error={touched.Date && !!errors.Date}
+                      helperText={touched.Date && errors.Date}
+                    />
+                  )}
+                />
+
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={6}>
                 <Button variant="contained" color="primary" type="submit">

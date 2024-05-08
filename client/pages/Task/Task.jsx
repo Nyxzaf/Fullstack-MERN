@@ -28,7 +28,6 @@ import TaskIcon from "@mui/icons-material/Task";
 import DescriptionModal from "../../components/modal/DescriptionModal";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-
 const rowsPerPage = 6;
 
 const severityColors = {
@@ -126,6 +125,7 @@ export default function TaskTable() {
             WorkHours: data.WorkHours,
             Severity: data.Severity,
             Description: data.Description,
+            Date: data.Date,
           };
         }
         return task;
@@ -139,6 +139,7 @@ export default function TaskTable() {
         WorkHours: data.WorkHours,
         Severity: data.Severity,
         Description: data.Description,
+        Date: data.Date,
       };
       setTasks([...tasks, newTask]);
       setShowTaskForm(false);
@@ -271,6 +272,15 @@ export default function TaskTable() {
                             fontWeight="bold"
                             sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
                           >
+                            Date
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            sx={{ fontFamily: FONT_FAMILY, color: "#FFFFFF" }}
+                          >
                             Actions
                           </Typography>
                         </TableCell>
@@ -313,14 +323,26 @@ export default function TaskTable() {
                             />
                           </TableCell>
                           <TableCell align="center">
-                          <Button
-                            variant="text"
-                            color="primary"
-                            startIcon={<VisibilityIcon />}
-                            onClick={() => handleViewDescription(task.Description)}
-                          >
-                            Show Description
-                          </Button>
+                            <Button
+                              variant="text"
+                              color="primary"
+                              startIcon={<VisibilityIcon />}
+                              onClick={() => handleViewDescription(task.Description)}
+                            >
+                              Show Description
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Typography
+                              variant="body1"
+                              sx={{ fontFamily: FONT_FAMILY, fontWeight: "bold" }}
+                            >
+                              {new Date(task.Date).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })}
+                            </Typography>
                           </TableCell>
                           <TableCell align="center">
                             <Box sx={{ display: "flex", justifyContent: "center" }}>
