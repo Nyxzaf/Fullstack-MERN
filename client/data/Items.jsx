@@ -28,7 +28,7 @@ export const ITEM = [
     {
         Title:"Tables",
         SubTitle:"General Table" ,
-        content:"Here in the general table, all the qualities of the employees are observed.",
+        content:"Here you'll find all the information about employees and their tasks.",
         Icon: <TableViewIcon/>, Path:"/tables"
     },      
     {

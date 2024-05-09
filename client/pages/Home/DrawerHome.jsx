@@ -14,7 +14,7 @@ const DrawerHome = () => {
                 sx={{
                     '& .MuiPaper-root': { 
                         bgcolor: '', 
-                        width: '200px'
+                        width: '185px'
                     }
                 }}
                 >

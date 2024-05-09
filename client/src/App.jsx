@@ -6,6 +6,7 @@ import Header from '../components/header/Header'
 import EmployeeData from '../pages/employeeData/EmployeeData';
 import Calendar from '../pages/calendar/calendar'
 import { EmployeeContext } from '../context/EmployeeContext'
+import GeneralTable from '../pages/generalTable/GeneralTable';
 
 function App() {
 
@@ -26,6 +27,10 @@ function App() {
             <Route
             path='/task'
             element={<Task/>}
+            />
+            <Route
+            path='/tables'
+            element={<GeneralTable/>}
             />
             <Route
             path='/calendar'

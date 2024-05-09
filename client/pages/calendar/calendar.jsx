@@ -33,7 +33,7 @@ export default function calendar() {
 
 
     return (
-    <Box width={{xl:'86.9vw',lg:"86.9vw",xs:"99vw"}} height={"100vh"} ml={{xl:25,lg:25, md:0, xs:0}} py={0.5}>
+    <Box width={{xl:'88vw',lg:"88vw",xs:"96vw"}} height={"100vh"} ml={{xl:23,lg:23, md:0, xs:0}} py={0.5}>
         <Calendar
         localizer={localizer}
         events={events}

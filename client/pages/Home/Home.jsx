@@ -9,14 +9,28 @@ import { FONT_FAMILY } from '../../assets/fonts/FontFamily'
 
 const Home = () => {
     return (
-            <Grid container spacing={3} pl={{xl:32,lg:32, md:5, xs:5}} pr={5} width={'calc(100% )'} >
-                <Grid item xl={12} xs={12} my={2}>
-                    <Typography variant="h2" fontFamily={FONT_FAMILY}>Home</Typography>
-                </Grid> 
+            <Grid container spacing={3} pl={{xl:26,lg:26, md:1, xs:1}}>
+                <Grid item xl={12} xs={12} mb={2} bgcolor={"#339194"}>
+                    <Typography 
+                    variant="h2"
+                    fontFamily={FONT_FAMILY}
+                    color={"#FFFFFF"}
+                    fontWeight={"bold"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    >
+                        Home
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} mb={4}>
+                    <Typography variant="h5" fontFamily={FONT_FAMILY}>
+                        welcome to the call application                     
+                    </Typography>
+                </Grid>  
                 {
                     ITEM.slice(1).map((item)=>{
                         return(
-                            <Grid item xl={6} xs={12} sm={6} key={item.Title}>  
+                            <Grid item xl={5} xs={12} sm={5} ml={{xl:6,xs:1}} mb={4} key={item.Title}>  
                                 <Card>
                                     <CardActionArea href={item.Path}>
                                     <CardContent>
