@@ -1,7 +1,6 @@
-import { useState } from "react";
 import {
   Grid,
-  Button, 
+  Button,
   TextField,
   InputLabel,
   FormControlLabel,
@@ -39,103 +38,105 @@ const validationSchema = Yup.object({
 
 function DataForm({ onSave, onClose }) {
   const { createEmployee } = UseEmployee();
-  const [isOpen, setIsOpen] = useState(true);
 
-  const handleSubmit = async (values, actions) => {
-    try {
-      await onSave(values);
-      actions.setSubmitting(false);
-      setIsOpen(false);
-      await createEmployee(values);
-    } catch (error) {
-      console.error("Error saving form:", error);
-      actions.setSubmitting(false);
-    }
+  const handleSubmit = (values, actions) => {
+    createEmployee(
+      values,
+      () => {
+        actions.setSubmitting(false);
+        onSave();
+      },
+      (error) => {
+        console.error("Error saving form:", error);
+        actions.setSubmitting(false);
+      }
+    );
   };
 
   const handleClose = () => {
-    setIsOpen(false);
     onClose(true);
   };
 
   return (
     <>
-      {isOpen && (
-        <Grid container spacing={2} justifyContent="center" p={4}>
-          <Grid item xs={12} >
-            <Formik
-              enableReinitialize
-              initialValues={{
-                DNI: "",
-                Name: "",
-                LastName: "",
-                DateOfBirth: "",
-                Phone: "",
-                Email: "",
-                Salary: "",
-                Position: "",
-                Active: true,
-              }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, setFieldValue , values }) => (
-                <Form>
-                  <Grid container spacing={2}>
-                    {FORM_ITEM.map((item) => {
-                      return (
-                        <Grid item xs={12} xl={item.grid} key={item.Title}>
-                          <InputLabel sx={{ fontWeight: "bold" }}>
-                            {item.Title}
-                          </InputLabel>
-                          <Field
-                            as={TextField}
-                            label={item.Title}
-                            name={item.Name}
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            type={item.Type}
-                            margin="normal"
-                            InputProps={{ style: { backgroundColor: "white" } }}
-                            error={touched[item.Name] && !!errors[item.Name]}
-                            helperText={touched[item.Name] && errors[item.Name]}
-                          />
-                        </Grid>
-                      );
-                    })}
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        control={
-                          <Switch name="Active" color="primary" checked={values.Active} />
-                        }
-                        label="active"
-                        labelPlacement="end"
-                        onChange={(event) =>
-                          setFieldValue("Active", event.target.checked)
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} xl={10}>
-                      <Button variant="contained" color="primary" type="submit">
-                        Save and Submit
-                      </Button>
-                    </Grid>
-                    <Grid item xl={2}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                    </Grid>
+      <Grid container spacing={2} justifyContent="center" p={4}>
+        <Grid item xs={12}>
+          <Formik
+            enableReinitialize
+            initialValues={{
+              DNI: "",
+              Name: "",
+              LastName: "",
+              DateOfBirth: "",
+              Phone: "",
+              Email: "",
+              Salary: "",
+              Position: "",
+              Active: true,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, setFieldValue, values }) => (
+              <Form>
+                <Grid container spacing={2}>
+                  {FORM_ITEM.map((item) => {
+                    return (
+                      <Grid item xs={12} xl={item.grid} key={item.Title}>
+                        <InputLabel sx={{ fontWeight: "bold" }}>
+                          {item.Title}
+                        </InputLabel>
+                        <Field
+                          as={TextField}
+                          label={item.Title}
+                          name={item.Name}
+                          fullWidth
+                          InputLabelProps={{ shrink: true }}
+                          type={item.Type}
+                          margin="normal"
+                          InputProps={{ style: { backgroundColor: "white" } }}
+                          error={touched[item.Name] && !!errors[item.Name]}
+                          helperText={touched[item.Name] && errors[item.Name]}
+                        />
+                      </Grid>
+                    );
+                  })}
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          name="Active"
+                          color="primary"
+                          checked={values.Active}
+                        />
+                      }
+                      label="active"
+                      labelPlacement="end"
+                      onChange={(event) =>
+                        setFieldValue("Active", event.target.checked)
+                      }
+                    />
                   </Grid>
-                </Form>
-              )}
-            </Formik>
-          </Grid>
+                  <Grid item xs={12} xl={10}>
+                    <Button variant="contained" color="primary" type="submit">
+                      Save and Submit
+                    </Button>
+                  </Grid>
+                  <Grid item xl={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleClose}
+                    >
+                      Close
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Form>
+            )}
+          </Formik>
         </Grid>
-      )}
+      </Grid>
     </>
   );
 }

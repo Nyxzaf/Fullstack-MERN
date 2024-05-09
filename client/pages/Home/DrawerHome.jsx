@@ -11,6 +11,7 @@ import {
 import { IMG_1 } from "../../assets/img/images";
 import { ITEM } from "../../data/Items";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const DrawerHome = ({ children }) => {
   return (
@@ -31,9 +32,9 @@ const DrawerHome = ({ children }) => {
         }}
       >
         <Toolbar>
-          <a href="/">
+          <Link to="/">
             <img src={IMG_1} width={"100%"} />
-          </a>
+          </Link>
         </Toolbar>
         <Divider />
         {ITEM.map((item) => {
@@ -44,7 +45,11 @@ const DrawerHome = ({ children }) => {
                 <Typography pl={2} color="#154360" fontWeight={"bold"}>
                   {item.Title}
                 </Typography>
-                <ListItemButton style={{ color: "#154360" }} href={item.Path}>
+                <ListItemButton
+                  component={Link}
+                  style={{ color: "#154360" }}
+                  to={item.Path}
+                >
                   {item.Icon}
                   <ListItemText sx={{ alignText: "center", pl: 2 }}>
                     {item.SubTitle}

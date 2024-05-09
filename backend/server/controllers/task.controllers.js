@@ -11,6 +11,15 @@ export const getTasks = async (req, res) => {
   }
 };
 
+export const getTasksByEmployeeId = async (req, res) => {
+  try {
+    const tasks = await Task.find({ EmployeeId: req.params.id });
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send("error");
+  }
+}
+
 export const getTaskById = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);

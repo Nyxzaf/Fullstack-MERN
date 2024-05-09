@@ -1,45 +1,46 @@
 import { Box } from "@mui/material";
-import { Calendar , dayjsLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css"
-import dayjs  from 'dayjs'
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import '../../css/calendar.css'
+import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import dayjs from "dayjs";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import "../../css/calendar.css";
 
-export default function calendar() {
+export default function Calendar() {
+  const localizer = dayjsLocalizer(dayjs);
+  const events = [
+    {
+      start: dayjs(`2024-05-07T12:00:00`).toDate(),
+      end: dayjs(`2024-05-07T13:00:00`).toDate(),
+      title: "Task 1",
+    },
+    {
+      start: dayjs(`2024-05-07T13:00:00`).toDate(),
+      end: dayjs(`2024-05-07T14:00:00`).toDate(),
+      title: "Task 1",
+    },
+  ];
+  const components = {
+    event: (Props) => {
+      return (
+        <Box display={"flex"}>
+          <PlaylistAddCheckIcon />
+          {Props.title}
+        </Box>
+      );
+    },
+  };
 
-    const localizer = dayjsLocalizer(dayjs)
-    const events = [
-        {
-            start: dayjs(`2024-05-07T12:00:00`).toDate(),
-            end: dayjs(`2024-05-07T13:00:00`).toDate(),
-            title:"Task 1",
-        },
-        {
-            start: dayjs(`2024-05-07T13:00:00`).toDate(),
-            end: dayjs(`2024-05-07T14:00:00`).toDate(),
-            title:"Task 1",
-        }
-    ]
-    const components = {
-        event: Props => {
-            return (
-                <Box display={"flex"}>
-                    <PlaylistAddCheckIcon/>
-                    {Props.title}
-                </Box>
-            )   
-        }
-    }
-
-
-    return (
-    <Box width={{xl:'88vw',lg:"88vw",xs:"96vw"}} height={"100vh"} ml={{xl:23,lg:23, md:0, xs:0}} py={0.5}>
-        <Calendar
+  return (
+    <Box
+    p={3}
+      height={"100vh"}
+    >
+      <BigCalendar
         localizer={localizer}
         events={events}
-        views={["month","day"]}
-        components={components}     
-        />
+        views={["month", "day"]}
+        components={components}
+      />
     </Box>
-    );
+  );
 }
