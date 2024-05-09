@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { ITEM } from "../../data/Items";
-import { COLOR } from "../../assets/color/colors";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import { COLOR } from "../../assets/color/colors.js";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import Title from "../../components/header/Title";
 
 const Home = () => {

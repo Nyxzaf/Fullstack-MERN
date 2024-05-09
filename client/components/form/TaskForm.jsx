@@ -11,7 +11,7 @@ import {
   Container,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';

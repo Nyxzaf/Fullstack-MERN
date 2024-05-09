@@ -1,4 +1,5 @@
 import { Typography, Box, Dialog, Button } from "@mui/material";
+import PropTypes from 'prop-types';
 
 const DescriptionModal = ({ open, description, onClose }) => {
   return (
@@ -19,5 +20,19 @@ const DescriptionModal = ({ open, description, onClose }) => {
     </Dialog>
   );
 };
+DescriptionModal.propTypes = {
+  open:PropTypes.func,
+  description:PropTypes.func,
+  onClose:PropTypes.func
+};
 
 export default DescriptionModal;
+
+
+
+
+
+
+
+
+

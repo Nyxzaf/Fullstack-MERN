@@ -19,7 +19,7 @@ import {
 import DatasetIcon from "@mui/icons-material/Dataset";
 import DataForm from "../../components/form/DataForm";
 import DataFormEdit from "../../components/form/DataFormEdit";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import { FORM_ITEM } from "../../data/Items";
 import { UseEmployee } from "../../context/EmployeeContext";
 import Alert from "../../components/alerts/Alert";

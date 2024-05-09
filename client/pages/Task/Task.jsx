@@ -27,7 +27,7 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import TaskIcon from "@mui/icons-material/Task";
 import DescriptionModal from "../../components/modal/DescriptionModal";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
+import { COLOR_2 } from '../../assets/color/colors.js'
 const rowsPerPage = 6;
 
 const severityColors = {
@@ -157,8 +157,8 @@ export default function TaskTable() {
   };
 
   return (
-    <Box sx={{ width: "calc( 100% )" }} pl={{ xl: 32, lg: 32, md: 5, xs: 2 }}>
-      <Grid container spacing={7} bgcolor={"#339194"}>
+    <Box>
+      <Grid container spacing={7} bgcolor={COLOR_2}>
         <Grid item xl={12} mt={1}>
           <Typography
             variant="h2"

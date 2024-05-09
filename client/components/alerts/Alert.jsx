@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import WarningIcon from "@mui/icons-material/Warning";
 import PropTypes from 'prop-types'
 

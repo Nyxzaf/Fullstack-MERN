@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import PropTypes from "prop-types";
 
 const Title = ({ title, Icon }) => {
@@ -25,7 +25,7 @@ const Title = ({ title, Icon }) => {
 
 Title.propTypes = {
   title: PropTypes.string.isRequired,
-  Icon: PropTypes.element,
+  Icon: PropTypes.object,
 };
 
 export default Title;

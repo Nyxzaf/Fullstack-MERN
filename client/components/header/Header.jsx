@@ -1,8 +1,8 @@
 import { AppBar, Box, Stack, Toolbar, Typography } from "@mui/material";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
-import { COLOR } from "../../assets/color/colors";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
+import { COLOR } from "../../assets/color/colors.js";
 import MenuHeader from "../../components/header/MenuHeader";
-import { IMG_1 } from "../../assets/img/images";
+import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items";
 import { Link } from "react-router-dom";
 

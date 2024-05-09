@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { IMG_1 } from "../../assets/img/images";
+import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";

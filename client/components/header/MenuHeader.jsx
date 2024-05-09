@@ -1,7 +1,7 @@
 import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
-import { IMG_1 } from "../../assets/img/images";
+import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items";
 
 

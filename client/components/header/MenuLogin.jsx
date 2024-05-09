@@ -1,7 +1,7 @@
 import { PersonAdd , Settings , Logout} from '@mui/icons-material';
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem , Tooltip, IconButton, Box } from '@mui/material'
 import { useState } from 'react';
-import { IMG_2 } from '../../assets/img/images';
+import { IMG_2 } from '../../assets/img/images.js';
 
 const MenuLogin= () => {
     const [anchorEl, setAnchorEl] = useState();
