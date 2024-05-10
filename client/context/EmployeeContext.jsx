@@ -16,6 +16,7 @@ export const UseEmployee = () => {
 };
 
 export const EmployeeContext = ({ children }) => {
+  
   const [Employees, setEmployees] = useState([]);
 
   const getEmployees = (onSuccess, onError) => {
@@ -32,6 +33,7 @@ export const EmployeeContext = ({ children }) => {
       .then((res) => {
         setEmployees([...Employees, res.data]);
         onSuccess && onSuccess(res.data);
+        console.log(res.data);
       })
       .catch(onError);
   };
@@ -59,7 +61,7 @@ export const EmployeeContext = ({ children }) => {
   };
 
   const getEmployee = (id) => {
-    return getEmployeeRequest(id).then((res) => res.data);
+    return getEmployeeRequest(id).then((res) =>res.data);
   };
 
   useEffect(() => {

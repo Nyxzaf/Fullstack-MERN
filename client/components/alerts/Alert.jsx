@@ -11,7 +11,7 @@ import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import WarningIcon from "@mui/icons-material/Warning";
 import PropTypes from 'prop-types'
 
-export default function Alert({ open, onClose, onConfirm }) {
+export default function Alert({ dialog ,  open, onClose, onConfirm }) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
@@ -25,7 +25,7 @@ export default function Alert({ open, onClose, onConfirm }) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText fontFamily={FONT_FAMILY}>
-          Are you sure you want to eliminate this task?
+          {dialog}
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ pr: 2, pb: 2 }}>
@@ -42,7 +42,8 @@ export default function Alert({ open, onClose, onConfirm }) {
 Alert.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired
+  onConfirm: PropTypes.func.isRequired,
+  dialog:PropTypes.string.isRequired
 };
 
 

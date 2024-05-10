@@ -380,6 +380,7 @@ export default function TaskTable() {
         />
       </Dialog>
       <Alert
+        dialog="Are you sure you want to eliminate this task?"
         open={showAlert}
         onClose={() => setShowAlert(false)}
         onConfirm={handleConfirmDelete}

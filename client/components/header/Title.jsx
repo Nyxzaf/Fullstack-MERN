@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 
 const Title = ({ title, Icon }) => {
   return (
-    <Box component="header" bgcolor={"#339194"}>
+    <Box component="header" py={1} bgcolor={"#339194"}>
       <Container>
         <Typography
           py={1}
-          variant="h4"
+          variant="h3"
           fontFamily={FONT_FAMILY}
           color={"#FFFFFF"}
           fontWeight={"bold"}

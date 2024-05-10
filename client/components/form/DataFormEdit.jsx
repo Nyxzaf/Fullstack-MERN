@@ -47,6 +47,7 @@ function DataFormEdit({ onSave, onClose, employee }) {
       () => {
         actions.setSubmitting(false);
         onSave();
+        onClose()
       },
       (error) => {
         console.error("Error saving form:", error);

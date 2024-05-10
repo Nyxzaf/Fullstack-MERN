@@ -45,6 +45,7 @@ function DataForm({ onSave, onClose }) {
       () => {
         actions.setSubmitting(false);
         onSave();
+        onClose()
       },
       (error) => {
         console.error("Error saving form:", error);

@@ -20,13 +20,16 @@ import DatasetIcon from "@mui/icons-material/Dataset";
 import DataForm from "../../components/form/DataForm";
 import DataFormEdit from "../../components/form/DataFormEdit";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
-import { FORM_ITEM } from "../../data/Items";
+import { TABLE_CELL} from "../../data/Items";
 import { UseEmployee } from "../../context/EmployeeContext";
+import SearchIcon from '@mui/icons-material/Search';
+import SendIcon from "@mui/icons-material/Send";
 import Alert from "../../components/alerts/Alert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import Title from "../../components/header/Title";
+import { useNavigate } from "react-router-dom";
 
 const rowsPerPage = 5;
 
@@ -38,6 +41,7 @@ function EmployeeData() {
   const [showAlert, setShowAlert] = useState(false);
   const [currentEmployee, setCurrentEmployee] = useState();
   const { Employees, deleteEmployee, getEmployee } = UseEmployee();
+  const navigate = useNavigate();
 
   const handleAddData = () => {
     setShowDataForm(true);
@@ -63,8 +67,8 @@ function EmployeeData() {
   };
 
   const handleSaveData = () => {
-    setShowDataForm(false);
     setSelectedEmployeeId([]);
+    setShowDataForm(false);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -94,24 +98,30 @@ function EmployeeData() {
   return (
     <>
       <Title title="Employee Data" Icon={DatasetIcon} />
-      <Container component="section" sx={{ my: 2 }}>
+      <Container component="section" >
         <Typography
-          fontSize={22}
-          ml={2}
+          fontSize={25}
+          mt={2}
           variant="body2"
           fontFamily={FONT_FAMILY}
         >
           Here you will place the employee information into the database.
         </Typography>
         <Grid container spacing={4}>
-          <Grid item xl={12} xs={12}></Grid>
           <Grid item xl={12} xs={12}>
-            <Button onClick={handleAddData}>Add New Employee</Button>
+            <Button 
+            onClick={handleAddData}
+            variant="outlined"
+            endIcon={<SendIcon />}
+            sx={{my:2}}
+            >
+              Add New Employee
+            </Button>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#339194" }}>
-                    {FORM_ITEM.map((item) => (
+                    {TABLE_CELL.map((item) => (
                       <TableCell key={item.id} sx={{ textAlign: "left" }}>
                         <Typography
                           variant="subtitle1"
@@ -155,7 +165,7 @@ function EmployeeData() {
                       hover
                       onClick={() => handleSelectData(employee._id)}
                     >
-                      {FORM_ITEM.map((item) => (
+                      {TABLE_CELL.map((item) => (
                         <TableCell key={item.id} sx={{ textAlign: "left" }}>
                           <Typography
                             variant="body1"
@@ -176,7 +186,7 @@ function EmployeeData() {
                         <Box
                           sx={{
                             width: 15,
-                            height: 15,
+                            height: 15, 
                             borderRadius: "50%",
                             backgroundColor: employee.Active ? "green" : "red",
                           }}
@@ -184,6 +194,11 @@ function EmployeeData() {
                       </TableCell>
                       <TableCell align="center">
                         <Box sx={{ display: "flex", justifyContent: "center" }}>
+                          <IconButton
+                          onClick={()=> navigate(`/infoPage/${employee._id}`)}
+                          >
+                          <SearchIcon/>
+                          </IconButton>
                           <IconButton
                             onClick={() => handleEditData(employee._id)}
                           >
@@ -212,7 +227,10 @@ function EmployeeData() {
           </Grid>
         </Grid>
         <Dialog open={showDataForm} onClose={handleCloseDataForm}>
-          <DataForm onSave={handleSaveData} onClose={handleCloseDataForm} />
+          <DataForm 
+          onSave={handleSaveData} 
+          onClose={handleCloseDataForm} 
+          />
         </Dialog>
         <Dialog open={showDataFormEdit} onClose={handleCloseDataFormEdit}>
           <DataFormEdit
@@ -222,6 +240,7 @@ function EmployeeData() {
           />
         </Dialog>
         <Alert
+          dialog="Are you sure you want to eliminate this employee?"
           open={showAlert}
           onClose={() => setShowAlert(false)}
           onConfirm={handleConfirmDelete}
