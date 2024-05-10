@@ -33,44 +33,40 @@ export const getTaskById = async (req, res) => {
 };
 
 export const createTask = async (req, res) => {
-  const task = new Task({
-    EmployeeId: req.body.EmployeeId,
-    Title: req.body.Title,
-    Description: req.body.Description,
-    Severity: req.body.Severity,
-    WorkHours: req.body.WorkHours
-  });
   try {
-    const newTask = await task.save();
-    res.status(201).send(newTask);
+    const Createtask = new Task(req.body);
+    await Createtask.save();
+    return res.json(Createtask)
   } catch (err) {
-    res.status(400).send("error");
+    console.log(err)
+    return res.status(500).send("error");
   }
 };
 
 export const updateTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    if (!task) {
-      return res.status(404).send("error");
-    }
-    Object.assign(task, req.body);
-    const updatedTask = await task.save();
-    res.json(updatedTask);
+    const UpdateTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new:true,
+      }
+    );
+
+      return res.send(UpdateTask);
   } catch (err) {
-    res.status(400).send("error");
+    console.log(err);
+     return res.status(500).send("error");
   }
 };
 
 export const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    if (!task) {
-      return res.status(404).send("error");
-    }
-    await task.remove();
-    res.send("error");
+    const TaskRemoved = await Task.findById(req.params.id);
+    if (!TaskRemoved) return res.sendstatus(404);
+      return res.sendStatus(204)
   } catch (err) {
-    res.status(500).send("error");
+    console.log(err)
+    return res.status(500).send("error");
   }
 };

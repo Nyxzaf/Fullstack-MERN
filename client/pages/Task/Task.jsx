@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState} from "react";
 import {
   Grid,
   Button,
@@ -48,19 +47,6 @@ export default function TaskTable() {
   });
   const [selectedDescription, setSelectedDescription] = useState("");
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
-
-  useEffect(() => {
-    getTasks();
-  }, []);
-
-  const getTasks = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/task");
-      setTasks(response.data);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
 
   const handleAddTask = () => {
     setShowTaskForm(true);
