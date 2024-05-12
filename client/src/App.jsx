@@ -7,6 +7,7 @@ import EmployeeData from "../pages/employeeData/EmployeeData";
 import Calendar from "../pages/calendar/Calendar";
 import { EmployeeContext } from "../context/EmployeeContext";
 import InformationPage from "../pages/infoEmployee/InformationPage";
+import TaskDragAndDrop from "../pages/task/TaskDragAndDrop";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                   }
                   />
               <Route path="/task" element={<Task />} />
+              <Route path="/task2" element={<TaskDragAndDrop />} />
               <Route path="/infoPage/:id" element={<InformationPage/>} />
               <Route path="/calendar" element={<Calendar />} />
             </Routes>

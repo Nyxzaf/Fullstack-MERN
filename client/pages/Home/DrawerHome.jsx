@@ -12,6 +12,7 @@ import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { COLOR } from "../../assets/color/colors.js";
 
 const DrawerHome = ({ children }) => {
   return (
@@ -23,7 +24,6 @@ const DrawerHome = ({ children }) => {
           display: { xs: "none", lg: "block" },
           width: "185px",
           "& .MuiPaper-root": {
-            bgcolor: "",
             position: "relative",
             height: "100vh",
             maxHeight: "100%",
@@ -42,12 +42,12 @@ const DrawerHome = ({ children }) => {
             <Box key={item.Title}>
               <Divider />
               <List>
-                <Typography pl={2} color="#154360" fontWeight={"bold"}>
+                <Typography pl={2} color={COLOR} fontWeight={"bold"}>
                   {item.Title}
                 </Typography>
                 <ListItemButton
                   component={Link}
-                  style={{ color: "#154360" }}
+                  style={{ color: {COLOR} }}
                   to={item.Path}
                 >
                   {item.Icon}
@@ -66,7 +66,6 @@ const DrawerHome = ({ children }) => {
           width: { xs: "100%", lg: "calc(100% - 185px)" },
           maxHeight: "100vh",
           overflowY: "auto",
-          bgcolor: "#f9fafc",
         }}
       >
         {children}

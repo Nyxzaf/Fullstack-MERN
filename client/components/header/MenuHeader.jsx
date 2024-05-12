@@ -3,13 +3,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
 import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items";
+import { Link } from "react-router-dom";
 
 
 
 const MenuHeader = () => {
 
     const [Open, setOpen] = useState(false);
-
 
     return (
         <Box>   
@@ -33,7 +33,7 @@ const MenuHeader = () => {
                         ITEM.map((list)=>{
                             return(
                                 <ListItem key={list.Title} disablePadding sx={{my:1}}>
-                                    <ListItemButton sx={{flexDirection:"column"}} href={list.Path}>
+                                    <ListItemButton sx={{flexDirection:"column"}} component={Link} to={list.Path}>
                                         <ListItemIcon sx={{justifyContent:"center"}} >
                                             {list.Icon}
                                         </ListItemIcon>

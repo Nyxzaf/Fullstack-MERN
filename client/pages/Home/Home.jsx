@@ -11,6 +11,7 @@ import { ITEM } from "../../data/Items";
 import { COLOR } from "../../assets/color/colors.js";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import Title from "../../components/header/Title";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -25,7 +26,7 @@ const Home = () => {
             return (
               <Grid item xs={12} md={6} mb={2} key={item.Title}>
                 <Card elevation={1}>
-                  <CardActionArea href={item.Path}>
+                  <CardActionArea component={Link} to={item.Path}>
                     <CardContent>
                       <Typography
                         sx={{ fontSize: 14 }}
