@@ -23,9 +23,7 @@ export default function TaskDragAndDrop() {
         const newIndex = people.findIndex(person => person.id === over.id)
         const newOrder = arrayMove(people , oldIndex ,newIndex)
         setPeople(newOrder);
-
     }
-
 
   return (
     <>
