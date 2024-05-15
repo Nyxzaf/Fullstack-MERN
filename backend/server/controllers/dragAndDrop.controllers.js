@@ -1,10 +1,10 @@
 
-import Task from "../models/task.js";
-
+import DragDrops from "../models/dragAndDrop.js";
+import Employee from "../models/employee.js";
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await DragDrops.find();
     res.send(tasks);
   } catch (err) {
     res.status(500).send("error");
@@ -13,7 +13,7 @@ export const getTasks = async (req, res) => {
 
 export const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await DragDrops.findById(req.params.id);
     if (!task) {
       return res.status(404).send("error");
     }
@@ -25,7 +25,7 @@ export const getTaskById = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    const Createtask = new Task(req.body);
+    const Createtask = new DragDrops(req.body);
     await Createtask.save();
     return res.json(Createtask)
   } catch (err) {
@@ -36,7 +36,7 @@ export const createTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
   try {
-    const UpdateTask = await Task.findByIdAndUpdate(
+    const UpdateTask = await DragDrops.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
@@ -54,7 +54,7 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
-    const result = await Task.deleteOne({ _id: taskId });
+    const result = await DragDrops.deleteOne({ _id: taskId });
     if (result.deletedCount === 0) {
       return res.sendStatus(404); 
     }
@@ -65,3 +65,12 @@ export const deleteTask = async (req, res) => {
   }
 };
 
+export const getNameEmployee = async (req, res) => {
+    try {
+      const activeEmployees = await Employee.distinct("Name", { Active: true });
+      res.send(activeEmployees);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error al obtener los nombres de los empleados");
+    }
+  };

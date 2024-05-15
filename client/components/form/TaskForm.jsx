@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 
+
 const validationSchema = Yup.object({
   Title: Yup.string().required("Title is required"),
   WorkHours: Yup.number()
@@ -156,6 +157,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   name="Date"
+                  sx={{backgroundColor:"white"}}
                   value={initialValues.Date}
                   onChange={(date) => {
                     setFieldValue("Date", date);

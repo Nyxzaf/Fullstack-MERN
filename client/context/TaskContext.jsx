@@ -1,6 +1,12 @@
 import { createContext , useContext, useState ,useEffect } from "react";
 import PropTypes from 'prop-types'
-import { createTaskRequest, deleteTaskRequest, getTaskRequest, getTasksRequest, updateTaskRequest } from "../api/TaskApi";
+import { 
+    createTaskRequest,
+    deleteTaskRequest,
+    getTaskRequest,
+    getTasksRequest,
+    updateTaskRequest 
+} from "../api/TaskApi";
 
 
 const Context = createContext()
@@ -10,40 +16,70 @@ export const UseTask = ()=> {
     return context
 }
 // Task
+
 export const TaskContext = ( { children }) => {
     const [Task, setTask] = useState([]);
 
-const getTasks = async() =>{
-    const res = await getTasksRequest()
-    setTask(res.data);
+const getTasks = (onSuccess, onError) => {
+    getTasksRequest()
+    .then((res) => {
+        setTask(res.data);
+        onSuccess && onSuccess(res.data);
+    })
+    .catch(onError)
 }
 
-const createTask = async (task) => {
-    const res = await createTaskRequest(task)
-    setTask([...Task,res.data]);
-    }
+const createTask =  (task, onSuccess, onError) => {
+    return createTaskRequest(task)
+    .then((res) => {
+        setTask([...Task, res.data]);
+        onSuccess && onSuccess(res.data);
+    })
+    .catch(onError);
+};
 
-const deleteTask = async (id) => {
-    await deleteTaskRequest(id);
-setTask(Task.filter(task => task._id !== id));
-}
+const deleteTask =  (id, onSuccess, onError) => {
+    deleteTaskRequest(id)
+    .then(() => {
+        setTask(Task.filter((task) => task._id !== id));
+        onSuccess && onSuccess();
+    })
+    .catch(onError);
+  };
 
-const updateTask = async (id, task)=>{
-    const res = await updateTaskRequest(id,task)
-    setTask(Task.map(task => task._id == id ? res.data : task))
-}
+const updateTask = (id, task, onSuccess, onError) => {
+    updateTaskRequest(id,task)
+        .then((res) => {
+         setTask(
+          Task.map((task) =>
+            task._id == id ? res.data : task
+          )
+         );
+         onSuccess && onSuccess(res.data);
+        })
+        .catch(onError);
+};
 
-const getTask = async (id) =>{
-    const res = await getTaskRequest(id)
-    return res.data
-}
+const getTask =  (id) => {
+    return getTaskRequest(id).then((res) => res.data);
+};
 
 useEffect(() => {
     getTasks()
 }, []);
 
 return (
-    <Context.Provider value={{ Task, setTask , getTasks , createTask ,deleteTask , getTask , updateTask }}>
+    <Context.Provider 
+    value={{ 
+        Task, 
+        setTask, 
+        getTasks, 
+        createTask,
+        deleteTask, 
+        getTask, 
+        updateTask 
+        }}
+    >
         {children}
     </Context.Provider>
 )}

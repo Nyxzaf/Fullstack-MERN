@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Button,
@@ -16,17 +16,19 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
-import TaskForm from "../../components/form/TaskForm";
-import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
-import Alert from "../../components/alerts/Alert";
+import TaskForm from "../../components/form/TaskForm.jsx";
+import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
+import Alert from "../../components/alerts/Alert.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import TaskIcon from "@mui/icons-material/Task";
-import DescriptionModal from "../../components/modal/DescriptionModal";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { COLOR_2 } from '../../assets/color/colors.js'
+import DescriptionModal from "../../components/modal/DescriptionModal.jsx";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { COLOR_2 } from "../../assets/color/colors.js";
+import { UseTask } from "../../context/TaskContext.jsx";
+
 const rowsPerPage = 6;
 
 const severityColors = {
@@ -37,7 +39,7 @@ const severityColors = {
 };
 
 export default function TaskTable() {
-  const [tasks, setTasks] = useState([]);
+  const { Task, getTasks, createTask, deleteTask, updateTask } = UseTask();
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [tableState, setTableState] = useState({
@@ -48,6 +50,10 @@ export default function TaskTable() {
   const [selectedDescription, setSelectedDescription] = useState("");
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
+  useEffect(() => {
+    getTasks();
+  }, []);
+
   const handleAddTask = () => {
     setShowTaskForm(true);
     setTableState((prev) => ({
@@ -57,7 +63,7 @@ export default function TaskTable() {
   };
 
   const handleEditTask = (taskId) => {
-    const taskToEdit = tasks.find((task) => task.id === taskId);
+    const taskToEdit = Task.find((task) => task._id === taskId);
     setTableState((prev) => ({
       ...prev,
       selectedTask: taskToEdit,
@@ -73,16 +79,13 @@ export default function TaskTable() {
     setShowAlert(true);
   };
 
-  const handleConfirmDelete = () => {
-    const updatedTasks = tasks.filter(
-      (task) => !tableState.selectedTaskIds.includes(task.id)
-    );
-    setTasks(updatedTasks);
-    setTableState((prev) => ({
-      ...prev,
-      selectedTaskIds: [],
-    }));
-    setShowAlert(false);
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteTask(tableState.selectedTaskIds[0]); 
+      setShowAlert(false); 
+    } catch (error) {
+      console.error("Error al eliminar la tarea:", error);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -103,31 +106,10 @@ export default function TaskTable() {
 
   const handleSaveTask = (data) => {
     if (tableState.selectedTask) {
-      const updatedTasks = tasks.map((task) => {
-        if (task.id === tableState.selectedTask.id) {
-          return {
-            ...task,
-            Title: data.Title,
-            WorkHours: data.WorkHours,
-            Severity: data.Severity,
-            Description: data.Description,
-            Date: data.Date,
-          };
-        }
-        return task;
-      });
-      setTasks(updatedTasks);
+      updateTask(tableState.selectedTask._id, data);
       setShowTaskForm(false);
     } else {
-      const newTask = {
-        id: tasks.length + 1,
-        Title: data.Title,
-        WorkHours: data.WorkHours,
-        Severity: data.Severity,
-        Description: data.Description,
-        Date: data.Date,
-      };
-      setTasks([...tasks, newTask]);
+      createTask(data);
       setShowTaskForm(false);
     }
   };
@@ -168,6 +150,7 @@ export default function TaskTable() {
               container
               spacing={{ xs: 2 }}
               columns={{ xs: 7, sm: 5, md: 12 }}
+              pl={2}
             >
               <Grid item xs={5} mt={15}>
                 <Box
@@ -274,13 +257,13 @@ export default function TaskTable() {
                     </TableHead>
                     <TableBody>
                       {(rowsPerPage > 0
-                        ? tasks.slice(
+                        ? Task.slice(
                             tableState.page * rowsPerPage,
                             tableState.page * rowsPerPage + rowsPerPage
                           )
-                        : tasks
+                        : Task
                       ).map((task) => (
-                        <TableRow key={task.id} hover>
+                        <TableRow key={task._id} hover>
                           <TableCell align="center">
                             <Typography
                               variant="body1"
@@ -332,10 +315,10 @@ export default function TaskTable() {
                           </TableCell>
                           <TableCell align="center">
                             <Box sx={{ display: "flex", justifyContent: "center" }}>
-                              <IconButton onClick={() => handleEditTask(task.id)} sx={{ marginRight: 3 }}>
+                              <IconButton onClick={() => handleEditTask(task._id)} sx={{ marginRight: 3 }}>
                                 <EditIcon />
                               </IconButton>
-                              <IconButton onClick={() => handleDeleteTask(task.id)}>
+                              <IconButton onClick={() => handleDeleteTask(task._id)}>
                                 <DeleteIcon />
                               </IconButton>
                             </Box>
@@ -350,7 +333,7 @@ export default function TaskTable() {
             <TablePagination
               rowsPerPageOptions={[]}
               component="div"
-              count={tasks.length}
+              count={Task.length}
               rowsPerPage={rowsPerPage}
               page={tableState.page}
               onPageChange={handleChangePage}
@@ -379,4 +362,3 @@ export default function TaskTable() {
     </Box>
   );
 }
-
