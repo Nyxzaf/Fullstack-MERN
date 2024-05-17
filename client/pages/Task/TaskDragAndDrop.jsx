@@ -1,33 +1,50 @@
-import { Button, Card , Container, Grid, Paper, Typography } from "@mui/material";
+import { useState } from "react";
+import { DndContext } from "@dnd-kit/core";
+import Droppable from "../../components/card/Droppable";
+import Draggable from "../../components/card/Draggable";
+import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import Title from "../../components/header/Title";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SendIcon from "@mui/icons-material/Send";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
-import { useState } from "react";
-import { DndContext, closestCenter }  from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy , arrayMove } from '@dnd-kit/sortable'
 import CardTask from "../../components/card/CardTask";
-
-export default function TaskDragAndDrop() {
-
-    const [people, setPeople] = useState([
-        {name: "jhon", id:1},
-        {name: "Juan", id:2},
-        {name: "jose", id:3}
-    ]);
+import { STATUS_TASK } from "../../data/ItemsTask";
 
 
-    const handleDrag = (e)=>{
-        const { active , over }= e
-        const oldIndex = people.findIndex(person => person.id === active.id)
-        const newIndex = people.findIndex(person => person.id === over.id)
-        const newOrder = arrayMove(people , oldIndex ,newIndex)
-        setPeople(newOrder);
+
+const initialTasks = [
+{ id: 1, name: "Angelo", type: "Backlog" },
+{ id: 2, name: "Jose", type: "Backlog" },
+{ id: 3, name: "Miguel", type: "Backlog" },
+{ id: 4, name: "Pedro", type: "Backlog" },
+{ id: 5, name: "Angel", type: "Backlog" },
+{ id: 6, name: "Pablo", type: "Backlog" }
+];
+
+const TaskDragAndDrop = () => {
+const [tasks, setTasks] = useState([...initialTasks]);
+const onDragEnd = (event) => {
+const { over, active } = event;
+console.log({ over, active });
+setTasks(
+    tasks.map((item) => {
+    if (item.id === active.id) {
+        return {
+        ...item,
+        type: over.id
+        };
     }
 
-  return (
+    return item;
+    })
+);
+};
+
+const getTasks = (type) => tasks.filter((item) => item.type === type);
+
+return (
     <>
-        <Title title="Task" Icon={PlaylistAddCheckIcon} />
+    <Title title="Task" Icon={PlaylistAddCheckIcon} />
         <Container>
             <Typography variant="h5" my={2}>
                 Here new tasks for employees are added.
@@ -39,52 +56,64 @@ export default function TaskDragAndDrop() {
             >
                 Add New Task
             </Button>
-            <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDrag}
-            >
-                <Grid container spacing={2}>
-                    <Grid item md={4} xs={12} >
-                        <Paper sx={{borderRadius:"20px"}}>
-                            <Typography borderRadius="22px 22px 0px 0px" bgcolor={"Grey"} py={1} fontFamily={FONT_FAMILY} fontSize={30} color={"white"} align="center">
-                                Backlog
+            <DndContext onDragEnd={onDragEnd}>
+            <Grid  container spacing={2}>
+                {STATUS_TASK.map((item) => (
+                <Grid item md={4} xs={12}  key={item}>
+                    <Droppable key={item} id={item}>
+                        <Paper sx={{borderRadius:"20px", minHeight:"400px"}}>
+                            <Typography 
+                            borderRadius="22px 22px 0px 0px" bgcolor={"Grey"}
+                            py={1} 
+                            fontFamily={FONT_FAMILY} 
+                            fontSize={30} 
+                            color={"white"} 
+                            align="center"
+                            >
+                                {item}
                             </Typography>
-                            <SortableContext items={people} strategy={verticalListSortingStrategy}>
-                                <Grid container spacing={1} p={2}>
-                                {people.map((person) =>{
-                                    return(
-                                        <Grid item md={12} xs={6}  key={person.id}>
-                                            <CardTask user={person}/>
-                                        </Grid>
-                                    )
-                                })}
-                                </Grid>
-                            </SortableContext>
+                            <Grid container p={2} spacing={1}>
+                            {getTasks(item).map((task) => (
+                                    <Grid item md={12} xs={6} key={task.id}>
+                                        <Draggable id={task.id}>
+                                            <CardTask user={task} />
+                                        </Draggable>
+                                    </Grid>
+                            ))}
+                            </Grid>
                         </Paper>
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                    <Paper sx={{borderRadius:"20px"}}>
-                        <Typography borderRadius="22px 22px 0px 0px" bgcolor={"yellow"} py={1} fontFamily={FONT_FAMILY} fontSize={30} color={"white"} align="center">
-                            In Progress
-                        </Typography>
-                        <Card>
-                            medium
-                        </Card>
-                    </Paper>
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                    <Paper sx={{borderRadius:"20px"}}>
-                        <Typography borderRadius="22px 22px 0px 0px" bgcolor={"Green"} py={1} fontFamily={FONT_FAMILY} fontSize={30} color={"white"} align="center">
-                            Done
-                        </Typography>
-                        <Card>
-                            Done
-                        </Card>
-                    </Paper>
-                    </Grid>
+                    </Droppable>
                 </Grid>
+                ))}
+            </Grid>
             </DndContext>
-        </Container>
+            </Container>
     </>
-  );
-}
+);
+};
+
+export default TaskDragAndDrop;
+
+
+
+{/* <DndContext
+    collisionDetection={closestCenter}
+    onDragEnd={handleDragEnd}
+>
+    <Grid container spacing={2}>
+        {LIST.map((item) => (
+            <Grid item md={4} xs={12} key={item}>
+                <Paper component={"div"} sx={{ borderRadius: "20px" }} ref={setNodeRef}>
+                    <Typography borderRadius="22px 22px 0px 0px" bgcolor={"Grey"} py={1} fontFamily={FONT_FAMILY} fontSize={30} color={"white"} align="center">
+                        {item}
+                    </Typography>
+                    {getTasks(item).map((item) => (
+                        <Grid item md={12} xs={6} key={item.id}>
+                            <CardTask user={item} />
+                        </Grid>
+                    ))}
+                </Paper>
+            </Grid>
+        ))}
+    </Grid>
+</DndContext> */}

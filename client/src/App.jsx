@@ -9,6 +9,7 @@ import { EmployeeContext } from "../context/EmployeeContext";
 import InformationPage from "../pages/infoEmployee/InformationPage";
 import TaskDragAndDrop from "../pages/task/TaskDragAndDrop";
 
+
 function App() {
   return (
     <>
@@ -17,16 +18,11 @@ function App() {
           <EmployeeContext>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route
-                path="/data"
-                element={
-                    <EmployeeData />
-                  }
-                  />
-              <Route path="/task" element={<Task />} />
-              <Route path="/task2" element={<TaskDragAndDrop />} />
+              <Route path="/data" element={<EmployeeData/>}/>
+              <Route path="/task" element={<Task/>} />
+              <Route path="/task2" element={<TaskDragAndDrop/>} />
               <Route path="/infoPage/:id" element={<InformationPage/>} />
-              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/calendar" element={<Calendar/>} />
             </Routes>
               </EmployeeContext>
       </DrawerHome>

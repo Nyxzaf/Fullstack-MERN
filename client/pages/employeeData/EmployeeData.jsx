@@ -192,8 +192,8 @@ function EmployeeData() {
                           }}
                         />
                       </TableCell>
-                      <TableCell align="center">
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <TableCell>
+                        <Box sx={{ display: "flex", justifyContent: "right" }}>
                           <IconButton
                           onClick={()=> navigate(`/infoPage/${employee._id}`)}
                           >
