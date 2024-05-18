@@ -47,7 +47,7 @@ export const updateTask = async (req, res) => {
       return res.send(UpdateTask);
   } catch (err) {
     console.log(err);
-     return res.status(500).send("error");
+    return res.status(500).send("error");
   }
 };
 
@@ -71,6 +71,6 @@ export const getNameEmployee = async (req, res) => {
       res.send(activeEmployees);
     } catch (err) {
       console.error(err);
-      res.status(500).send("Error al obtener los nombres de los empleados");
+      res.status(500).send("Error retrieving employee names");
     }
   };

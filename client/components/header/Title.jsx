@@ -1,10 +1,11 @@
 import { Box, Container, Typography } from "@mui/material";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
+import { COLOR_2 } from '../../assets/color/colors.js'
 import PropTypes from "prop-types";
 
 const Title = ({ title, Icon }) => {
   return (
-    <Box component="header" py={1} bgcolor={"#339194"}>
+    <Box component="header" py={1} bgcolor={COLOR_2}>
       <Container>
         <Typography
           py={1}

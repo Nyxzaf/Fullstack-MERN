@@ -24,7 +24,7 @@ function App() {
               <Route path="/infoPage/:id" element={<InformationPage/>} />
               <Route path="/calendar" element={<Calendar/>} />
             </Routes>
-              </EmployeeContext>
+          </EmployeeContext>
       </DrawerHome>
     </>
   );

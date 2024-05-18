@@ -2,14 +2,15 @@ import { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 import Droppable from "../../components/card/Droppable";
 import Draggable from "../../components/card/Draggable";
-import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import { Button, Container, Dialog, Grid, Paper, Typography } from "@mui/material";
 import Title from "../../components/header/Title";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SendIcon from "@mui/icons-material/Send";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import CardTask from "../../components/card/CardTask";
 import { STATUS_TASK } from "../../data/ItemsTask";
-
+import { COLOR_2 } from "../../assets/color/colors";
+import TaskForm from "../../components/form/TaskForm";
 
 
 const initialTasks = [
@@ -23,21 +24,30 @@ const initialTasks = [
 
 const TaskDragAndDrop = () => {
 const [tasks, setTasks] = useState([...initialTasks]);
-const onDragEnd = (event) => {
-const { over, active } = event;
-console.log({ over, active });
-setTasks(
-    tasks.map((item) => {
-    if (item.id === active.id) {
-        return {
-        ...item,
-        type: over.id
-        };
-    }
+const [showTaskForm, setShowTaskForm] = useState(false);
 
-    return item;
-    })
-);
+
+
+
+const handleCloseTaskForm = () => {
+    setShowTaskForm(false);
+    };  
+
+
+const onDragEnd = (event) => {
+    const { over, active } = event;
+    setTasks(
+        tasks.map((item) => {
+        if (item.id === active.id) {
+            return {
+            ...item,
+            type: over.id
+            };
+        }
+
+        return item;
+        })  
+    );
 };
 
 const getTasks = (type) => tasks.filter((item) => item.type === type);
@@ -53,6 +63,7 @@ return (
             variant="outlined"
             endIcon={<SendIcon />}
             sx={{mb:3}}
+            onClick={()=>setShowTaskForm(!showTaskForm)}
             >
                 Add New Task
             </Button>
@@ -61,9 +72,9 @@ return (
                 {STATUS_TASK.map((item) => (
                 <Grid item md={4} xs={12}  key={item}>
                     <Droppable key={item} id={item}>
-                        <Paper sx={{borderRadius:"20px", minHeight:"400px"}}>
+                        <Paper sx={{borderRadius:"20px", minHeight:"480px"}}>
                             <Typography 
-                            borderRadius="22px 22px 0px 0px" bgcolor={"Grey"}
+                            borderRadius="22px 22px 0px 0px" bgcolor={COLOR_2}
                             py={1} 
                             fontFamily={FONT_FAMILY} 
                             fontSize={30} 
@@ -87,33 +98,15 @@ return (
                 ))}
             </Grid>
             </DndContext>
+            <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
+                <TaskForm
+                onClose={handleCloseTaskForm}
+                onSave={()=>console.log("hola")}
+                />
+            </Dialog>
             </Container>
     </>
 );
 };
 
 export default TaskDragAndDrop;
-
-
-
-{/* <DndContext
-    collisionDetection={closestCenter}
-    onDragEnd={handleDragEnd}
->
-    <Grid container spacing={2}>
-        {LIST.map((item) => (
-            <Grid item md={4} xs={12} key={item}>
-                <Paper component={"div"} sx={{ borderRadius: "20px" }} ref={setNodeRef}>
-                    <Typography borderRadius="22px 22px 0px 0px" bgcolor={"Grey"} py={1} fontFamily={FONT_FAMILY} fontSize={30} color={"white"} align="center">
-                        {item}
-                    </Typography>
-                    {getTasks(item).map((item) => (
-                        <Grid item md={12} xs={6} key={item.id}>
-                            <CardTask user={item} />
-                        </Grid>
-                    ))}
-                </Paper>
-            </Grid>
-        ))}
-    </Grid>
-</DndContext> */}

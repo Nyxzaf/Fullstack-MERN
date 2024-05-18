@@ -83,7 +83,7 @@ function DataForm({ onSave, onClose }) {
                 <Grid container spacing={2}>
                   {FORM_ITEM.map((item) => {
                     return (
-                      <Grid item xs={12} xl={item.grid} key={item.Title}>
+                      <Grid item xs={12} sm={item.grid} key={item.Title}>
                         <InputLabel sx={{ fontWeight: "bold" }}>
                           {item.Title}
                         </InputLabel>
