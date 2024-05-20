@@ -9,6 +9,7 @@ import {
   Grid,
   Typography,
   Container,
+  Autocomplete,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
@@ -16,6 +17,22 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+
+
+const ITEMS=[
+  {
+    title:"Juan"
+  },
+  {
+    title:"Jose"
+  },
+  {
+    title:"Miguel"
+  },
+  {
+    title:"Andres"
+  },
+]
 
 
 const validationSchema = Yup.object({
@@ -72,7 +89,6 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
         padding: "20px",
         borderRadius: "5px",
         fontFamily: FONT_FAMILY,
-        backgroundColor: "#eafde6",
       }}
     >
       <Formik
@@ -97,21 +113,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   helperText={touched.Title && errors.Title}
                 />
               </Grid>
-              <Grid item xs={6} sm={3}>
-                <InputLabel sx={{ fontWeight: "bold" }}>Work Hours</InputLabel>
-                <Field
-                  as={TextField}
-                  label="Work Hours"
-                  name="WorkHours"
-                  type="number"
-                  fullWidth
-                  margin="normal"
-                  InputProps={{ style: { backgroundColor: "white" } }}
-                  error={touched.WorkHours && !!errors.WorkHours}
-                  helperText={touched.WorkHours && errors.WorkHours}
-                />
-              </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid item xs={6} sm={4}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Severity</InputLabel>
                 <FormControl
                   fullWidth
@@ -136,6 +138,23 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                     </Typography>
                   ) : null}
                 </FormControl>
+              </Grid>
+              <Grid item xs={8}>
+              <InputLabel sx={{ fontWeight: "bold" }}>
+                  Employee
+                </InputLabel>
+                <Field
+                  as={Autocomplete}
+                  label="Employee"
+                  name="Employee"
+                  size="small"
+                  options={ITEMS}
+                  multiple
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField {...params} margin="normal" label="Employee" />
+                  )}
+                />
               </Grid>
               <Grid item xs={12}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Description</InputLabel>
