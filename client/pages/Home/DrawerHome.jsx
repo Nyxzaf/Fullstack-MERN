@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { IMG_1 } from "../../assets/img/images.js";
-import { ITEM } from "../../data/Items";
+import { ITEM } from "../../data/Items.jsx";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { COLOR } from "../../assets/color/colors.js";
