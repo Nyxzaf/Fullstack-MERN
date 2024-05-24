@@ -7,10 +7,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { ITEM } from "../../data/Items";
+import { ITEM } from "../../data/Items.jsx";
 import { COLOR } from "../../assets/color/colors.js";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
-import Title from "../../components/header/Title";
+import Title from "../../components/header/Title.jsx";
 import { Link } from "react-router-dom";
 
 const Home = () => {
