@@ -1,17 +1,12 @@
 import mongoose, { SchemaTypes } from "mongoose";
 const DragDropSchema = new mongoose.Schema(
   {
-    EmployeeId: {
-      type: SchemaTypes.ObjectId,
+    employeeIds: {
+      type: SchemaTypes.Array,
       required: true,
       trim: true,
     },
     title: {
-      type: SchemaTypes.String,
-      required: true,
-      trim: true,
-    },
-    Employee: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
@@ -25,6 +20,11 @@ const DragDropSchema = new mongoose.Schema(
       type: SchemaTypes.String,
       required: true,
       trim: true,
+    },
+    state: {
+      type: SchemaTypes.String,
+      trim: true,
+      default: "backlog",
     },
     duration: {
       start: {

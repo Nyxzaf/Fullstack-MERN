@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import PropTypes from "prop-types";
 import {
   createEmployeeRequest,
@@ -16,8 +22,14 @@ export const UseEmployee = () => {
 };
 
 export const EmployeeContext = ({ children }) => {
-  
   const [Employees, setEmployees] = useState([]);
+
+  const getEmployeesAsLabels = useMemo(() => {
+    return Employees.map((employee) => ({
+      value: employee._id,
+      label: `${employee.Name} ${employee.LastName}`,
+    }));
+  }, [Employees]);
 
   const getEmployees = (onSuccess, onError) => {
     getEmployeesRequest()
@@ -61,7 +73,7 @@ export const EmployeeContext = ({ children }) => {
   };
 
   const getEmployee = (id) => {
-    return getEmployeeRequest(id).then((res) =>res.data);
+    return getEmployeeRequest(id).then((res) => res.data);
   };
 
   useEffect(() => {
@@ -72,6 +84,7 @@ export const EmployeeContext = ({ children }) => {
     <Context.Provider
       value={{
         Employees,
+        getEmployeesAsLabels,
         setEmployees,
         getEmployees,
         createEmployee,
@@ -84,7 +97,6 @@ export const EmployeeContext = ({ children }) => {
     </Context.Provider>
   );
 };
-
 
 EmployeeContext.propTypes = {
   children: PropTypes.node.isRequired,

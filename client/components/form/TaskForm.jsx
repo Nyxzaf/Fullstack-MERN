@@ -8,60 +8,46 @@ import {
   Select,
   Grid,
   Typography,
-  Container,
   Autocomplete,
+  Box,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-
-
-const ITEMS=[
-  {
-    title:"Juan"
-  },
-  {
-    title:"Jose"
-  },
-  {
-    title:"Miguel"
-  },
-  {
-    title:"Andres"
-  },
-]
-
+import { UseEmployee } from "../../context/EmployeeContext.jsx";
 
 const validationSchema = Yup.object({
-  Title: Yup.string().required("Title is required"),
-  WorkHours: Yup.number()
-    .required("Work hours are required")
-    .min(0, "Work hours must be a positive number"),
-  Severity: Yup.string().required("Severity is required"),
-  Description: Yup.string().required("Description is required"),
-  Date: Yup.date().required("Date is required"),
+  title: Yup.string().required("Title is required"),
+  severity: Yup.string().required("Severity is required"),
+  employeeIds: Yup.array()
+    .of(
+      Yup.object().shape({
+        label: Yup.string().required(),
+        value: Yup.string().required(),
+      })
+    )
+    .required("Employee is required"),
+  description: Yup.string().required("Description is required"),
 });
 
 function TaskForm({ onSave, onClose, taskToEdit }) {
+  const { getEmployeesAsLabels } = UseEmployee();
+
   const [initialValues, setInitialValues] = useState({
-    Title: "",
-    WorkHours: "",
-    Severity: "",
-    Description: "",
-    Date: new Date(),
+    title: "",
+    severity: "",
+    employeeIds: [],
+    description: "",
   });
 
   useEffect(() => {
     if (taskToEdit) {
       setInitialValues({
-        Title: taskToEdit.Title,
-        WorkHours: taskToEdit.WorkHours,
-        Severity: taskToEdit.Severity,
-        Description: taskToEdit.Description,
-        Date: taskToEdit.Date,
+        title: taskToEdit.title,
+        severity: taskToEdit.severity,
+        description: taskToEdit.description,
+        employeeIds: taskToEdit.employeeIds,
       });
     } else {
       setInitialValues((prevValues) => ({
@@ -71,11 +57,12 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
     }
   }, [taskToEdit]);
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("Form values:", values);
-    await onSave(values);
-    setSubmitting(false);
-    onClose();
+  const handleSubmit = (values, actions) => {
+    const requestData = {
+      ...values,
+      employeeIds: values.employeeIds.map((employee) => employee.value),
+    };
+    console.log(requestData);
   };
 
   const handleClose = () => {
@@ -83,8 +70,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
   };
 
   return (
-    <Container
-      maxWidth="sm"
+    <Box
       sx={{
         padding: "20px",
         borderRadius: "5px",
@@ -105,12 +91,12 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 <Field
                   as={TextField}
                   label="Title"
-                  name="Title"
+                  name="title"
                   fullWidth
                   margin="normal"
                   InputProps={{ style: { backgroundColor: "white" } }}
-                  error={touched.Title && !!errors.Title}
-                  helperText={touched.Title && errors.Title}
+                  error={touched.title && !!errors.title}
+                  helperText={touched.title && errors.title}
                 />
               </Grid>
               <Grid item xs={6} sm={4}>
@@ -121,38 +107,41 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   error={touched.Severity && !!errors.Severity}
                 >
                   <InputLabel>Severity</InputLabel>
-                  <Field
-                    as={Select}
-                    name="Severity"
-                    label="Severity"
-                    style={{ backgroundColor: "white" }}
-                  >
+                  <Field as={Select} name="severity" label="severity">
                     <MenuItem value="low">Low</MenuItem>
                     <MenuItem value="medium">Medium</MenuItem>
                     <MenuItem value="high">High</MenuItem>
                     <MenuItem value="critical">Critical</MenuItem>
                   </Field>
-                  {touched.Severity && errors.Severity ? (
+                  {touched.severity && errors.severity ? (
                     <Typography sx={{ color: "red" }}>
-                      {errors.Severity}
+                      {errors.severity}
                     </Typography>
                   ) : null}
                 </FormControl>
               </Grid>
               <Grid item xs={8}>
-              <InputLabel sx={{ fontWeight: "bold" }}>
-                  Employee
-                </InputLabel>
+                <InputLabel sx={{ fontWeight: "bold" }}>Employee</InputLabel>
                 <Field
                   as={Autocomplete}
-                  label="Employee"
-                  name="Employee"
-                  size="small"
-                  options={ITEMS}
+                  label="Enployees"
+                  name="employeeIds"
+                  limitTags={1}
+                  options={getEmployeesAsLabels}
                   multiple
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option.label}
+                  onChange={(e, value) => {
+                    setFieldValue("employeeIds", value);
+                  }}
                   renderInput={(params) => (
-                    <TextField {...params} margin="normal" label="Employee" />
+                    <TextField
+                      {...params}
+                      fullWidth
+                      margin="normal"
+                      label="Employee"
+                      error={touched.employeeIds && !!errors.employeeIds}
+                      helperText={touched.employeeIds && errors.employeeIds}
+                    />
                   )}
                 />
               </Grid>
@@ -161,44 +150,15 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 <Field
                   as={TextField}
                   label="Description"
-                  name="Description"
+                  name="description"
                   fullWidth
                   multiline
                   rows={4}
                   margin="normal"
                   InputProps={{ style: { backgroundColor: "white" } }}
-                  error={touched.Description && !!errors.Description}
-                  helperText={touched.Description && errors.Description}
+                  error={touched.description && !!errors.description}
+                  helperText={touched.description && errors.description}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel sx={{ fontWeight: "bold" }}>Date</InputLabel>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  name="Date"
-                  sx={{backgroundColor:"white"}}
-                  value={initialValues.Date}
-                  onChange={(date) => {
-                    setFieldValue("Date", date);
-                  }}
-                  renderInput={({ inputProps, ...other }) => (
-                    <TextField
-                      {...other}
-                      {...inputProps}
-                      fullWidth
-                      margin="normal"
-                      error={touched.Date && !!errors.Date}
-                      helperText={touched.Date && errors.Date}
-                    />
-                  )}
-                />
-
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={6}>
-                <Button variant="contained" color="primary" type="submit">
-                  Save and Submit
-                </Button>
               </Grid>
               <Grid item xs={6}>
                 <Button
@@ -209,11 +169,16 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   Close
                 </Button>
               </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" color="primary" type="submit">
+                  Save and Submit
+                </Button>
+              </Grid>
             </Grid>
           </Form>
         )}
       </Formik>
-    </Container>
+    </Box>
   );
 }
 
