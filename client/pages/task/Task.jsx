@@ -341,7 +341,7 @@ export default function TaskTable() {
           </Grid>
         </Grid>
       </Box>
-      <Dialog open={showTaskForm} onClose={handleCloseTaskForm}>
+      <Dialog fullWidth={true} maxWidth="md" open={showTaskForm} onClose={handleCloseTaskForm}>
         <TaskForm
           onSave={handleSaveTask}
           onClose={handleCloseTaskForm}
