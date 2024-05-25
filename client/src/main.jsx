@@ -5,7 +5,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import theme from "../assets/color/theme.js";
+import theme from "../src/assets/color/theme.js";
 
 dayjs.locale("en");
 dayjs.extend(utc);
