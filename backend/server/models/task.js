@@ -1,35 +1,38 @@
 import mongoose, { SchemaTypes } from "mongoose";
 const TaskSchema = new mongoose.Schema(
   {
-    EmployeeId: {
-      type: SchemaTypes.ObjectId,
+    employeeIds: {
+      type: SchemaTypes.Array,
       required: true,
       trim: true,
     },
-    Title: {
+    title: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    WorkHours: {
-      type: SchemaTypes.Number,
-      required: true,
-      trim: true,
-    },
-    Severity: {
-      type: SchemaTypes.String, //low, medium, high, critic
-      required: true,
-      trim: true,
-    },
-    Description: {
+    severity: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    TaskScheduled: {
-      type: SchemaTypes.Date,
+    description: {
+      type: SchemaTypes.String,
       required: true,
+      trim: true, 
+    },
+    state: {
+      type: SchemaTypes.String,
       trim: true,
+      default: "Backlog",
+    },
+    duration: {
+      start: {
+        type: SchemaTypes.Date,
+      },
+      end: {
+        type: SchemaTypes.Date,
+      },
     },
   },
   { timestamps: true }

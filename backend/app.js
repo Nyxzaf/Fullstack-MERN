@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
 import EmployeeRoutes from "./server/routers/employee.routes.js";
-import TaskRoute from "./server/routers/task.routes.js"
-import DragDrops from "./server/routers/dragAndDrop.routes.js"
+import EventRoutes from "./server/routers/event.routes.js"
+import TaskRoutes from "./server/routers/task.routes.js"
 const app = express();
 
 const corsOptions = {
@@ -11,8 +11,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(TaskRoute)
+app.use(EventRoutes)
 app.use(EmployeeRoutes);
-app.use(DragDrops)
+app.use(TaskRoutes)
 
 export default app;

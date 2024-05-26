@@ -1,9 +1,10 @@
-import Task from "../models/task.js";
-import Employee from "../models/employee.js";
+
+import Event from "../models/event.js";
+
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Event.find();
     res.send(tasks);
   } catch (err) {
     res.status(500).send("error");
@@ -12,7 +13,7 @@ export const getTasks = async (req, res) => {
 
 export const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Event.findById(req.params.id);
     if (!task) {
       return res.status(404).send("error");
     }
@@ -22,37 +23,28 @@ export const getTaskById = async (req, res) => {
   }
 };
 
-export const getTaskByEmployee = async (req, res) => {
-  try {
-    const tasks = await Task.find({ employeeIds: req.params.employeeId });
-    res.send(tasks);
-  } catch (err) {
-    res.status(500).send("error");
-  }
-};
-
 export const createTask = async (req, res) => {
   try {
-    const Createtask = new Task(req.body);
+    const Createtask = new Event(req.body);
     await Createtask.save();
-    return res.json(Createtask);
+    return res.json(Createtask)
   } catch (err) {
-    console.log(err);
+    console.log(err)
     return res.status(500).send("error al crear la tabla");
   }
 };
 
 export const updateTask = async (req, res) => {
   try {
-    const UpdateTask = await Task.findByIdAndUpdate(
+    const UpdateTask = await Event.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
-        new: true,
+        new:true,
       }
     );
 
-    return res.send(UpdateTask);
+      return res.send(UpdateTask);
   } catch (err) {
     console.log(err);
     return res.status(500).send("error");
@@ -62,9 +54,9 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
-    const result = await Task.deleteOne({ _id: taskId });
+    const result = await Event.deleteOne({ _id: taskId });
     if (result.deletedCount === 0) {
-      return res.sendStatus(404);
+      return res.sendStatus(404); 
     }
     return res.sendStatus(204);
   } catch (err) {
@@ -73,12 +65,3 @@ export const deleteTask = async (req, res) => {
   }
 };
 
-export const getNameEmployee = async (req, res) => {
-  try {
-    const activeEmployees = await Employee.distinct("Name", { Active: true });
-    res.send(activeEmployees);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error retrieving employee names");
-  }
-};

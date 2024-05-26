@@ -1,1 +1,1 @@
-export const STATUS_TASK =["Backlog", "in Progress", "Done"]
+export const STATUS_TASK =["Backlog", "In Progress", "Done"]

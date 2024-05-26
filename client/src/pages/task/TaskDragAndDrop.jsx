@@ -18,41 +18,32 @@ import CardTask from "../../components/card/CardTask";
 import { STATUS_TASK } from "../../data/ItemsTask";
 import { COLOR_2 } from "../../assets/color/colors";
 import TaskForm from "../../components/form/TaskForm";
-
-const initialTasks = [
-  { id: 1, name: "Angelo", type: "Backlog" },
-  { id: 2, name: "Jose", type: "Backlog" },
-  { id: 3, name: "Miguel", type: "Backlog" },
-  { id: 4, name: "Pedro", type: "Backlog" },
-  { id: 5, name: "Angel", type: "Backlog" },
-  { id: 6, name: "Pablo", type: "Backlog" },
-];
+import { UseEmployee } from "../../context/EmployeeContext";
 
 const TaskDragAndDrop = () => {
-  const [tasks, setTasks] = useState([...initialTasks]);
+  const { taskEmployee , setTaskEmployee} = UseEmployee(); 
   const [showTaskForm, setShowTaskForm] = useState(false);
 
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
   };
-
+  
   const onDragEnd = (event) => {
     const { over, active } = event;
-    setTasks(
-      tasks.map((item) => {
-        if (item.id === active.id) {
+    setTaskEmployee(
+      taskEmployee.map((item) => {
+        if (item._id === active.id) {
           return {
             ...item,
-            type: over.id,
+            state: over.id,
           };
         }
-
         return item;
       })
     );
   };
 
-  const getTasks = (type) => tasks.filter((item) => item.type === type);
+  const getTasks = (state) => taskEmployee.filter((item) => item.state === state);
 
   return (
     <>
@@ -88,9 +79,9 @@ const TaskDragAndDrop = () => {
                     </Typography>
                     <Grid container p={2} spacing={1}>
                       {getTasks(item).map((task) => (
-                        <Grid item md={12} xs={6} key={task.id}>
-                          <Draggable id={task.id}>
-                            <CardTask user={task} />
+                        <Grid item md={12} xs={6} key={task._id}>
+                          <Draggable id={task._id}>
+                            <CardTask title={task.title} description={task.description} />
                           </Draggable>
                         </Grid>
                       ))}

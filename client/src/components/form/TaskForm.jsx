@@ -31,14 +31,15 @@ const validationSchema = Yup.object({
   description: Yup.string().required("Description is required"),
 });
 
-function TaskForm({ onSave, onClose, taskToEdit }) {
-  const { getEmployeesAsLabels } = UseEmployee();
+function TaskForm({ onClose, taskToEdit }) {
+  const { getEmployeesAsLabels , createTask } = UseEmployee();
 
   const [initialValues, setInitialValues] = useState({
     title: "",
     severity: "",
     employeeIds: [],
     description: "",
+    Date: "",
   });
 
   useEffect(() => {
@@ -48,26 +49,29 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
         severity: taskToEdit.severity,
         description: taskToEdit.description,
         employeeIds: taskToEdit.employeeIds,
+        Date: taskToEdit.Date || new Date(),
       });
-    } else {
-      setInitialValues((prevValues) => ({
-        ...prevValues,
-        Date: new Date(),
-      }));
     }
   }, [taskToEdit]);
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     const requestData = {
       ...values,
       employeeIds: values.employeeIds.map((employee) => employee.value),
     };
-    console.log(requestData);
+    createTask(requestData, () => {
+      actions.setSubmitting(false);
+      onClose();
+    }, (error) => {
+      console.error('Error creating task:', error);
+      actions.setSubmitting(false);
+    });
   };
 
   const handleClose = () => {
     onClose();
   };
+
 
   return (
     <Box
@@ -86,7 +90,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
         {({ errors, touched, setFieldValue }) => (
           <Form>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={8}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Title</InputLabel>
                 <Field
                   as={TextField}
@@ -99,12 +103,12 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   helperText={touched.title && errors.title}
                 />
               </Grid>
-              <Grid item xs={6} sm={4}>
+              <Grid item xs={4}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Severity</InputLabel>
                 <FormControl
                   fullWidth
                   margin="normal"
-                  error={touched.Severity && !!errors.Severity}
+                  error={touched.severity && !!errors.severity}
                 >
                   <InputLabel>Severity</InputLabel>
                   <Field as={Select} name="severity" label="severity">
@@ -124,7 +128,7 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 <InputLabel sx={{ fontWeight: "bold" }}>Employee</InputLabel>
                 <Field
                   as={Autocomplete}
-                  label="Enployees"
+                  label="Employees"
                   name="employeeIds"
                   limitTags={1}
                   options={getEmployeesAsLabels}
@@ -145,6 +149,23 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                   )}
                 />
               </Grid>
+              <Grid item xs={4}>
+                <InputLabel sx={{ fontWeight: "bold" }}>
+                  Date
+                </InputLabel>
+                <Field
+                  as={TextField}
+                  label={"Date"}
+                  name={"Date"}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  type={"date"}
+                  margin="normal"
+                  InputProps={{ style: { backgroundColor: "white" } }}
+                  error={touched.Date && !!errors.Date}
+                  helperText={touched.Date && errors.Date}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Description</InputLabel>
                 <Field
@@ -161,15 +182,11 @@ function TaskForm({ onSave, onClose, taskToEdit }) {
                 />
               </Grid>
               <Grid item xs={6}>
-                <Button
-                  color="primary"
-                  onClick={handleClose}
-                  sx={{ backgroundColor: "#a2a9af" }}
-                >
+                <Button color="primary" onClick={handleClose}>
                   Close
                 </Button>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item display={"flex"} justifyContent={"flex-end"} xs={6}>
                 <Button variant="contained" color="primary" type="submit">
                   Save and Submit
                 </Button>

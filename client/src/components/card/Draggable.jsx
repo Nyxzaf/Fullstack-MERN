@@ -24,7 +24,7 @@ const Draggable = ({ id, children }) => {
 };
 
 Draggable.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
   };
 

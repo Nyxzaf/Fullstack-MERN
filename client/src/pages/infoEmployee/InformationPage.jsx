@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
-import { getTasksByEmployee } from "../../api/DragAndDrop";
+import { getTasksByEmployee } from "../../api/Tasks.js";
 
 const InformationPage = () => {
   const { getEmployee } = UseEmployee();
