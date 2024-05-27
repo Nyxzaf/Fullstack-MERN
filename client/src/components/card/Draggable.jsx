@@ -13,7 +13,6 @@ const Draggable = ({ id, children }) => {
   return (
     <div
       ref={setNodeRef}
-      className="draggable-item"
       style={style}
       {...listeners}
       {...attributes}

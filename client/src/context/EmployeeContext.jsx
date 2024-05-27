@@ -13,7 +13,7 @@ import {
   getEmployeesRequest,
   updateEmployeeRequest,
 } from "../api/Employee";
-import { createTaskRequest, getTasksRequest } from "../api/Tasks";
+import { createTaskRequest, deleteTaskRequest, getTasksRequest } from "../api/Tasks";
 
 
 
@@ -83,6 +83,15 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
+  const deleteTask= (id, onSuccess , onError) =>{
+    deleteTaskRequest(id)
+    .then(()=>{
+    setTaskEmployee(taskEmployee.filter((task)=> task._id !== id));
+    onSuccess && onSuccess();
+    })
+    .catch(onError)
+  }
+
   const updateEmployee = (id, employee, onSuccess, onError) => {
     updateEmployeeRequest(id, employee)
       .then((res) => {
@@ -122,7 +131,8 @@ export const EmployeeContext = ({ children }) => {
         getTask,
         createTask,
         taskEmployee,
-        setTaskEmployee
+        setTaskEmployee,
+        deleteTask
       }}
     >
       {children}

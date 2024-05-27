@@ -59,7 +59,7 @@ function EmployeeData() {
     setShowAlert(true);
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete =  () => {
     deleteEmployee(selectedEmployeeId[0], () => {
       setSelectedEmployeeId([]);
       setShowAlert(false);

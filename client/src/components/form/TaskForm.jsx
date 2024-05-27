@@ -54,7 +54,7 @@ function TaskForm({ onClose, taskToEdit }) {
     }
   }, [taskToEdit]);
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = (values, actions) => {
     const requestData = {
       ...values,
       employeeIds: values.employeeIds.map((employee) => employee.value),
@@ -124,13 +124,13 @@ function TaskForm({ onClose, taskToEdit }) {
                   ) : null}
                 </FormControl>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={12}>
                 <InputLabel sx={{ fontWeight: "bold" }}>Employee</InputLabel>
                 <Field
                   as={Autocomplete}
                   label="Employees"
                   name="employeeIds"
-                  limitTags={1}
+                  limitTags={3}
                   options={getEmployeesAsLabels}
                   multiple
                   getOptionLabel={(option) => option.label}
@@ -147,23 +147,6 @@ function TaskForm({ onClose, taskToEdit }) {
                       helperText={touched.employeeIds && errors.employeeIds}
                     />
                   )}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <InputLabel sx={{ fontWeight: "bold" }}>
-                  Date
-                </InputLabel>
-                <Field
-                  as={TextField}
-                  label={"Date"}
-                  name={"Date"}
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  type={"date"}
-                  margin="normal"
-                  InputProps={{ style: { backgroundColor: "white" } }}
-                  error={touched.Date && !!errors.Date}
-                  helperText={touched.Date && errors.Date}
                 />
               </Grid>
               <Grid item xs={12}>

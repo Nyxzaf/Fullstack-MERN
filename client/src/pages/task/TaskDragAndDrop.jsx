@@ -27,7 +27,7 @@ const TaskDragAndDrop = () => {
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
   };
-  
+
   const onDragEnd = (event) => {
     const { over, active } = event;
     setTaskEmployee(
@@ -81,7 +81,7 @@ const TaskDragAndDrop = () => {
                       {getTasks(item).map((task) => (
                         <Grid item md={12} xs={6} key={task._id}>
                           <Draggable id={task._id}>
-                            <CardTask title={task.title} description={task.description} />
+                            <CardTask title={task.title} description={task.description} employeeId={task.employeeIds} taskId={task._id} />
                           </Draggable>
                         </Grid>
                       ))}
