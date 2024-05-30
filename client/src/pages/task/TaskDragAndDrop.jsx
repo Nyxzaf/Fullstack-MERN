@@ -21,15 +21,12 @@ import TaskForm from "../../components/form/TaskForm";
 import { UseEmployee } from "../../context/EmployeeContext";
 
 const TaskDragAndDrop = () => {
-  const { taskEmployee , setTaskEmployee} = UseEmployee(); 
+  const { taskEmployee, setTaskEmployee } = UseEmployee(); 
   const [showTaskForm, setShowTaskForm] = useState(false);
-
-  const handleCloseTaskForm = () => {
-    setShowTaskForm(false);
-  };
 
   const onDragEnd = (event) => {
     const { over, active } = event;
+
     setTaskEmployee(
       taskEmployee.map((item) => {
         if (item._id === active.id) {
@@ -96,11 +93,10 @@ const TaskDragAndDrop = () => {
           fullWidth={true}
           maxWidth="md"
           open={showTaskForm}
-          onClose={handleCloseTaskForm}
+          onClose={() => setShowTaskForm(false)}
         >
           <TaskForm
-            onClose={handleCloseTaskForm}
-            onSave={() => console.log("hola")}
+            onClose={() => setShowTaskForm(false)}
           />
         </Dialog>
       </Container>

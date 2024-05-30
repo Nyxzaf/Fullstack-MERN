@@ -48,7 +48,8 @@ function EmployeeData() {
   };
 
   const handleEditData = (employeeId) => {
-    getEmployee(employeeId).then((employee) => {
+    getEmployee(employeeId)
+    .then((employee) => {
       setCurrentEmployee(employee);
       setShowDataFormEdit(true);
     });

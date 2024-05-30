@@ -13,7 +13,7 @@ import {
   getEmployeesRequest,
   updateEmployeeRequest,
 } from "../api/Employee";
-import { createTaskRequest, deleteTaskRequest, getTasksRequest } from "../api/Tasks";
+import { createTaskRequest, deleteTaskRequest, getTaskRequest, getTasksRequest, updateTaskRequest } from "../api/Tasks";
 
 
 
@@ -45,7 +45,7 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
-  const getTask = (onSuccess,onError) => {
+  const getTasks = (onSuccess,onError) => {
     getTasksRequest()
     .then((res)=>{
       setTaskEmployee(res.data);
@@ -105,8 +105,25 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
+  const updateTask = (id, task, onSuccess, onError) => {
+    updateTaskRequest(id, task)
+      .then((res) => {
+        setTaskEmployee(
+          taskEmployee.map((task) =>
+            task._id == id ? res.data : task
+          )
+        );
+        onSuccess && onSuccess(res.data);
+      })
+      .catch(onError);
+  };
+
   const getEmployee = (id) => {
     return getEmployeeRequest(id).then((res) => res.data);
+  };
+
+  const getTask= (id) => {
+    return getTaskRequest(id).then((res) => res.data);
   };
 
   useEffect(() => {
@@ -114,7 +131,7 @@ export const EmployeeContext = ({ children }) => {
   }, []);
   
   useEffect(() => {
-    getTask();
+    getTasks();
   }, []);
 
   return (
@@ -128,11 +145,13 @@ export const EmployeeContext = ({ children }) => {
         deleteEmployee,
         getEmployee,
         updateEmployee,
-        getTask,
+        getTasks,
         createTask,
         taskEmployee,
         setTaskEmployee,
-        deleteTask
+        deleteTask,
+        updateTask,
+        getTask
       }}
     >
       {children}

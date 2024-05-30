@@ -32,7 +32,7 @@ const validationSchema = Yup.object({
 });
 
 function TaskForm({ onClose, taskToEdit }) {
-  const { getEmployeesAsLabels , createTask } = UseEmployee();
+  const { getEmployeesAsLabels, createTask, updateTask, Employees } = UseEmployee();
 
   const [initialValues, setInitialValues] = useState({
     title: "",
@@ -48,30 +48,51 @@ function TaskForm({ onClose, taskToEdit }) {
         title: taskToEdit.title,
         severity: taskToEdit.severity,
         description: taskToEdit.description,
-        employeeIds: taskToEdit.employeeIds,
-        Date: taskToEdit.Date || new Date(),
+        employeeIds: taskToEdit.employeeIds.map((employeeId) => ({
+          value: employeeId,
+          label: getEmployeeNameById(employeeId),
+        })),
       });
     }
   }, [taskToEdit]);
+
+  const getEmployeeNameById = (employeeId) => {
+    const employee = Employees.find((emp) => emp._id === employeeId);
+    return employee ? `${employee.Name} ${employee.LastName}` : "";
+  };
+
+  const isOptionEqualToValue = (option, value) => {
+    return option.value === value.value;
+  };
 
   const handleSubmit = (values, actions) => {
     const requestData = {
       ...values,
       employeeIds: values.employeeIds.map((employee) => employee.value),
     };
-    createTask(requestData, () => {
-      actions.setSubmitting(false);
-      onClose();
-    }, (error) => {
-      console.error('Error creating task:', error);
-      actions.setSubmitting(false);
-    });
+
+    if (taskToEdit) {
+      updateTask(taskToEdit._id, requestData, () => {
+        actions.setSubmitting(false);
+        onClose();
+      }, (error) => {
+        console.error('Error updating task:', error);
+        actions.setSubmitting(false);
+      });
+    } else {
+      createTask(requestData, () => {
+        actions.setSubmitting(false);
+        onClose();
+      }, (error) => {
+        console.error('Error creating task:', error);
+        actions.setSubmitting(false);
+      });
+    }
   };
 
   const handleClose = () => {
     onClose();
   };
-
 
   return (
     <Box
@@ -137,6 +158,7 @@ function TaskForm({ onClose, taskToEdit }) {
                   onChange={(e, value) => {
                     setFieldValue("employeeIds", value);
                   }}
+                  isOptionEqualToValue={isOptionEqualToValue}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -183,7 +205,6 @@ function TaskForm({ onClose, taskToEdit }) {
 }
 
 TaskForm.propTypes = {
-  onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   taskToEdit: PropTypes.object,
 };

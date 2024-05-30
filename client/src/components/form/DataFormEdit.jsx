@@ -40,9 +40,8 @@ const validationSchema = Yup.object({
 function DataFormEdit({ onSave, onClose, employee }) {
   const { updateEmployee } = UseEmployee();
 
-  const handleSubmit = async (values, actions) => {
-    updateEmployee(
-      employee._id,
+  const handleSubmit = (values, actions) => {
+    updateEmployee(employee._id,
       values,
       () => {
         actions.setSubmitting(false);

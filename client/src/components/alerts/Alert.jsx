@@ -5,23 +5,16 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  Typography,
-} from "@mui/material";
+  } from "@mui/material";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
 import WarningIcon from "@mui/icons-material/Warning";
 import PropTypes from 'prop-types'
 
-export default function Alert({ dialog ,  open, onClose, onConfirm }) {
+export default function Alert({ dialog, open, onClose, onConfirm }) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
-        <Typography
-          variant="h6"
-          fontFamily={FONT_FAMILY}
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          <WarningIcon sx={{ mr: 1 }} /> Confirmation
-        </Typography>
+        <WarningIcon sx={{ mr: 1 }} /> Confirmation
       </DialogTitle>
       <DialogContent>
         <DialogContentText fontFamily={FONT_FAMILY}>
@@ -39,6 +32,7 @@ export default function Alert({ dialog ,  open, onClose, onConfirm }) {
     </Dialog>
   );
 }
+
 Alert.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

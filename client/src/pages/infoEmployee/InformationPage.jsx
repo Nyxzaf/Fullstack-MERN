@@ -40,7 +40,8 @@ const InformationPage = () => {
       getEmployee(params.id)
         .then((data) => {
           setEmployee(data);
-          getTasksByEmployee(data._id).then((tasks) => {
+          getTasksByEmployee(data._id)
+          .then((tasks) => {
             console.log(tasks);
             // TODO set tasks
           });

@@ -6,4 +6,4 @@ export const deleteTaskRequest = async ( id )=> await axios.delete('http://local
 export const getTaskRequest = async ( id ) => await axios.get('http://localhost:5000/tasks/' + id)
 export const updateTaskRequest = async(id, newfields) => await axios.put('http://localhost:5000/tasks/'+id, newfields)
 export const getNameEmployeeRequest = async ( employees ) => await axios.get('http://localhost:5000/tasks/' + employees)
-export const getTasksByEmployee = async ( employeeId ) => await axios.get('http://localhost:5000/tasks/employees/' + employeeId)
+export const getTasksByEmployee = async ( employeeId ) => await axios.get('http://localhost:5000/tasks/employees/' + employeeId) 
