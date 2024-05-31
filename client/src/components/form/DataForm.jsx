@@ -4,6 +4,7 @@ import {
   TextField,
   InputLabel,
   FormControlLabel,
+  Stack,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -45,7 +46,7 @@ function DataForm({ onSave, onClose }) {
       () => {
         actions.setSubmitting(false);
         onSave();
-        onClose()
+        onClose();
       },
       (error) => {
         console.error("Error saving form:", error);
@@ -111,26 +112,26 @@ function DataForm({ onSave, onClose }) {
                           checked={values.Active}
                         />
                       }
-                      label="active"
-                      labelPlacement="end"
+                      label="Active"
+                      labelPlacement="start"
                       onChange={(event) =>
                         setFieldValue("Active", event.target.checked)
                       }
                     />
                   </Grid>
-                  <Grid item xs={12} xl={10}>
-                    <Button variant="contained" color="primary" type="submit">
-                      Save and Submit
-                    </Button>
-                  </Grid>
-                  <Grid item xl={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleClose}
-                    >
-                      Close
-                    </Button>
+                  <Grid item xs={12}>
+                    <Stack spacing={2} direction="row" justifyContent="end">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClose}
+                      >
+                        Close
+                      </Button>
+                      <Button variant="contained" color="primary" type="submit">
+                        Save and Submit
+                      </Button>
+                    </Stack>
                   </Grid>
                 </Grid>
               </Form>

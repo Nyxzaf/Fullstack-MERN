@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   createEmployeeRequest,
@@ -13,15 +7,13 @@ import {
   getEmployeesRequest,
   updateEmployeeRequest,
 } from "../api/Employee";
-import { 
+import {
   createTaskRequest,
   deleteTaskRequest,
-  getTaskRequest, 
-  getTasksRequest, 
-  updateTaskRequest 
+  getTaskRequest,
+  getTasksRequest,
+  updateTaskRequest,
 } from "../api/Tasks";
-
-
 
 const Context = createContext();
 
@@ -33,7 +25,6 @@ export const UseEmployee = () => {
 export const EmployeeContext = ({ children }) => {
   const [Employees, setEmployees] = useState([]);
   const [taskEmployee, setTaskEmployee] = useState([]);
-
 
   const getEmployeesAsLabels = useMemo(() => {
     return Employees.map((employee) => ({
@@ -51,14 +42,14 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
-  const getTasks = (onSuccess,onError) => {
+  const getTasks = (onSuccess, onError) => {
     getTasksRequest()
-    .then((res)=>{
-      setTaskEmployee(res.data);
-      onSuccess&& onSuccess(res.data)
-    })
-    .catch(onError)
-  }
+      .then((res) => {
+        setTaskEmployee(res.data);
+        onSuccess && onSuccess(res.data);
+      })
+      .catch(onError);
+  };
 
   const createEmployee = (employee, onSuccess, onError) => {
     return createEmployeeRequest(employee)
@@ -69,16 +60,15 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
-  const createTask = (task, onSuccess , onError)=> {
+  const createTask = (task, onSuccess, onError) => {
     return createTaskRequest(task)
-    .then((res)=>{
-      setTaskEmployee([...taskEmployee, res.data]);
-      onSuccess && onSuccess(res.data);
-      console.log(res.data);
-
-    })
-    .catch(onError);
-  }
+      .then((res) => {
+        setTaskEmployee([...taskEmployee, res.data]);
+        onSuccess && onSuccess(res.data);
+        console.log(res.data);
+      })
+      .catch(onError);
+  };
 
   const deleteEmployee = (id, onSuccess, onError) => {
     deleteEmployeeRequest(id)
@@ -89,14 +79,14 @@ export const EmployeeContext = ({ children }) => {
       .catch(onError);
   };
 
-  const deleteTask= (id, onSuccess , onError) =>{
+  const deleteTask = (id, onSuccess, onError) => {
     deleteTaskRequest(id)
-    .then(()=>{
-    setTaskEmployee(taskEmployee.filter((task)=> task._id !== id));
-    onSuccess && onSuccess();
-    })
-    .catch(onError)
-  }
+      .then(() => {
+        setTaskEmployee(taskEmployee.filter((task) => task._id !== id));
+        onSuccess && onSuccess();
+      })
+      .catch(onError);
+  };
 
   const updateEmployee = (id, employee, onSuccess, onError) => {
     updateEmployeeRequest(id, employee)
@@ -115,9 +105,7 @@ export const EmployeeContext = ({ children }) => {
     updateTaskRequest(id, task)
       .then((res) => {
         setTaskEmployee(
-          taskEmployee.map((task) =>
-            task._id == id ? res.data : task
-          )
+          taskEmployee.map((task) => (task._id == id ? res.data : task))
         );
         onSuccess && onSuccess(res.data);
       })
@@ -128,14 +116,14 @@ export const EmployeeContext = ({ children }) => {
     return getEmployeeRequest(id).then((res) => res.data);
   };
 
-  const getTask= (id) => {
+  const getTask = (id) => {
     return getTaskRequest(id).then((res) => res.data);
   };
 
   useEffect(() => {
     getEmployees();
   }, []);
-  
+
   useEffect(() => {
     getTasks();
   }, []);
@@ -157,7 +145,7 @@ export const EmployeeContext = ({ children }) => {
         setTaskEmployee,
         deleteTask,
         updateTask,
-        getTask
+        getTask,
       }}
     >
       {children}

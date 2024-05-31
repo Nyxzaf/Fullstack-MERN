@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import Droppable from "../../components/card/Droppable";
 import Draggable from "../../components/card/Draggable";
 import {
@@ -23,11 +28,15 @@ import { UseEmployee } from "../../context/EmployeeContext";
 const TaskDragAndDrop = () => {
   const { taskEmployee, updateTask } = UseEmployee();
   const [showTaskForm, setShowTaskForm] = useState(false);
-  
+
   const onDragEnd = (event) => {
     const { over, active } = event;
 
-    updateTask(active.id, { state: over.id })
+    if (taskEmployee.find((item) => item._id === active.id).state === over.id) {
+      return;
+    }
+    
+    updateTask(active.id, { state: over.id });
     //ACTUALIZA EL ESTADO EN LOCAL , NO ES NECESARIO PORQUE ESTOY USANDO EL UPDATE PARA ACTUALIZAR CON LA BASE DE DATOS
     // setTaskEmployee((prevTaskEmployee) => prevTaskEmployee.map((item) => {
     //   if (item._id === active.id) {
@@ -40,7 +49,16 @@ const TaskDragAndDrop = () => {
     // }));
   };
 
-  const getTasks = (state) => taskEmployee.filter((item) => item.state === state);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
+  const getTasks = (state) =>
+    taskEmployee.filter((item) => item.state === state);
 
   return (
     <>
@@ -57,12 +75,14 @@ const TaskDragAndDrop = () => {
         >
           Add New Task
         </Button>
-        <DndContext onDragEnd={onDragEnd}>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd}>
           <Grid container spacing={2}>
             {STATUS_TASK.map((item) => (
               <Grid item md={4} xs={12} key={item}>
                 <Droppable key={item} id={item}>
-                  <Paper sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}>
+                  <Paper
+                    sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}
+                  >
                     <Typography
                       borderRadius="22px 22px 0px 0px"
                       bgcolor={COLOR_2}
@@ -78,12 +98,12 @@ const TaskDragAndDrop = () => {
                       {getTasks(item).map((task) => (
                         <Grid item md={12} sm={6} xs={12} key={task._id}>
                           <Draggable id={task._id}>
-                            <CardTask 
-                              title={task.title} 
-                              description={task.description} 
-                              employeeId={task.employeeIds} 
+                            <CardTask
+                              title={task.title}
+                              description={task.description}
+                              employeeId={task.employeeIds}
                               taskId={task._id}
-                              severity={task.severity} 
+                              severity={task.severity}
                               start={task.createdAt}
                               end={task.updatedAt}
                               state={task.state}
@@ -104,9 +124,7 @@ const TaskDragAndDrop = () => {
           open={showTaskForm}
           onClose={() => setShowTaskForm(false)}
         >
-          <TaskForm
-            onClose={() => setShowTaskForm(false)}
-          />
+          <TaskForm onClose={() => setShowTaskForm(false)} />
         </Dialog>
       </Container>
     </>

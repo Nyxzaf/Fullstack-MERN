@@ -1,7 +1,14 @@
 import axios from "axios";
 
-export const getEventRequest = async() => await axios.get('http://localhost:5001/event')
-export const createEventRequest = async(Task)=> await axios.post("http://localhost:5001/event",Task)
-export const deleteEventRequest = async ( id )=> await axios.delete('http://localhost:5001/event/' + id);
-export const getEventsRequest = async ( id ) => await axios.get('http://localhost:5001/event/' + id)
-export const updateEventRequest = async(id, newfields) => await axios.put('http://localhost:5001/event/'+id, newfields)
+const baseUrl = "http://localhost:5001/events";
+
+export const getEventRequest = () => axios.get(`${baseUrl}`);
+
+export const createEventRequest = (Task) => axios.post(`${baseUrl}`, Task);
+
+export const deleteEventRequest = (id) => axios.delete(`${baseUrl}/${id}`);
+
+export const getEventsRequest = (id) => axios.get(`${baseUrl}/${id}`);
+
+export const updateEventRequest = (id, newfields) =>
+  axios.put(`${baseUrl}/${id}`, newfields);
