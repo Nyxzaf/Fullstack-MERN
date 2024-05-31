@@ -1,54 +1,77 @@
-import { Box } from "@mui/material";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import "../../css/calendar.css";
+import { useEffect, useState } from "react";
 
-export default function   Calendar() {
-
+export default function Calendar() {
   const localizer = dayjsLocalizer(dayjs);
+  const [eventsState, setEventsState] = useState({ data: [], isLoading: true });
 
-  const events = [
-    // {
-    //   saludar:(id)=> {
-    //     console.log(id);
-    //   }
-    // },
-      {
-        start: dayjs(`2024-05-07T12:00:00`).toDate(),
-        end: dayjs(`2024-05-07T13:00:00`).toDate(),
-        title: "Task 1",
-      },
-      {
-        start: dayjs(`2024-05-07T13:00:00`).toDate(),
-        end: dayjs(`2024-05-07T14:00:00`).toDate(),
-        title: "Task 2  ",
-      },
-  ];
+  useEffect(() => {
+    // getEvents()
+    //   .then((events) => {
+    //     setEventsState({
+    //       data: events,
+    //       isLoading: false,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching events:", error);
+    //     setEventsState({
+    //       data: [],
+    //       isLoading: false,
+    //     });
+    //   });
+    setTimeout(() => {
+      setEventsState({
+        data: [
+          {
+            start: dayjs(`2024-05-07T12:00:00`).toDate(),
+            end: dayjs(`2024-05-07T13:00:00`).toDate(),
+            title: "Task 1",
+          },
+          {
+            start: dayjs(`2024-05-07T09:00:00`).toDate(),
+            end: dayjs(`2024-05-07T10:00:00`).toDate(),
+            title: "Task 2",
+          },
+        ],
+        isLoading: false,
+      });
+    }, 2500);
+  }, [setEventsState]);
+
   const components = {
-    event: (Props) => {
+    event: (event) => {
       return (
         <Box display={"flex"}>
           <PlaylistAddCheckIcon />
-          {Props.title}
+          {event.title}
         </Box>
       );
     },
   };
 
   return (
-    <Box
-    p={3}
-    height={"100vh"}
-    >
-      <BigCalendar
-        localizer={localizer}
-        events={events}
-        views={["month", "day"]}
-        components={components}
-      />
-    </Box>
+    <>
+      <Box p={3} height={"100vh"}>
+        <BigCalendar
+          localizer={localizer}
+          events={eventsState.data}
+          views={["month", "day"]}
+          components={components}
+        />
+      </Box>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={eventsState.isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 }
 

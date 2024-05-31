@@ -15,13 +15,7 @@ import { UseEmployee } from "../../context/EmployeeContext";
 import Alert from "../alerts/Alert";
 import TaskForm from "../form/TaskForm";
 import dayjs from "dayjs";
-
-const severityColors = {
-  low: { border: "3px solid #a4a4a4", color: "#a4a4a4" },
-  medium: { border: "3px solid lightgreen", color: "green" },
-  high: { border: "3px solid yellow", color: "yellow" },
-  critical: { border: "3px solid red", color: "red" },
-};
+import { TaskStates, SEVERITY_COLORS } from "../../data/taskStates";
 
 const CardTask = ({
   title,
@@ -64,7 +58,7 @@ const CardTask = ({
     }
   }, [employeeId]);
 
-  const styles = severityColors[severity] || {};
+  const styles = SEVERITY_COLORS[severity] || {};
 
   const employeeNames = employees
     .map((emp) => `${emp.Name.split(" ")[0]} ${emp.LastName.split(" ")[0]}`)
@@ -92,7 +86,9 @@ const CardTask = ({
             )}
             {employees.length > 1 && (
               <Tooltip
-                title={<Typography variant="subtitle2">{employeeNames}</Typography>}
+                title={
+                  <Typography variant="subtitle2">{employeeNames}</Typography>
+                }
                 arrow
               >
                 <Typography
@@ -136,7 +132,7 @@ const CardTask = ({
             >
               {description}
             </Typography>
-            {state !== "Backlog" && (
+            {state !== TaskStates.BACKLOG && (
               <Typography
                 fontSize={15}
                 variant="body1"
@@ -144,11 +140,14 @@ const CardTask = ({
                 fontFamily={FONT_FAMILY}
                 color={"black"}
               >
-                {state === "In Progress"
+                {state === TaskStates.IN_PROGRESS
                   ? `Started at: ${dayjs(start).format("DD/MM/YYYY hh:mm")}`
                   : `Finished at: ${dayjs(end).format("DD/MM/YYYY hh:mm")}`}
               </Typography>
             )}
+            <Typography fontWeight="500" variant="subtitle1">
+              Severity: {severity.charAt(0).toUpperCase() + severity.slice(1)}
+            </Typography>
           </Box>
         </Box>
       </Card>
@@ -180,8 +179,8 @@ CardTask.propTypes = {
   taskId: PropTypes.string.isRequired,
   severity: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
-  start: PropTypes.string.isRequired,
-  end: PropTypes.string.isRequired,
+  start: PropTypes.string,
+  end: PropTypes.string,
 };
 
 export default CardTask;

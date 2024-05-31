@@ -1,20 +1,21 @@
 import { useDroppable } from "@dnd-kit/core";
-import PropTypes from 'prop-types'
+import { Grid } from "@mui/material";
+import PropTypes from "prop-types";
 const Droppable = ({ id, children }) => {
   const { setNodeRef } = useDroppable({
-    id
+    id,
   });
 
   return (
-    <div ref={setNodeRef} className="droppable-container">
+    <Grid item md={4} xs={12} ref={setNodeRef}>
       {children}
-    </div>
+    </Grid>
   );
 };
 
 Droppable.propTypes = {
-    id: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
-  };
-  
+  id: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 export default Droppable;

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 import { getTasksByEmployee } from "../../api/Tasks.js";
+import { TaskStates, SEVERITY_COLORS } from "../../data/taskStates.js";
 
 const InformationPage = () => {
   const { getEmployee } = UseEmployee();
@@ -29,11 +30,11 @@ const InformationPage = () => {
       getEmployee(params.id)
         .then((data) => {
           setEmployee(data);
-          return getTasksByEmployee(data._id);  
+          return getTasksByEmployee(data._id);
         })
         .then((task) => {
           setTasksEmployee(task.data);
-          console.log("Tareas del empleado:", task.data); 
+          console.log("Tareas del empleado:", task.data);
         })
         .catch((error) => {
           console.error("Error getting employee or tasks:", error);
@@ -43,19 +44,24 @@ const InformationPage = () => {
 
   const renderTasks = (status) => {
     const tasks = taskEmployee.filter((task) => task.state === status);
-    const hasTasks = tasks.length > 0; 
+    const hasTasks = tasks.length > 0;
 
     if (!hasTasks) {
       return (
         <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
-          <Typography fontWeight={"bold"} fontSize={18} textAlign={"center"} py={4}>
-            There are no tasks
+          <Typography
+            fontWeight={"bold"}
+            fontSize={18}
+            textAlign={"center"}
+            py={4}
+          >
+            The employee has no tasks in this state
           </Typography>
         </Paper>
       );
     } else {
       return (
-        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }} >
+        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
           <Carousel responsive={responsive}>
             {tasks.map((task) => (
               <Card
@@ -64,30 +70,14 @@ const InformationPage = () => {
                   mx: 1,
                   my: 1,
                   p: 1,
-                  border: `3px solid ${
-                    task.severity === "low"
-                      ? "blue"
-                      : task.severity === "medium"
-                      ? "lightgreen"
-                      : task.severity === "high"
-                      ? "yellow"
-                      : "red"
-                  }`,
+                  border: SEVERITY_COLORS[task.severity].border,
                   borderRadius: "10px",
                 }}
               >
                 <Typography
                   variant="body2"
                   component="div"
-                  color={
-                    task.severity === "low"
-                      ? "blue"
-                      : task.severity === "medium"
-                      ? "lightgreen"
-                      : task.severity === "high"
-                      ? "yellow"
-                      : "red"
-                  }
+                  color={SEVERITY_COLORS[task.severity].color}
                   fontWeight={"bold"}
                 >
                   {task.title}
@@ -181,7 +171,7 @@ const InformationPage = () => {
                 >
                   Backlog:
                 </Typography>
-                    {renderTasks("Backlog")}
+                {renderTasks(TaskStates.BACKLOG)}
                 <Typography
                   px={2}
                   py={1.5}
@@ -190,7 +180,7 @@ const InformationPage = () => {
                 >
                   In Progress:
                 </Typography>
-                    {renderTasks("In Progress")}
+                {renderTasks(TaskStates.IN_PROGRESS)}
                 <Typography
                   px={2}
                   py={1.5}
@@ -199,7 +189,7 @@ const InformationPage = () => {
                 >
                   Done:
                 </Typography>
-                    {renderTasks("Done")}
+                {renderTasks(TaskStates.DONE)}
               </Box>
             </Paper>
           </Grid>

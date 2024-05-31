@@ -19,20 +19,18 @@ const TaskSchema = new mongoose.Schema(
     description: {
       type: SchemaTypes.String,
       required: true,
-      trim: true, 
+      trim: true,
     },
     state: {
       type: SchemaTypes.String,
       trim: true,
       default: "Backlog",
     },
-    duration: {
-      start: {
-        type: SchemaTypes.Date,
-      },
-      end: {
-        type: SchemaTypes.Date,
-      },
+    startedAt: {
+      type: SchemaTypes.Date,
+    },
+    finishedAt: {
+      type: SchemaTypes.Date,
     },
   },
   { timestamps: true }

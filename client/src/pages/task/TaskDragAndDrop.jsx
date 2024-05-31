@@ -20,10 +20,11 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SendIcon from "@mui/icons-material/Send";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily";
 import CardTask from "../../components/card/CardTask";
-import { STATUS_TASK } from "../../data/ItemsTask";
+import { TASK_STATES, TaskStates } from "../../data/taskStates";
 import { COLOR_2 } from "../../assets/color/colors";
 import TaskForm from "../../components/form/TaskForm";
 import { UseEmployee } from "../../context/EmployeeContext";
+import dayjs from "dayjs";
 
 const TaskDragAndDrop = () => {
   const { taskEmployee, updateTask } = UseEmployee();
@@ -31,22 +32,24 @@ const TaskDragAndDrop = () => {
 
   const onDragEnd = (event) => {
     const { over, active } = event;
+    const task = taskEmployee.find((item) => item._id === active.id);
 
-    if (taskEmployee.find((item) => item._id === active.id).state === over.id) {
+    if (task.state === over.id) {
       return;
+    } else if (over.id === TaskStates.IN_PROGRESS) {
+      updateTask(active.id, { state: over.id, startedAt: new dayjs() });
+    } else if (over.id === TaskStates.DONE) {
+      updateTask(active.id, {
+        state: over.id,
+        finishedAt: new dayjs(),
+      });
+    } else if (over.id === TaskStates.BACKLOG) {
+      updateTask(active.id, {
+        state: over.id,
+        startedAt: null,
+        finishedAt: null,
+      });
     }
-    
-    updateTask(active.id, { state: over.id });
-    //ACTUALIZA EL ESTADO EN LOCAL , NO ES NECESARIO PORQUE ESTOY USANDO EL UPDATE PARA ACTUALIZAR CON LA BASE DE DATOS
-    // setTaskEmployee((prevTaskEmployee) => prevTaskEmployee.map((item) => {
-    //   if (item._id === active.id) {
-    //     return {
-    //       ...item,
-    //       state: over.id,
-    //     };
-    //   }
-    //   return item;
-    // }));
   };
 
   const sensors = useSensors(
@@ -58,7 +61,9 @@ const TaskDragAndDrop = () => {
   );
 
   const getTasks = (state) =>
-    taskEmployee.filter((item) => item.state === state);
+    taskEmployee
+      .filter((item) => item.state === state)
+      .toSorted((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   return (
     <>
@@ -75,49 +80,45 @@ const TaskDragAndDrop = () => {
         >
           Add New Task
         </Button>
-        <DndContext sensors={sensors} onDragEnd={onDragEnd}>
-          <Grid container spacing={2}>
-            {STATUS_TASK.map((item) => (
-              <Grid item md={4} xs={12} key={item}>
-                <Droppable key={item} id={item}>
-                  <Paper
-                    sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}
+        <Grid container spacing={2}>
+          <DndContext sensors={sensors} onDragEnd={onDragEnd}>
+            {TASK_STATES.map((item) => (
+              <Droppable key={item} id={item}>
+                <Paper sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}>
+                  <Typography
+                    borderRadius="22px 22px 0px 0px"
+                    bgcolor={COLOR_2}
+                    py={1}
+                    fontFamily={FONT_FAMILY}
+                    fontSize={30}
+                    color={"white"}
+                    align="center"
                   >
-                    <Typography
-                      borderRadius="22px 22px 0px 0px"
-                      bgcolor={COLOR_2}
-                      py={1}
-                      fontFamily={FONT_FAMILY}
-                      fontSize={30}
-                      color={"white"}
-                      align="center"
-                    >
-                      {item}
-                    </Typography>
-                    <Grid container p={1.5} spacing={1}>
-                      {getTasks(item).map((task) => (
-                        <Grid item md={12} sm={6} xs={12} key={task._id}>
-                          <Draggable id={task._id}>
-                            <CardTask
-                              title={task.title}
-                              description={task.description}
-                              employeeId={task.employeeIds}
-                              taskId={task._id}
-                              severity={task.severity}
-                              start={task.createdAt}
-                              end={task.updatedAt}
-                              state={task.state}
-                            />
-                          </Draggable>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Paper>
-                </Droppable>
-              </Grid>
+                    {item}
+                  </Typography>
+                  <Grid container p={1.5} spacing={1}>
+                    {getTasks(item).map((task) => (
+                      <Grid item md={12} sm={6} xs={12} key={task._id}>
+                        <Draggable id={task._id}>
+                          <CardTask
+                            title={task.title}
+                            description={task.description}
+                            employeeId={task.employeeIds}
+                            taskId={task._id}
+                            severity={task.severity}
+                            start={task.startedAt}
+                            end={task.finishedAt}
+                            state={task.state}
+                          />
+                        </Draggable>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Droppable>
             ))}
-          </Grid>
-        </DndContext>
+          </DndContext>
+        </Grid>
         <Dialog
           fullWidth={true}
           maxWidth="md"
