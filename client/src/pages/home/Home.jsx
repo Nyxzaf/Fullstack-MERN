@@ -19,7 +19,7 @@ const Home = () => {
       <Title title="Home" />
       <Container component={"section"} sx={{ my: 2 }}>
         <Typography variant="h5" fontFamily={FONT_FAMILY}>
-          Welcome to the call application
+          Welcome to the information app
         </Typography>
         <Grid container spacing={3} my={1}>
           {ITEM.slice(1).map((item) => {

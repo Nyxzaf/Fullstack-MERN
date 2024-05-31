@@ -21,23 +21,23 @@ import TaskForm from "../../components/form/TaskForm";
 import { UseEmployee } from "../../context/EmployeeContext";
 
 const TaskDragAndDrop = () => {
-  const { taskEmployee, setTaskEmployee } = UseEmployee(); 
+  const { taskEmployee, updateTask } = UseEmployee();
   const [showTaskForm, setShowTaskForm] = useState(false);
-
+  
   const onDragEnd = (event) => {
     const { over, active } = event;
 
-    setTaskEmployee(
-      taskEmployee.map((item) => {
-        if (item._id === active.id) {
-          return {
-            ...item,
-            state: over.id,
-          };
-        }
-        return item;
-      })
-    );
+    updateTask(active.id, { state: over.id })
+    //ACTUALIZA EL ESTADO EN LOCAL , NO ES NECESARIO PORQUE ESTOY USANDO EL UPDATE PARA ACTUALIZAR CON LA BASE DE DATOS
+    // setTaskEmployee((prevTaskEmployee) => prevTaskEmployee.map((item) => {
+    //   if (item._id === active.id) {
+    //     return {
+    //       ...item,
+    //       state: over.id,
+    //     };
+    //   }
+    //   return item;
+    // }));
   };
 
   const getTasks = (state) => taskEmployee.filter((item) => item.state === state);
@@ -74,11 +74,20 @@ const TaskDragAndDrop = () => {
                     >
                       {item}
                     </Typography>
-                    <Grid container p={2} spacing={1}>
+                    <Grid container p={1.5} spacing={1}>
                       {getTasks(item).map((task) => (
-                        <Grid item md={12} xs={6} key={task._id}>
+                        <Grid item md={12} sm={6} xs={12} key={task._id}>
                           <Draggable id={task._id}>
-                            <CardTask title={task.title} description={task.description} employeeId={task.employeeIds} taskId={task._id} />
+                            <CardTask 
+                              title={task.title} 
+                              description={task.description} 
+                              employeeId={task.employeeIds} 
+                              taskId={task._id}
+                              severity={task.severity} 
+                              start={task.createdAt}
+                              end={task.updatedAt}
+                              state={task.state}
+                            />
                           </Draggable>
                         </Grid>
                       ))}

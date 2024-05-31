@@ -14,25 +14,14 @@ import { getTasksByEmployee } from "../../api/Tasks.js";
 const InformationPage = () => {
   const { getEmployee } = UseEmployee();
   const params = useParams();
-  const [employee, setEmployee] = useState([]);
+  const [employee, setEmployee] = useState({});
+  const [taskEmployee, setTasksEmployee] = useState([]);
 
   const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
+    superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
+    desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
+    tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
+    mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
   };
 
   useEffect(() => {
@@ -40,17 +29,80 @@ const InformationPage = () => {
       getEmployee(params.id)
         .then((data) => {
           setEmployee(data);
-          getTasksByEmployee(data._id)
-          .then((tasks) => {
-            console.log(tasks);
-            // TODO set tasks
-          });
+          return getTasksByEmployee(data._id);  
+        })
+        .then((task) => {
+          setTasksEmployee(task.data);
+          console.log("Tareas del empleado:", task.data); 
         })
         .catch((error) => {
-          console.error("Error getting employee:", error);
+          console.error("Error getting employee or tasks:", error);
         });
     }
   }, [params.id]);
+
+  const renderTasks = (status) => {
+    const tasks = taskEmployee.filter((task) => task.state === status);
+    const hasTasks = tasks.length > 0; 
+
+    if (!hasTasks) {
+      return (
+        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
+          <Typography fontWeight={"bold"} fontSize={18} textAlign={"center"} py={4}>
+            There are no tasks
+          </Typography>
+        </Paper>
+      );
+    } else {
+      return (
+        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }} >
+          <Carousel responsive={responsive}>
+            {tasks.map((task) => (
+              <Card
+                key={task._id}
+                sx={{
+                  mx: 1,
+                  my: 1,
+                  p: 1,
+                  border: `3px solid ${
+                    task.severity === "low"
+                      ? "blue"
+                      : task.severity === "medium"
+                      ? "lightgreen"
+                      : task.severity === "high"
+                      ? "yellow"
+                      : "red"
+                  }`,
+                  borderRadius: "10px",
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  component="div"
+                  color={
+                    task.severity === "low"
+                      ? "blue"
+                      : task.severity === "medium"
+                      ? "lightgreen"
+                      : task.severity === "high"
+                      ? "yellow"
+                      : "red"
+                  }
+                  fontWeight={"bold"}
+                >
+                  {task.title}
+                </Typography>
+                <Typography fontSize={14}>{task.description}</Typography>
+                <Typography fontSize={13}>
+                  {dayjs(task.createdAt).format("DD/MM/YYYY")}
+                </Typography>
+              </Card>
+            ))}
+          </Carousel>
+        </Paper>
+      );
+    }
+  };
 
   return (
     <>
@@ -129,30 +181,7 @@ const InformationPage = () => {
                 >
                   Backlog:
                 </Typography>
-                <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
-                  <Carousel responsive={responsive}>
-                    <Card
-                      sx={{
-                        mx: 1,
-                        my: 1,
-                        p: 1,
-                        border: "3px solid lightgreen",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        component="div"
-                        color={"lightgreen"}
-                        fontWeight={"bold"}
-                      >
-                        Realizar trabajos
-                      </Typography>
-                      <Typography fontSize={14}>9:00pm - 11:00pm</Typography>
-                      <Typography fontSize={13}>28/03/2001</Typography>
-                    </Card>
-                  </Carousel>
-                </Paper>
+                    {renderTasks("Backlog")}
                 <Typography
                   px={2}
                   py={1.5}
@@ -161,30 +190,7 @@ const InformationPage = () => {
                 >
                   In Progress:
                 </Typography>
-                <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
-                  <Carousel responsive={responsive}>
-                    <Card
-                      sx={{
-                        mx: 1,
-                        my: 1,
-                        p: 1,
-                        border: "3px solid orange",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        component="div"
-                        color={"Orange"}
-                        fontWeight={"bold"}
-                      >
-                        Realizar trabajos
-                      </Typography>
-                      <Typography fontSize={14}>9:00pm - 11:00pm</Typography>
-                      <Typography fontSize={13}>28/03/2001</Typography>
-                    </Card>
-                  </Carousel>
-                </Paper>
+                    {renderTasks("In Progress")}
                 <Typography
                   px={2}
                   py={1.5}
@@ -193,30 +199,7 @@ const InformationPage = () => {
                 >
                   Done:
                 </Typography>
-                <Paper sx={{ mx: 2, bgcolor: "white", borderRadius: "10px" }}>
-                  <Carousel responsive={responsive}>
-                    <Card
-                      sx={{
-                        mx: 1,
-                        my: 1,
-                        p: 1,
-                        border: "3px solid lightcoral",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        component="div"
-                        color={"lightcoral"}
-                        fontWeight={"bold"}
-                      >
-                        Realizar trabajos
-                      </Typography>
-                      <Typography fontSize={14}>9:00pm - 11:00pm</Typography>
-                      <Typography fontSize={13}>28/03/2001</Typography>
-                    </Card>
-                  </Carousel>
-                </Paper>
+                    {renderTasks("Done")}
               </Box>
             </Paper>
           </Grid>
