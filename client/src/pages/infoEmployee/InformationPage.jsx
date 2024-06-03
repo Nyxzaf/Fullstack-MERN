@@ -61,7 +61,7 @@ const InformationPage = () => {
       );
     } else {
       return (
-        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
+        <Paper sx={{ mx: 2, borderRadius: "10px" }}>
           <Carousel responsive={responsive}>
             {tasks.map((task) => (
               <Card
@@ -82,10 +82,20 @@ const InformationPage = () => {
                 >
                   {task.title}
                 </Typography>
-                <Typography fontSize={14}>{task.description}</Typography>
-                <Typography fontSize={13}>
-                  {dayjs(task.createdAt).format("DD/MM/YYYY")}
+                <Typography fontSize={14}>
+                  {task.description}
                 </Typography>
+                {
+                  task.state === "Backlog"? 
+                  "": task.state === "In Progress" ? 
+                  <Typography fontSize={14} color={"grey"}>
+                    {dayjs(task.startedAt).format("DD/MM/YYYY hh:mm")}
+                  </Typography>
+                  : 
+                  <Typography fontSize={14} color={"grey"}>
+                    {dayjs(task.finishedAt).format("DD/MM/YYYY hh:mm")}
+                  </Typography>
+                }
               </Card>
             ))}
           </Carousel>
@@ -118,7 +128,6 @@ const InformationPage = () => {
                 Personal information
               </Typography>
               <Box
-                component={"ul"}
                 p={2}
                 my={0}
                 display={"flex"}
@@ -127,9 +136,7 @@ const InformationPage = () => {
               >
                 {FORM_ITEM.map((item) => (
                   <Box
-                    component={"li"}
                     key={item.id}
-                    sx={{ listStyleType: "none" }}
                   >
                     <Typography
                       fontFamily={FONT_FAMILY}

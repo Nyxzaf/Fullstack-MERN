@@ -122,7 +122,6 @@ function DataForm({ onSave, onClose }) {
                   <Grid item xs={12}>
                     <Stack spacing={2} direction="row" justifyContent="end">
                       <Button
-                        variant="contained"
                         color="primary"
                         onClick={handleClose}
                       >

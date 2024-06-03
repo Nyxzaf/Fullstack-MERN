@@ -22,7 +22,7 @@ const DrawerHome = ({ children }) => {
         anchor="left"
         sx={{
           display: { xs: "none", lg: "block" },
-          width: "185px",
+          width: "195px",
           "& .MuiPaper-root": {
             position: "relative",
             height: "100vh",

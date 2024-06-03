@@ -1,40 +1,40 @@
 import mongoose, { SchemaTypes } from "mongoose";
 const EventSchema = new mongoose.Schema(
   {
-    EmployeeIds: {
+    employeeIds: {
       type: SchemaTypes.Array,
       required: true,
       trim: true,
     },
-    Title: {
+    title: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    Description: {
+    description: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    Type: {
+    type: {
       type: SchemaTypes.String, //Conferencia, Entrevista, Evento de Integración
       required: true,
       trim: true,
     },
-    Location: {
+    location: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    LocationUrl: {
+    locationUrl: {
       type: SchemaTypes.String,
       required: true,
       trim: true,
     },
-    Start: {
+    start: {
       type: SchemaTypes.Date,
     },
-    End: {
+    end: {
       type: SchemaTypes.Date,
     },
   },

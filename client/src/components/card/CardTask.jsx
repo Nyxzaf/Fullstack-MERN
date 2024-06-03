@@ -60,8 +60,7 @@ const CardTask = ({
 
   const styles = SEVERITY_COLORS[severity] || {};
 
-  const employeeNames = employees
-    .map((emp) => `${emp.Name.split(" ")[0]} ${emp.LastName.split(" ")[0]}`)
+  const employeeNames = employees.map((emp) => `${emp.Name.split(" ")[0]} ${emp.LastName.split(" ")[0]}`)
     .join(", ");
 
   return (

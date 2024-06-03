@@ -1,14 +1,20 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:5001/events";
+const baseUrl = "http://localhost:5000/events";
 
-export const getEventRequest = () => axios.get(`${baseUrl}`);
+export const getEventsRequest = () => axios.get(`${baseUrl}`);
 
-export const createEventRequest = (Task) => axios.post(`${baseUrl}`, Task);
+export const createEventRequest = (event) => axios.post(`${baseUrl}`, event);
 
 export const deleteEventRequest = (id) => axios.delete(`${baseUrl}/${id}`);
 
-export const getEventsRequest = (id) => axios.get(`${baseUrl}/${id}`);
+export const getEventRequest = (id) => axios.get(`${baseUrl}/${id}`);
 
-export const updateEventRequest = (id, newfields) =>
+export const updateEventRequest = (id, newfields) => 
   axios.put(`${baseUrl}/${id}`, newfields);
+
+export const getNameEmployeeRequest = (employees) => 
+  axios.get(`${baseUrl}/${employees}`);
+
+export const getEventsByEmployee = (employeeId) =>
+  axios.get(`${baseUrl}/employees/${employeeId}`);

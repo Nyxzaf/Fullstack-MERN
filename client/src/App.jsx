@@ -1,7 +1,6 @@
 import DrawerHome from '../src/pages/home/DrawerHome';
 import Home from '../src/pages/home/Home';
 import { Route, Routes } from 'react-router-dom';
-import Task from '../src/pages/task/Task';
 import Header from '../src/components/header/Header';
 import EmployeeData from '../src/pages/employeeData/EmployeeData';
 import Calendar from '../src/pages/calendar/Calendar';
@@ -18,7 +17,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/data" element={<EmployeeData />} />
-            <Route path="/task" element={<Task />} />
             <Route path="/task2" element={<TaskDragAndDrop />} />
             <Route path="/infoPage/:id" element={<InformationPage />} />
             <Route path="/calendar" element={<Calendar />} />

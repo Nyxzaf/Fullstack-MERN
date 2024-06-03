@@ -1,67 +1,84 @@
-
 import Event from "../models/event.js";
+import Employee from "../models/employee.js";
 
-
-export const getTasks = async (req, res) => {
+export const getEvents = async (req, res) => {
   try {
-    const tasks = await Event.find();
-    res.send(tasks);
+    const Events = await Event.find();
+    res.send(Events);
   } catch (err) {
     res.status(500).send("error");
   }
 };
 
-export const getTaskById = async (req, res) => {
+export const getEventById = async (req, res) => {
   try {
-    const task = await Event.findById(req.params.id);
-    if (!task) {
+    const event = await Event.findById(req.params.id); 
+    if (!event) {
       return res.status(404).send("error");
     }
-    res.json(task);
+    return res.json(event);
   } catch (err) {
     res.status(500).send("error");
   }
 };
 
-export const createTask = async (req, res) => {
+export const getEventByEmployee = async (req, res) => {
   try {
-    const Createtask = new Event(req.body);
-    await Createtask.save();
-    return res.json(Createtask)
+    const Events = await Event.find({ employeeIds: req.params.employeeId });
+    res.send(Events);
   } catch (err) {
-    console.log(err)
+    res.status(500).send("error");
+  }
+};
+
+export const createEvent = async (req, res) => {
+  try {
+    const CreateEvent = new Event(req.body);
+    await CreateEvent.save();
+    return res.json(CreateEvent);
+  } catch (err) {
+    console.log(err);
     return res.status(500).send("error al crear la tabla");
   }
 };
 
-export const updateTask = async (req, res) => {
+export const updateEvent = async (req, res) => {
   try {
-    const UpdateTask = await Event.findByIdAndUpdate(
+    const UpdateEvent = await Event.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
-        new:true,
+        new: true,
       }
     );
 
-      return res.send(UpdateTask);
+    return res.send(UpdateEvent);
   } catch (err) {
     console.log(err);
     return res.status(500).send("error");
   }
 };
 
-export const deleteTask = async (req, res) => {
+export const deleteEvent = async (req, res) => {
   try {
-    const taskId = req.params.id;
-    const result = await Event.deleteOne({ _id: taskId });
+    const EventId = req.params.id;
+    const result = await Event.deleteOne({ _id: EventId });
     if (result.deletedCount === 0) {
-      return res.sendStatus(404); 
+      return res.sendStatus(404);
     }
     return res.sendStatus(204);
   } catch (err) {
     console.error(err);
-    return res.status(500).send("Error deleting task");
+    return res.status(500).send("Error deleting Event");
   }
 };
 
+export const getNameEmployee = async (req, res) => {
+  try {
+    const activeEmployees = await Employee.distinct("Name", { Active: true });
+    res.send(activeEmployees);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving employee names");
+  }
+};

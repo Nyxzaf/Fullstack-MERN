@@ -1,68 +1,83 @@
-import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Dialog } from "@mui/material";
 import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import "../../css/calendar.css";
 import { useEffect, useState } from "react";
+import EventForm from "../../components/form/EventForm";
+import { UseEmployee } from "../../context/EmployeeContext";
+import EventModal from "../../components/modal/EventModal";
+
 
 export default function Calendar() {
   const localizer = dayjsLocalizer(dayjs);
   const [eventsState, setEventsState] = useState({ data: [], isLoading: true });
-
-  useEffect(() => {
-    // getEvents()
-    //   .then((events) => {
-    //     setEventsState({
-    //       data: events,
-    //       isLoading: false,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching events:", error);
-    //     setEventsState({
-    //       data: [],
-    //       isLoading: false,
-    //     });
-    //   });
-    setTimeout(() => {
+  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState({});
+  const { event  } = UseEmployee();
+    
+    useEffect(() => {
+      const Events = event.map((ev) => ({
+        ...ev,
+        start: dayjs(ev.start).toDate(),
+        end: dayjs(ev.end).toDate(),
+      }));
+  
       setEventsState({
-        data: [
-          {
-            start: dayjs(`2024-05-07T12:00:00`).toDate(),
-            end: dayjs(`2024-05-07T13:00:00`).toDate(),
-            title: "Task 1",
-          },
-          {
-            start: dayjs(`2024-05-07T09:00:00`).toDate(),
-            end: dayjs(`2024-05-07T10:00:00`).toDate(),
-            title: "Task 2",
-          },
-        ],
+        data: Events,
         isLoading: false,
       });
-    }, 2500);
-  }, [setEventsState]);
+    }, [event]);
+    
+  
+    const handleSelectSlot = ({ start, end }) => {
+      setSelectedSlot({ start, end });
+      setShowForm(true);
+    };
 
-  const components = {
-    event: (event) => {
-      return (
-        <Box display={"flex"}>
-          <PlaylistAddCheckIcon />
+    const handleSelectEvent = (event)=>{
+      console.log("event",event);
+      setSelectedEvent(event)
+      setShowModal(true);
+
+    }
+
+
+    const components = {
+      event: ({ event }) => (
+        <Box display={"flex"} justifyContent="center">
           {event.title}
         </Box>
-      );
-    },
-  };
+      ),
+      day: {
+        event: ({ event }) => (
+          <Box display={"flex"} justifyContent={"left"} ml={2} mt={1}>
+            {event.title}
+          </Box>
+        ),
+      },
+      week: {
+        event: () => (
+          <Box display={"flex"} justifyContent={"center"} ml={2}>
+            {""}
+          </Box>
+        ),
+      },
+    };
 
-  return (
-    <>
+    return (
+      <>
       <Box p={3} height={"100vh"}>
         <BigCalendar
           localizer={localizer}
           events={eventsState.data}
-          views={["month", "day"]}
+          views={["month", "week", "day"]}
           components={components}
+          onSelectEvent={handleSelectEvent}
+          onSelectSlot={handleSelectSlot}
+          selectable
         />
       </Box>
       <Backdrop
@@ -71,56 +86,29 @@ export default function Calendar() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Dialog
+        open={showForm}
+        onClose={() => setShowForm(false)}
+        maxWidth="md"
+      >
+        <EventForm
+          onClose={() => setShowForm(false)}
+          time={selectedSlot || { start: new Date(), end: new Date() }}
+        />
+      </Dialog>
+      <Dialog
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        maxWidth="sm"
+      >
+        <EventModal 
+        onClose={() => setShowModal(false)} 
+        event={selectedEvent}
+        />
+      </Dialog>
     </>
-  );
-}
+    );
+  }
 
-// import { useEffect, useState } from "react";
-// import { Box } from "@mui/material";
-// import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import dayjs from "dayjs";
-// import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-// import axios from "axios"; // Importa Axios para realizar solicitudes HTTP
-// import "../../css/calendar.css";
 
-// export default function Calendar() {
-//   const localizer = dayjsLocalizer(dayjs);
-//   const [events, setEvents] = useState([]);
 
-//   useEffect(() => {
-//     // Función para obtener eventos desde el backend
-//     const fetchEvents = async () => {
-//       try {
-//         const response = await axios.get("/api/events"); // Reemplaza "/api/events" con la ruta correcta a tu endpoint de eventos
-//         setEvents(response.data);
-//       } catch (error) {
-//         console.error("Error fetching events:", error);
-//       }
-//     };
-
-//     fetchEvents(); // Llama a la función de obtención de eventos al montar el componente
-//   }, []);
-
-//   const components = {
-//     event: (Props) => {
-//       return (
-//         <Box display={"flex"}>
-//           <PlaylistAddCheckIcon />
-//           {Props.title}
-//         </Box>
-//       );
-//     },
-//   };
-
-//   return (
-//     <Box p={3} height={"100vh"}>
-//       <BigCalendar
-//         localizer={localizer}
-//         events={events}
-//         views={["month", "day"]}
-//         components={components}
-//       />
-//     </Box>
-//   );
-// }

@@ -10,6 +10,7 @@ import {
   Typography,
   Autocomplete,
   Box,
+  Stack,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { FONT_FAMILY } from "../../assets/fonts/FontFamily.js";
@@ -66,6 +67,7 @@ function TaskForm({ onClose, taskToEdit }) {
   };
 
   const handleSubmit = (values, actions) => {
+    console.log(values)
     const requestData = {
       ...values,
       employeeIds: values.employeeIds.map((employee) => employee.value),
@@ -139,7 +141,7 @@ function TaskForm({ onClose, taskToEdit }) {
                     <MenuItem value="critical">Critical</MenuItem>
                   </Field>
                   {touched.severity && errors.severity ? (
-                    <Typography sx={{ color: "red" }}>
+                    <Typography color={"#d32f2f"} fontSize={12} pl={2}>
                       {errors.severity}
                     </Typography>
                   ) : null}
@@ -151,9 +153,10 @@ function TaskForm({ onClose, taskToEdit }) {
                   as={Autocomplete}
                   label="Employees"
                   name="employeeIds"
-                  limitTags={3}
+                  limitTags={2}
                   options={getEmployeesAsLabels}
                   multiple
+                  disableCloseOnSelect
                   getOptionLabel={(option) => option.label}
                   onChange={(e, value) => {
                     setFieldValue("employeeIds", value);
@@ -186,15 +189,18 @@ function TaskForm({ onClose, taskToEdit }) {
                   helperText={touched.description && errors.description}
                 />
               </Grid>
-              <Grid item xs={6}>
-                <Button color="primary" onClick={handleClose}>
-                  Close
-                </Button>
-              </Grid>
-              <Grid item display={"flex"} justifyContent={"flex-end"} xs={6}>
-                <Button variant="contained" color="primary" type="submit">
-                  Save and Submit
-                </Button>
+              <Grid item xs={12}>
+                <Stack spacing={2} direction="row" justifyContent="end">
+                  <Button
+                    color="primary"
+                    onClick={handleClose}
+                  >
+                    Close
+                  </Button>
+                  <Button variant="contained" color="primary" type="submit">
+                    Save and Submit
+                  </Button>
+                </Stack>
               </Grid>
             </Grid>
           </Form>
