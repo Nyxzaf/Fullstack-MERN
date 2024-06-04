@@ -39,7 +39,7 @@ const validationSchema = Yup.object({
   locationUrl: Yup.string().required("Location Url is required"),
 });
 
-function EventForm({ onClose, eventToEdit, time }) {
+function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
   const { getEmployeesAsLabels , createEvent , updateEvent, Employees } = UseEmployee();
 
   const [initialValues, setInitialValues] = useState({
@@ -107,9 +107,6 @@ function EventForm({ onClose, eventToEdit, time }) {
     }
   };
   
-  const handleClose = () => {
-    onClose();
-  };
 
   return (
     <Box
@@ -274,7 +271,7 @@ function EventForm({ onClose, eventToEdit, time }) {
                 <Stack spacing={2} direction="row" justifyContent="end">
                   <Button
                     color="primary"
-                    onClick={handleClose}
+                    onClick={closeForm}
                   >
                     Close
                   </Button>
@@ -297,7 +294,8 @@ EventForm.propTypes = {
   time: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,
     end: PropTypes.instanceOf(Date).isRequired
-  }).isRequired
+  }).isRequired,
+  closeForm:PropTypes.func
 };
 
 export default EventForm;

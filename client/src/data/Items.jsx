@@ -22,7 +22,7 @@ export const ITEM = [
     SubTitle: "Table Task",
     content: "Add the tasks to the employee here.",
     Icon: <PlaylistAddCheckIcon />,
-    Path: "/task2",
+    Path: "/task",
   },
   {
     Title: "Calendar",

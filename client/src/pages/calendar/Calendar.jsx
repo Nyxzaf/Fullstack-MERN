@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, Dialog } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Dialog, Paper, Popover } from "@mui/material";
 import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
@@ -8,72 +8,63 @@ import EventForm from "../../components/form/EventForm";
 import { UseEmployee } from "../../context/EmployeeContext";
 import EventModal from "../../components/modal/EventModal";
 
-
 export default function Calendar() {
   const localizer = dayjsLocalizer(dayjs);
   const [eventsState, setEventsState] = useState({ data: [], isLoading: true });
   const [showForm, setShowForm] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState({});
-  const { event  } = UseEmployee();
-    
-    useEffect(() => {
-      const Events = event.map((ev) => ({
-        ...ev,
-        start: dayjs(ev.start).toDate(),
-        end: dayjs(ev.end).toDate(),
-      }));
-  
-      setEventsState({
-        data: Events,
-        isLoading: false,
-      });
-    }, [event]);
-    
-  
-    const handleSelectSlot = ({ start, end }) => {
-      setSelectedSlot({ start, end });
-      setShowForm(true);
-    };
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleSelectEvent = (event)=>{
-      console.log("event",event);
-      setSelectedEvent(event)
-      setShowModal(true);
+  const { event } = UseEmployee();
 
-    }
+  useEffect(() => {
+    const Events = event.map((ev) => ({
+      ...ev,
+      start: dayjs(ev.start).toDate(),
+      end: dayjs(ev.end).toDate(),
+    }));
 
+    setEventsState({
+      data: Events,
+      isLoading: false,
+    });
+  }, [event]);
 
-    const components = {
-      event: ({ event }) => (
-        <Box display={"flex"} justifyContent="center">
-          {event.title}
+  const handleSelectSlot = ({ start, end }) => {
+    setSelectedSlot({ start, end });
+    setShowForm(true);
+  };
+
+  const handleSelectEvent = (event, e) => {
+    setSelectedEvent(event);
+    setAnchorEl(e.currentTarget);
+    setShowPopover(true);
+  };
+
+  const components = {
+    event: ({ event }) => (
+      <Box display="flex" justifyContent="center">
+        {event.title}
+      </Box>
+    ),
+    week: {
+      event: () => (
+        <Box display="flex" alignItems="center" justifyContent="center" ml={2}>
+          {""}
         </Box>
       ),
-      day: {
-        event: ({ event }) => (
-          <Box display={"flex"} justifyContent={"left"} ml={2} mt={1}>
-            {event.title}
-          </Box>
-        ),
-      },
-      week: {
-        event: () => (
-          <Box display={"flex"} justifyContent={"center"} ml={2}>
-            {""}
-          </Box>
-        ),
-      },
-    };
+    },
+  };
 
-    return (
-      <>
-      <Box p={3} height={"100vh"}>
+  return (
+    <>
+      <Box p={3} height="100vh">
         <BigCalendar
           localizer={localizer}
           events={eventsState.data}
-          views={["month", "week", "day"]}
+          views={["month", "week"]}
           components={components}
           onSelectEvent={handleSelectEvent}
           onSelectSlot={handleSelectSlot}
@@ -86,29 +77,26 @@ export default function Calendar() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Dialog
-        open={showForm}
-        onClose={() => setShowForm(false)}
-        maxWidth="md"
-      >
-        <EventForm
-          onClose={() => setShowForm(false)}
-          time={selectedSlot || { start: new Date(), end: new Date() }}
-        />
+      <Dialog open={showForm} onClose={() => setShowForm(false)} maxWidth="md">
+        <EventForm onClose={() => setShowForm(false)} time={selectedSlot || { start: new Date(), end: new Date() }} />
       </Dialog>
-      <Dialog
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        maxWidth="sm"
+      <Popover
+        open={showPopover}
+        anchorEl={anchorEl}
+        onClose={()=> setShowPopover(false)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
       >
-        <EventModal 
-        onClose={() => setShowModal(false)} 
-        event={selectedEvent}
-        />
-      </Dialog>
+        <Paper>
+          <EventModal onClose={()=> setShowPopover(false)} event={selectedEvent} />
+        </Paper>
+      </Popover>
     </>
-    );
-  }
-
-
-
+  );
+}

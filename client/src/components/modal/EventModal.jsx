@@ -147,6 +147,7 @@ const EventModal = ({ onClose, event }) => {
           onClose={handleClosed}
           time={{ start: new Date(), end: new Date() }}
           eventToEdit={event}
+          closeForm={()=>setShowForm(false)}
         />
       </Dialog>
       </Box>
@@ -156,7 +157,7 @@ const EventModal = ({ onClose, event }) => {
 
 EventModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  event: PropTypes.object.isRequired,
+  event: PropTypes.object
 };
 
 export default EventModal;
