@@ -56,7 +56,9 @@ const EventModal = ({ onClose, event }) => {
           <CloseIcon />
         </IconButton>
       </Box>
-      <Box p={3} >
+      <Box p={3} 
+      overflow={"hidden"}
+      >
         <Typography pb={2} align="center" variant="h4">
           {event.title}
         </Typography>
@@ -70,15 +72,15 @@ const EventModal = ({ onClose, event }) => {
           </Stack>
         </Stack>
         <Stack py={2} direction={"row"} gap={"0.65rem"} alignItems={"center"}>
-          <GroupIcon />
-          <Stack direction={'row'}>
-            {employees.map((employee, index) => (
-              <Typography key={index}>
-                {index > 0 && ", "}
-                {`${employee.Name.split(" ")[0]} ${employee.LastName.split(" ")[0]}`}
-              </Typography>
-            ))}
-          </Stack>
+        <GroupIcon />
+        <Stack>
+          <Typography style={{ whiteSpace: "pre-line" }}>
+            {employees.map((employee, index) => {
+              const fullName = `${employee.Name.split(" ")[0]} ${employee.LastName.split(" ")[0]}`;
+              return index === 2 ? fullName + "\n" : fullName;
+            }).join(", ")}
+          </Typography>
+        </Stack>
         </Stack>
         <Stack  py={2} direction={"row"} gap={"0.65rem"} alignItems={"center"}>
           < CalendarMonthIcon/>

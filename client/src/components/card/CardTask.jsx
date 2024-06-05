@@ -66,6 +66,7 @@ const CardTask = ({
   return (
     <>
       <Card
+      component={"article"}
         sx={{ position: "relative", borderRadius: "15px", p: 1.5, ...styles }}
       >
         <Box display="flex" flexDirection="column">
@@ -99,9 +100,9 @@ const CardTask = ({
                   fontFamily={FONT_FAMILY}
                   mr={"auto"}
                 >
-                  {employees
-                    .map((employee) => employee.Name.split(" ")[0])
-                    .join(", ")}
+                    {employees
+                      .map((employee) => employee.Name.split(" ")[0])
+                      .join(", ")}
                 </Typography>
               </Tooltip>
             )}

@@ -1,4 +1,12 @@
-import { Backdrop, Box, CircularProgress, Dialog, Paper, Popover } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Dialog,
+  MenuItem,
+  Popover,
+  TextField,
+} from "@mui/material";
 import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
@@ -6,6 +14,7 @@ import "../../css/calendar.css";
 import { useEffect, useState } from "react";
 import EventForm from "../../components/form/EventForm";
 import { UseEmployee } from "../../context/EmployeeContext";
+import { getEventsByEmployee } from "../../api/Events.js";
 import EventModal from "../../components/modal/EventModal";
 
 export default function Calendar() {
@@ -16,8 +25,9 @@ export default function Calendar() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
 
-  const { event } = UseEmployee();
+  const { event, getEmployeesAsLabels } = UseEmployee();
 
   useEffect(() => {
     const Events = event.map((ev) => ({
@@ -25,7 +35,6 @@ export default function Calendar() {
       start: dayjs(ev.start).toDate(),
       end: dayjs(ev.end).toDate(),
     }));
-
     setEventsState({
       data: Events,
       isLoading: false,
@@ -42,6 +51,39 @@ export default function Calendar() {
     setAnchorEl(e.currentTarget);
     setShowPopover(true);
   };
+
+  const handleEmployeeId = (employeeId) => {
+    setSelectedEmployee(employeeId);
+    if (employeeId === "All Employee") {
+      const formattedEvents = event.map((ev) => ({
+        ...ev,
+        start: dayjs(ev.start).toDate(),
+        end: dayjs(ev.end).toDate(),
+      }));
+      setEventsState({
+        data: formattedEvents,
+        isLoading: false,
+      });
+    } else {
+      if (employeeId !== "") {
+        getEventsByEmployee(employeeId)
+          .then((response) => {
+            setEventsState({
+              data: response.data.map((ev) => ({
+                ...ev,
+                start: dayjs(ev.start).toDate(),
+                end: dayjs(ev.end).toDate(),
+              })),
+              isLoading: false,
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching events:", error);
+          });
+      }
+    }
+  };
+  
 
   const components = {
     event: ({ event }) => (
@@ -60,7 +102,26 @@ export default function Calendar() {
 
   return (
     <>
-      <Box p={3} height="100vh">
+      <Box component={"main"} px={2} height="100vh">
+        <TextField
+          sx={{textAlign:"center"}}
+          select
+          label="Filter by Employee"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          value={selectedEmployee}
+          onChange={(e) => handleEmployeeId(e.target.value)}
+        >
+          <MenuItem value={"All Employee"}>
+            All Employees
+          </MenuItem>
+          {getEmployeesAsLabels.map((employee) => (
+            <MenuItem key={employee.value} value={employee.value}>
+              {employee.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <BigCalendar
           localizer={localizer}
           events={eventsState.data}
@@ -78,24 +139,28 @@ export default function Calendar() {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Dialog open={showForm} onClose={() => setShowForm(false)} maxWidth="md">
-        <EventForm onClose={() => setShowForm(false)} time={selectedSlot || { start: new Date(), end: new Date() }} />
+        <EventForm
+          onClose={() => setShowForm(false)}
+          time={selectedSlot || { start: new Date(), end: new Date() }}
+        />
       </Dialog>
       <Popover
         open={showPopover}
         anchorEl={anchorEl}
-        onClose={()=> setShowPopover(false)}
+        onClose={() => setShowPopover(false)}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
-        <Paper>
-          <EventModal onClose={()=> setShowPopover(false)} event={selectedEvent} />
-        </Paper>
+        <EventModal
+          onClose={() => setShowPopover(false)}
+          event={selectedEvent}
+        />
       </Popover>
     </>
   );

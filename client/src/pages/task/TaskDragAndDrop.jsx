@@ -84,7 +84,7 @@ const TaskDragAndDrop = () => {
           <DndContext sensors={sensors} onDragEnd={onDragEnd}>
             {TASK_STATES.map((item) => (
               <Droppable key={item} id={item}>
-                <Paper sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}>
+                <Paper component={"section"} sx={{ borderRadius: "20px", minHeight: "480px", mb: 2 }}>
                   <Typography
                     borderRadius="22px 22px 0px 0px"
                     bgcolor={COLOR_2}

@@ -15,7 +15,7 @@ import { TaskStates, SEVERITY_COLORS } from "../../data/taskStates.js";
 const InformationPage = () => {
   const { getEmployee } = UseEmployee();
   const params = useParams();
-  const [employee, setEmployee] = useState({});
+  const [employee, setEmployee] = useState([]);
   const [taskEmployee, setTasksEmployee] = useState([]);
 
   const responsive = {
@@ -48,7 +48,7 @@ const InformationPage = () => {
 
     if (!hasTasks) {
       return (
-        <Paper sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
+        <Paper component={"article"} sx={{ mx: 2, bgcolor: B_COLOR, borderRadius: "10px" }}>
           <Typography
             fontWeight={"bold"}
             fontSize={18}
@@ -61,10 +61,11 @@ const InformationPage = () => {
       );
     } else {
       return (
-        <Paper sx={{ mx: 2, borderRadius: "10px" }}>
+        <Paper component={"section"} sx={{ mx: 2, borderRadius: "10px" }}>
           <Carousel responsive={responsive}>
             {tasks.map((task) => (
               <Card
+                component={"article"}
                 key={task._id}
                 sx={{
                   mx: 1,
