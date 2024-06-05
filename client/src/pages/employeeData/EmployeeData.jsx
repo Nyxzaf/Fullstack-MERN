@@ -97,7 +97,7 @@ function EmployeeData() {
   };
 
   return (
-    <>
+    <main>
       <Title title="Employee Data" Icon={DatasetIcon} />
       <Container component="section" >
         <Typography
@@ -247,7 +247,7 @@ function EmployeeData() {
           onConfirm={handleConfirmDelete}
         />
       </Container>
-    </>
+    </main>
   );
 }
 

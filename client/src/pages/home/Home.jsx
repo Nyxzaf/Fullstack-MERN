@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <>
+    <main>
       <Title title="Home" />
       <Container component={"section"} sx={{ my: 2 }}>
         <Typography variant="h5" fontFamily={FONT_FAMILY}>
@@ -62,7 +62,7 @@ const Home = () => {
           })}
         </Grid>
       </Container>
-    </>
+    </main>
   );
 };
 

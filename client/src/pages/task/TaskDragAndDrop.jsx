@@ -66,7 +66,7 @@ const TaskDragAndDrop = () => {
       .toSorted((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   return (
-    <>
+    <main>
       <Title title="Task" Icon={PlaylistAddCheckIcon} />
       <Container>
         <Typography variant="h5" my={2}>
@@ -128,7 +128,7 @@ const TaskDragAndDrop = () => {
           <TaskForm onClose={() => setShowTaskForm(false)} />
         </Dialog>
       </Container>
-    </>
+    </main>
   );
 };
 
