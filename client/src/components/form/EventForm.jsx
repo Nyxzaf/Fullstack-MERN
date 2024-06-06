@@ -138,7 +138,7 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                 />
               </Grid>
               <Grid item xs={4}>
-                <InputLabel sx={{ fontWeight: "bold" }}>Event Type</InputLabel>
+                <InputLabel sx={{ fontWeight: "bold" }}>Event</InputLabel>
                 <FormControl
                   fullWidth
                   margin="normal"
@@ -289,7 +289,7 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
 }
 
 EventForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   eventToEdit: PropTypes.object,
   time: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,

@@ -138,9 +138,13 @@ export default function Calendar() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Dialog open={showForm} onClose={() => setShowForm(false)} maxWidth="md">
+      <Dialog 
+      open={showForm} 
+      onClose={() => setShowForm(false)} 
+      maxWidth="md"
+      >
         <EventForm
-          onClose={() => setShowForm(false)}
+          closeForm={() => setShowForm(false)}
           time={selectedSlot || { start: new Date(), end: new Date() }}
         />
       </Dialog>

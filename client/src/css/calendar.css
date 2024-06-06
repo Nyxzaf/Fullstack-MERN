@@ -1,7 +1,10 @@
 .rbc-toolbar button:active { 
-    background-color:#154360 !important;
+    background-color:#339194 !important;
     padding-left: 10px;
 } 
+.rbc-toolbar button{
+    border-radius: 12px;
+}
 .rbc-toolbar{
     padding-left: 20px;
     padding-right: 20px;
@@ -13,8 +16,13 @@
     border-bottom-left-radius: 50px !important;
 }
 .rbc-event{
-    background-color:#154360 !important;
+    background-color:#339194 !important;
 }
 .rbc-event{
     justify-content: center !important;
+}
+.rbc-toolbar-label {
+    font-size: medium !important;
+    font-weight: bold !important;
+    letter-spacing: 0.03em !important; 
 }
