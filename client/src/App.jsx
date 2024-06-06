@@ -1,6 +1,6 @@
 import DrawerHome from '../src/pages/home/DrawerHome';
 import Home from '../src/pages/home/Home';
-import { Box, Fab, List, ListItemButton, ListItemIcon, ListItemText, Popover } from '@mui/material';
+import { Box, Fab, ListItemButton, ListItemIcon, Popover } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../src/components/header/Header';
 import EmployeeData from '../src/pages/employeeData/EmployeeData';
@@ -58,20 +58,18 @@ function App() {
           <Box
           width={"230px"}
           >
-            <List component="nav">
-              <ListItemButton sx={{py:0.5}}>
-                <ListItemIcon>
-                  <HelpIcon />
-                </ListItemIcon>
-                <ListItemText primary="technical support" />
-              </ListItemButton>
-              <ListItemButton sx={{py:0.5}}>
-                <ListItemIcon>
-                  <DraftsIcon />
-                </ListItemIcon>
-                <ListItemText primary="email" />
-              </ListItemButton>
-            </List>
+            <ListItemButton sx={{py:1.5}}>
+              <ListItemIcon>
+                <HelpIcon  />
+              </ListItemIcon>
+              technical support
+            </ListItemButton>
+            <ListItemButton sx={{py:1.5}}>
+              <ListItemIcon>
+                <DraftsIcon />
+              </ListItemIcon>
+              email
+            </ListItemButton>
           </Box>
         </Popover>
       </DrawerHome>

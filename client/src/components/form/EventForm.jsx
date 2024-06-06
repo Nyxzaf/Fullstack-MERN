@@ -99,7 +99,7 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
     } else {
       createEvent(requestData, () => {
         actions.setSubmitting(false);
-        onClose();
+        closeForm()
       }, (error) => {
         console.error('Error creating event:', error);
         actions.setSubmitting(false);
@@ -275,7 +275,11 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   >
                     Close
                   </Button>
-                  <Button variant="contained" color="primary" type="submit">
+                  <Button 
+                  variant="contained" 
+                  color="primary" 
+                  type="submit"
+                  >
                     Save and Submit
                   </Button>
                 </Stack>

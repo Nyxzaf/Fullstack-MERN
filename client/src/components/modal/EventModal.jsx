@@ -103,6 +103,7 @@ const EventModal = ({ onClose, event }) => {
                 whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow="ellipsis"
+                target="_blank" 
                 href={event.locationUrl}
                 sx={{
                   maxWidth: '40ch'
