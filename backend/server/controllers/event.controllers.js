@@ -12,7 +12,7 @@ export const getEvents = async (req, res) => {
 
 export const getEventById = async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id); 
+    const event = await Event.findById(req.params.id);
     if (!event) {
       return res.status(404).send("error");
     }
@@ -22,9 +22,18 @@ export const getEventById = async (req, res) => {
   }
 };
 
-export const getEventByEmployee = async (req, res) => {
+export const getEventsByEmployee = async (req, res) => {
   try {
     const Events = await Event.find({ employeeIds: req.params.employeeId });
+    res.send(Events);
+  } catch (err) {
+    res.status(500).send("error");
+  }
+};
+
+export const getEventsByType = async (req, res) => {
+  try {
+    const Events = await Event.find({ type: req.params.type });
     res.send(Events);
   } catch (err) {
     res.status(500).send("error");
@@ -44,13 +53,9 @@ export const createEvent = async (req, res) => {
 
 export const updateEvent = async (req, res) => {
   try {
-    const UpdateEvent = await Event.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-      }
-    );
+    const UpdateEvent = await Event.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
     return res.send(UpdateEvent);
   } catch (err) {

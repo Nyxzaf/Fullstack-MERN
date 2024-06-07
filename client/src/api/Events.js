@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:5000/events";
+const baseUrl = "http://localhost:5001/events";
 
 export const getEventsRequest = () => axios.get(`${baseUrl}`);
 

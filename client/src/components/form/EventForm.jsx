@@ -14,12 +14,16 @@ import {
   Stack,
   Checkbox,
 } from "@mui/material";
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { UseEmployee } from "../../context/EmployeeContext.jsx";
 import dayjs from "dayjs";
+import {
+  EVENT_TYPES,
+  EventTypeLabels,
+} from "../../data/eventTypes.js";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -33,14 +37,15 @@ const validationSchema = Yup.object({
     )
     .required("Employee is required"),
   description: Yup.string().required("Description is required"),
-  start:Yup.date().required("Time Start is required"),
+  start: Yup.date().required("Time Start is required"),
   end: Yup.date().required("Time End is required"),
   location: Yup.string().required("Location is required"),
   locationUrl: Yup.string().required("Location Url is required"),
 });
 
-function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
-  const { getEmployeesAsLabels , createEvent , updateEvent, Employees } = UseEmployee();
+function EventForm({ onClose, closeForm, eventToEdit, time }) {
+  const { getEmployeesAsLabels, createEvent, updateEvent, Employees } =
+    UseEmployee();
 
   const [initialValues, setInitialValues] = useState({
     title: "",
@@ -48,9 +53,11 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
     employeeIds: [],
     description: "",
     start: time.start ? dayjs(time.start).format("YYYY-MM-DDTHH:mm") : "",
-    end:  time.end ? dayjs(time.end).subtract(1, 'seg').format("YYYY-MM-DDTHH:mm") : "",
-    location:"",
-    locationUrl:""
+    end: time.end
+      ? dayjs(time.end).subtract(1, "seg").format("YYYY-MM-DDTHH:mm")
+      : "",
+    location: "",
+    locationUrl: "",
   });
 
   useEffect(() => {
@@ -63,13 +70,14 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
           value: employeeId,
           label: getEmployeeNameById(employeeId),
         })),
-        start:dayjs(eventToEdit.start).format("YYYY-MM-DDTHH:mm"),
-        end:dayjs(eventToEdit.end).subtract(1, 'seg').format("YYYY-MM-DDTHH:mm"),
-        location:eventToEdit.location,
-        locationUrl:eventToEdit.locationUrl
+        start: dayjs(eventToEdit.start).format("YYYY-MM-DDTHH:mm"),
+        end: dayjs(eventToEdit.end)
+          .subtract(1, "seg")
+          .format("YYYY-MM-DDTHH:mm"),
+        location: eventToEdit.location,
+        locationUrl: eventToEdit.locationUrl,
       });
     }
-    
   }, [eventToEdit]);
 
   const getEmployeeNameById = (employeeId) => {
@@ -89,28 +97,36 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
     };
 
     if (eventToEdit) {
-      updateEvent(eventToEdit._id, requestData, () => {
-        actions.setSubmitting(false);
-        onClose();
-      }, (error) => {
-        console.error('Error updating event:', error);
-        actions.setSubmitting(false);
-      });
+      updateEvent(
+        eventToEdit._id,
+        requestData,
+        () => {
+          actions.setSubmitting(false);
+          onClose();
+        },
+        (error) => {
+          console.error("Error updating event:", error);
+          actions.setSubmitting(false);
+        }
+      );
     } else {
-      createEvent(requestData, () => {
-        actions.setSubmitting(false);
-        closeForm()
-      }, (error) => {
-        console.error('Error creating event:', error);
-        actions.setSubmitting(false);
-      });
+      createEvent(
+        requestData,
+        () => {
+          actions.setSubmitting(false);
+          closeForm();
+        },
+        (error) => {
+          console.error("Error creating event:", error);
+          actions.setSubmitting(false);
+        }
+      );
     }
   };
-  
 
   return (
     <Box
-        p={3}
+      p={3}
       sx={{
         borderRadius: "5px",
       }}
@@ -146,11 +162,11 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                 >
                   <InputLabel>Event</InputLabel>
                   <Field as={Select} name="type" label="event">
-                    <MenuItem value="conference">Conference</MenuItem>
-                    <MenuItem value="interview">Interview</MenuItem>
-                    <MenuItem value="integration event">Integration Event</MenuItem>
-                    <MenuItem value="work">Work</MenuItem>
-                    <MenuItem value="lunch">Lunch</MenuItem>
+                    {EVENT_TYPES.map((type) => (
+                      <MenuItem key={type} value={type}>
+                        {EventTypeLabels[type]}
+                      </MenuItem>
+                    ))}
                   </Field>
                   {touched.type && errors.type ? (
                     <Typography color={"#d32f2f"} fontSize={12} pl={2}>
@@ -166,12 +182,15 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   label="Employees"
                   name="employeeIds"
                   limitTags={1}
-                  options={[{ label: 'all', value: 'all' }, ...getEmployeesAsLabels]}
+                  options={[
+                    { label: "all", value: "all" },
+                    ...getEmployeesAsLabels,
+                  ]}
                   multiple
-                    disableCloseOnSelect 
+                  disableCloseOnSelect
                   getOptionLabel={(option) => option.label}
                   onChange={(e, value) => {
-                    if (value.some(option => option.value === 'all')) {
+                    if (value.some((option) => option.value === "all")) {
                       setFieldValue("employeeIds", getEmployeesAsLabels);
                     } else {
                       setFieldValue("employeeIds", value);
@@ -181,8 +200,8 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small"/>}
-                        checkedIcon={<CheckBoxIcon fontSize="small"/>}
+                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                        checkedIcon={<CheckBoxIcon fontSize="small" />}
                         checked={selected}
                       />
                       {option.label}
@@ -211,7 +230,7 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   InputLabelProps={{ shrink: true }}
                   type="datetime-local"
                   error={touched.start && !!errors.start}
-                  helperText={touched.start && errors.start}                   
+                  helperText={touched.start && errors.start}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -237,11 +256,13 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   fullWidth
                   margin="normal"
                   error={touched.location && !!errors.location}
-                  helperText={touched.location && errors.location}                   
+                  helperText={touched.location && errors.location}
                 />
               </Grid>
               <Grid item xs={6}>
-                <InputLabel sx={{ fontWeight: "bold" }}>Location URL</InputLabel>
+                <InputLabel sx={{ fontWeight: "bold" }}>
+                  Location URL
+                </InputLabel>
                 <Field
                   as={TextField}
                   label="Location URL"
@@ -249,7 +270,7 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
                   fullWidth
                   margin="normal"
                   error={touched.locationUrl && !!errors.locationUrl}
-                  helperText={touched.locationUrl && errors.locationUrl}                   
+                  helperText={touched.locationUrl && errors.locationUrl}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -269,17 +290,10 @@ function EventForm({ onClose, closeForm ,  eventToEdit, time }) {
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={2} direction="row" justifyContent="end">
-                  <Button
-                    color="primary"
-                    onClick={closeForm}
-                  >
+                  <Button color="primary" onClick={closeForm}>
                     Close
                   </Button>
-                  <Button 
-                  variant="contained" 
-                  color="primary" 
-                  type="submit"
-                  >
+                  <Button variant="contained" color="primary" type="submit">
                     Save and Submit
                   </Button>
                 </Stack>
@@ -297,9 +311,9 @@ EventForm.propTypes = {
   eventToEdit: PropTypes.object,
   time: PropTypes.shape({
     start: PropTypes.instanceOf(Date).isRequired,
-    end: PropTypes.instanceOf(Date).isRequired
+    end: PropTypes.instanceOf(Date).isRequired,
   }).isRequired,
-  closeForm:PropTypes.func
+  closeForm: PropTypes.func,
 };
 
 export default EventForm;
