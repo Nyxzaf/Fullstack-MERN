@@ -22,7 +22,7 @@ export const getEventById = async (req, res) => {
   }
 };
 
-export const getEventByEmployee = async (req, res) => {
+export const getEventsByEmployee = async (req, res) => {
   try {
     const Events = await Event.find({ employeeIds: req.params.employeeId });
     res.send(Events);
