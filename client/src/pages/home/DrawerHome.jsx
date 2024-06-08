@@ -6,7 +6,6 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { IMG_1 } from "../../assets/img/images.js";
 import { ITEM } from "../../data/Items.jsx";
@@ -42,9 +41,6 @@ const DrawerHome = ({ children }) => {
             <Box key={item.Title}>
               <Divider />
               <List>
-                <Typography pl={2} color={COLOR} fontWeight={"bold"}>
-                  {item.Title}
-                </Typography>
                 <ListItemButton
                   component={Link}
                   style={{ color: {COLOR} }}

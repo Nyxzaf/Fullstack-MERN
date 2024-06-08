@@ -14,8 +14,9 @@ import "../../css/calendar.css";
 import { useEffect, useState } from "react";
 import EventForm from "../../components/form/EventForm";
 import { UseEmployee } from "../../context/EmployeeContext";
-import { getEventsByEmployee } from "../../api/Events.js";
+import { getEventByType } from "../../api/Events.js"; 
 import EventModal from "../../components/modal/EventModal";
+import { EVENT_TYPE } from "../../data/eventTypes.js";
 
 export default function Calendar() {
   const localizer = dayjsLocalizer(dayjs);
@@ -27,7 +28,7 @@ export default function Calendar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState("");
 
-  const { event, getEmployeesAsLabels } = UseEmployee();
+  const { event } = UseEmployee();
 
   useEffect(() => {
     const Events = event.map((ev) => ({
@@ -52,9 +53,9 @@ export default function Calendar() {
     setShowPopover(true);
   };
 
-  const handleEmployeeId = (employeeId) => {
-    setSelectedEmployee(employeeId);
-    if (employeeId === "All Employee") {
+  const handletype = (type) => {
+    setSelectedEmployee(type);
+    if (type === "All Types") {
       const formattedEvents = event.map((ev) => ({
         ...ev,
         start: dayjs(ev.start).toDate(),
@@ -65,8 +66,8 @@ export default function Calendar() {
         isLoading: false,
       });
     } else {
-      if (employeeId !== "") {
-        getEventsByEmployee(employeeId)
+      if (type !== "") {
+        getEventByType(type)
           .then((response) => {
             setEventsState({
               data: response.data.map((ev) => ({
@@ -106,19 +107,19 @@ export default function Calendar() {
         <TextField
           sx={{textAlign:"center"}}
           select
-          label="Filter by Employee"
+          label="Filter by event type"
           variant="outlined"
           margin="normal"
           fullWidth
           value={selectedEmployee}
-          onChange={(e) => handleEmployeeId(e.target.value)}
+          onChange={(e) => handletype(e.target.value)}
         >
-          <MenuItem value={"All Employee"}>
-            All Employees
+          <MenuItem value={"All Types"}>
+            All type
           </MenuItem>
-          {getEmployeesAsLabels.map((employee) => (
-            <MenuItem key={employee.value} value={employee.value}>
-              {employee.label}
+          {EVENT_TYPE.map((type) => ( 
+            <MenuItem key={type} value={type}>
+              {type}
             </MenuItem>
           ))}
         </TextField>

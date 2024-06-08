@@ -2,6 +2,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import DatasetIcon from "@mui/icons-material/Dataset";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 export const ITEM = [
   {
     Title: "Home",
@@ -27,9 +28,16 @@ export const ITEM = [
   {
     Title: "Calendar",
     SubTitle: " Calendar",
-    content: "Here you will find the employees' birthdays and tasks.",
+    content: "Here you will find the employees' birthdays and events.",
     Icon: <CalendarMonthIcon />,
     Path: "/calendar",
+  },
+  {
+    Title: "about the page",
+    SubTitle: " About the page ",
+    content: "Here you will find information about how the page was made.",
+    Icon: <AccountBoxIcon />,
+    Path: "/aboutPage",
   },
 ];
 

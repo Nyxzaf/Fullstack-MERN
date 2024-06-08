@@ -1,6 +1,6 @@
 import DrawerHome from '../src/pages/home/DrawerHome';
 import Home from '../src/pages/home/Home';
-import { Box, Fab, ListItemButton, ListItemIcon, Popover } from '@mui/material';
+import { Box, Dialog, Fab, ListItemButton, ListItemIcon, Popover } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../src/components/header/Header';
 import EmployeeData from '../src/pages/employeeData/EmployeeData';
@@ -10,11 +10,13 @@ import InformationPage from '../src/pages/infoEmployee/InformationPage';
 import TaskDragAndDrop from '../src/pages/task/TaskDragAndDrop';
 import HelpIcon from '@mui/icons-material/Help';
 import { useState } from 'react';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import EmailDialog from '../src/components/alerts/EmailDialog';
+import AboutPage from './pages/aboutPage/AboutPage';
 
 function App() {
   const [showPopover, setShowPopover] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
 
   const handlePopper = (e) => {
     setAnchorEl(e.currentTarget);
@@ -32,6 +34,7 @@ function App() {
             <Route path="/task" element={<TaskDragAndDrop />} />
             <Route path="/infoPage/:id" element={<InformationPage />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/aboutPage" element={<AboutPage />} />
           </Routes>
         </EmployeeContext>
         <Fab 
@@ -58,19 +61,25 @@ function App() {
           <Box
           width={"230px"}
           >
-            <ListItemButton sx={{py:1.5}}>
+            <ListItemButton 
+            sx={{py:1.5}}
+            onClick={() => setShowDialog(true)}
+            >
               <ListItemIcon>
                 <HelpIcon  />
               </ListItemIcon>
               technical support
             </ListItemButton>
-            <ListItemButton sx={{py:1.5}}>
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              email
-            </ListItemButton>
           </Box>
+          <Dialog
+          open={showDialog} 
+          onClose={() => setShowDialog(false)} 
+          maxWidth="xs"
+          >
+            <EmailDialog
+              onclose={()=>setShowDialog(false)}
+            />
+          </Dialog>
         </Popover>
       </DrawerHome>
     </>

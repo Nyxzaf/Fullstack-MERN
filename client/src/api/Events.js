@@ -14,7 +14,10 @@ export const updateEventRequest = (id, newfields) =>
   axios.put(`${baseUrl}/${id}`, newfields);
 
 export const getNameEmployeeRequest = (employees) => 
-  axios.get(`${baseUrl}/${employees}`);
+  axios.get(`${baseUrl}/${employees}`); 
 
 export const getEventsByEmployee = (employeeId) =>
   axios.get(`${baseUrl}/employees/${employeeId}`);
+
+export const getEventByType = (type) =>
+  axios.get(`${baseUrl}/type/${type}`)

@@ -115,13 +115,6 @@ const EventModal = ({ onClose, event }) => {
                 </Typography>
               </Tooltip>
             )}
-            {/* <Link underline="none" target="_blank" href={event.locationUrl}>
-              <IconButton size="small" color="primary">
-                <Tooltip title="Open">
-                  <LaunchIcon />
-                </Tooltip>
-              </IconButton>
-            </Link> */}
           </Stack>
         </Stack>
         <Stack py={2} direction={"row"} gap={"0.65rem"} alignItems={"center"}>
@@ -143,7 +136,7 @@ const EventModal = ({ onClose, event }) => {
           </Button>
         </Stack>
         <Alert
-          dialog="Are you sure you want to delete this employee?"
+          dialog="Are you sure you want to delete this event?"
           open={showAlert}
           onClose={() => setShowAlert(false)}
           onConfirm={handleConfirmDelete}
@@ -171,3 +164,4 @@ EventModal.propTypes = {
 };
 
 export default EventModal;
+

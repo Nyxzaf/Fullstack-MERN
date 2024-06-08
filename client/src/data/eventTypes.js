@@ -5,6 +5,13 @@ export const EVENT_TYPES = [
   "work",
   "lunch",
 ];
+export const EVENT_TYPE = [
+  "conference",
+  "interview",
+  "integration event",
+  "work",
+  "lunch",
+];
 
 export const EventType = {
   CONFERENCE: "conference",
